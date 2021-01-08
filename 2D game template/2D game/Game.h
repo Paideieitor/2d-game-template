@@ -25,6 +25,7 @@ class UIManager;
 class AssetManager;
 class Textures;
 class Audio;
+class Console;
 
 class Render;
 
@@ -50,6 +51,7 @@ public:
 	AssetManager* assets;
 	Textures* textures;
 	Audio* audio;
+	Console* console;
 
 	Render* render;
 

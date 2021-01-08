@@ -150,6 +150,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonArray.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />

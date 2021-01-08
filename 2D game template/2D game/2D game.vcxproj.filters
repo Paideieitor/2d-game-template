@@ -87,6 +87,9 @@
     <ClCompile Include="2D game.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Archivos de recursos\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -132,6 +135,9 @@
       <Filter>Archivos de recursos\Modules\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
+      <Filter>Archivos de recursos\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
       <Filter>Archivos de recursos\Modules</Filter>
     </ClInclude>
   </ItemGroup>

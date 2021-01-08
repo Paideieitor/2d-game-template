@@ -10,6 +10,7 @@
 #include "Textures.h"
 #include "Render.h"
 #include "Audio.h"
+#include "Console.h"
 
 #include <sstream>
 
@@ -24,6 +25,7 @@ Game::Game()
 	textures = new Textures();
 	render = new Render();
 	audio = new Audio();
+	console = new Console();
 
 	AddModule(input);
 	//FIRST ^
@@ -33,6 +35,7 @@ Game::Game()
 	AddModule(audio);
 	AddModule(fonts);
 	AddModule(ui);
+	AddModule(console);
 	AddModule(scenes);
 	//LAST  v
 	AddModule(render);

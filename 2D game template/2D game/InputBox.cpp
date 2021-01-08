@@ -28,6 +28,7 @@ InputBox::~InputBox()
 {
 	if (text)
 		game->textures->Unload(text);
+
 	delete frame;
 }
 
@@ -68,7 +69,7 @@ elementstate InputBox::Update(float dt)
 	}
 	else if (game->input->GetKey(SDL_SCANCODE_RETURN) == DOWN)
 	{
-		if (content != "")
+		if (getinput && content != "")
 			if (!manager && scene)
 				scene->UIEvent(this);
 			else
