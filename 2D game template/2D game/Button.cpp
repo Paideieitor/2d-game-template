@@ -11,7 +11,7 @@ Button::Button()
 	state = NOTPRESSED;
 }
 
-Button::Button(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+Button::Button(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
 {
 	type = BUTTON;
 	state = NOTPRESSED;
@@ -42,7 +42,7 @@ Button::~Button()
 	game->textures->Unload(text);
 }
 
-void Button::Set(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+void Button::Set(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
 {
 	text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
 
@@ -111,7 +111,7 @@ elementstate Button::Update(float dt)
 	if (text)
 	{
 		Uint8 a;
-		if (SDL_GetTextureAlphaMod(text, &a) == -1)
+		if (SDL_GetTextureAlphaMod(text->Get(), &a) == -1)
 			text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
 		game->render->AddTextureEvent(20, text, textposition, 0, 0, textsize.x, textsize.y, false, color.a, worldposition);
 	}

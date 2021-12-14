@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "Scenes.h"
 
-ButtonArray::ButtonArray(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, TTF_Font* subfont, bool worldposition)
+ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, color maincolor, Font* subfont, bool worldposition)
 {
 	type = BUTTONARRAY;
 

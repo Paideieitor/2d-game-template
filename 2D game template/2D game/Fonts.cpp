@@ -41,30 +41,24 @@ bool Fonts::CleanUp()
 	return true;
 }
 
-TTF_Font* Fonts::Load(const char* path, int size)
+Font* Fonts::Load(const char* path, int size)
 {
-	char* buffer;
-	TTF_Font* output = TTF_OpenFontRW(game->assets->Load(path, &buffer), 1, size);
+	char* buffer = nullptr;
+	TTF_Font* font = TTF_OpenFontRW(game->assets->Load(path, &buffer), 1, size);
 
-	if (!output)
+	if (!font)
 	{
 		cout << "Loading font -> Bad Thing, Error in " << path << " -> " << SDL_GetError() << endl;
-		return output;
+		return nullptr;
 	}
 
-	fonts.push_back(new Font(buffer, output));
+	Font* output = new Font(buffer, font);
+	fonts.push_back(output);
 
 	return output;
 }
 
-SDL_Texture* Fonts::GetTextTexture(TTF_Font* font, const char* text, color color)
+SDL_Surface* Fonts::TextToSurface(TTF_Font* font, const char* text, color color)
 {
-	SDL_Texture* output = nullptr;
-
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color.ToSDL());
-
-	output = game->textures->SurfaceToTexture(surface);
-	SDL_FreeSurface(surface);
-
-	return output;
+	return TTF_RenderText_Solid(font, text, color.ToSDL());
 }

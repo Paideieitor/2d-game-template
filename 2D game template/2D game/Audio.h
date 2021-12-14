@@ -11,13 +11,16 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+	int GetMusicVolume() { return musicvolume; }
+	int GetSfxVolume() { return sfxvolume; }
+
 	void SetMusicVolume(int);
 	void SetSfxVolume(int);
 
+private:
+
 	int musicvolume;
 	int sfxvolume;
-
-private:
 
 	pugi::xml_node node;
 };

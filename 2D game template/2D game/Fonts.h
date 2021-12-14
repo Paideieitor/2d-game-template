@@ -6,13 +6,10 @@
 #include "TTF/include/SDL_ttf.h"
 #pragma comment( lib, "TTF/lib/SDL2_ttf.lib" )
 
-struct Font
+class Font
 {
-	Font(char* buffer, TTF_Font* font)
-	{
-		this->buffer = buffer;
-		this->font = font;
-	}
+public:
+	Font(char* buffer, TTF_Font* font) : buffer(buffer), font(font) {}
 
 	~Font()
 	{
@@ -20,8 +17,12 @@ struct Font
 		TTF_CloseFont(font);
 	}
 
+private:
 	char* buffer;
 	TTF_Font* font;
+
+	friend class Fonts;
+	friend class Textures;
 };
 
 class Fonts : public Module
@@ -37,13 +38,14 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	TTF_Font* Load(const char* path, int size);
-
-	SDL_Texture* GetTextTexture(TTF_Font* font, const char* text, color color);
+	Font* Load(const char* path, int size);
 
 private:
 
+	SDL_Surface* TextToSurface(TTF_Font* font, const char* text, color color);
 	vector<Font*> fonts;
+
+	friend class Textures;
 };
 
 #endif

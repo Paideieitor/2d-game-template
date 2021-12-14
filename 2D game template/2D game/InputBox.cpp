@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "Scenes.h"
 
-InputBox::InputBox(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, bool worldposition, UIElement* manager)
+InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, color maincolor, bool worldposition, UIElement* manager)
 {
 	this->name = name;
 	this->font = font;

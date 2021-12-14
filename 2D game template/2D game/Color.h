@@ -15,7 +15,7 @@ struct color
 
 	SDL_Color ToSDL()
 	{
-		SDL_Color output = { r, g, b, a };
+		SDL_Color output = { (Uint8)r, (Uint8)g, (Uint8)b, (Uint8)a };
 
 		return output;
 	}

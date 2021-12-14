@@ -89,8 +89,8 @@ bool Input::Update(float dt)
 			mousebuttons[event.button.button - 1] = UP;
 			break;
 		case SDL_MOUSEMOTION:
-			mouse.x = event.motion.x;
-			mouse.y = event.motion.y;
+			mouse.x = (float)event.motion.x;
+			mouse.y = (float)event.motion.y;
 			break;
 		case SDL_TEXTINPUT:
 			inputrecieved = true;

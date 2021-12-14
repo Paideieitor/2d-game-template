@@ -25,5 +25,5 @@ private:
 	InputBox* input;
 	Scrollbar* scroll;
 
-	TTF_Font* font;
+	Font* font;
 };

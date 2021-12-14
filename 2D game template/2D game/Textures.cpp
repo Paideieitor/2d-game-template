@@ -48,25 +48,26 @@ bool Textures::CleanUp()
 	return true;
 }
 
-SDL_Texture* Textures::Load(const char* path)
+Texture* Textures::Load(const char* path)
 {
-	SDL_Texture* output = nullptr;
-
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
-		Texture* tex = *t;
-		if (tex->path == path)
-			return tex->texture;
+		if ((*t)->path == path)
+			return *t;
 	}
 
 	char* buffer;
 	SDL_Surface* surface = IMG_Load_RW(game->assets->Load(path, &buffer), 1);
 	delete buffer;
 
+	SDL_Texture* texture = nullptr;
 	if (surface != NULL)
 	{
-		output = SurfaceToTexture(surface);
+		texture = SurfaceToTexture(surface);
 		SDL_FreeSurface(surface);
+
+		if (texture == nullptr)
+			return nullptr;
 	}
 	else
 	{
@@ -74,32 +75,46 @@ SDL_Texture* Textures::Load(const char* path)
 		return nullptr;
 	}
 
-	textures.push_back(new Texture(path, output));
+	Texture* output = new Texture(path, texture);
+	textures.push_back(output);
 
 	return output;
 }
 
-SDL_Texture* Textures::LoadText(TTF_Font* font, const char* text, color color, ipoint& size)
+Texture* Textures::LoadText(Font* font, const char* text, color color, ipoint& size)
 {
-	SDL_Texture* output;
+	SDL_Surface* surface = game->fonts->TextToSurface(font->font, text, color);
+	
+	SDL_Texture* texture = nullptr;
+	if (surface != NULL)
+	{
+		texture = game->textures->SurfaceToTexture(surface);
+		SDL_FreeSurface(surface);
+	}
+	else
+	{
+		 cout << "Texture font surface -> Bad Thing, Error in " << text << " -> " << SDL_GetError() << endl;
+		 return nullptr;
+	}
+	
+	if (!texture)
+		return nullptr;
 
-	output = game->fonts->GetTextTexture(font, text, color);
-
-	textures.push_back(new Texture(text, output));
+	Texture* output = new Texture(text, texture);
+	textures.push_back(output);
 
 	size = game->textures->GetTextureSize(output);
 
 	return output;
 }
 
-void Textures::Unload(SDL_Texture* texture)
+void Textures::Unload(Texture* texture)
 {
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
-		Texture* tex = *t;
-		if (tex->texture == texture)
+		if (*t == texture)
 		{
-			delete tex;
+			delete texture;
 			textures.erase(t);
 
 			break;
@@ -119,10 +134,10 @@ SDL_Texture* Textures::SurfaceToTexture(SDL_Surface* surface)
 	return output;
 }
 
-ipoint Textures::GetTextureSize(SDL_Texture* texture)
+ipoint Textures::GetTextureSize(Texture* texture)
 {
 	ipoint output;
-	SDL_QueryTexture(texture, NULL, NULL, &output.x, &output.y);
+	SDL_QueryTexture(texture->texture, NULL, NULL, &output.x, &output.y);
 
 	return output;
 }

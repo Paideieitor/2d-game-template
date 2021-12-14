@@ -4,23 +4,25 @@
 #include "Module.h"
 #include "Fonts.h"
 
-struct Texture
+class Texture
 {
-	Texture() {}
-	Texture(string path, SDL_Texture* texture)
-	{
-		this->path = path;
-		this->texture = texture;
-	}
+public:
+	Texture() = delete;
+	Texture(string path, SDL_Texture* texture) : path(path), texture(texture) {}
 
 	~Texture()
 	{
 		SDL_DestroyTexture(texture);
 	}
 
+	SDL_Texture* const Get() const { return texture; }
+
+private:
 	string path;
 
 	SDL_Texture* texture;
+
+	friend class Textures;
 };
 
 class Textures : public Module
@@ -36,15 +38,15 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	SDL_Texture* Load(const char* path);
-	SDL_Texture* LoadText(TTF_Font* font, const char* text, color color, ipoint& size);
-	void Unload(SDL_Texture*);
+	Texture* Load(const char* path);
+	Texture* LoadText(Font* font, const char* text, color color, ipoint& size);
+	void Unload(Texture*);
 
-	SDL_Texture* SurfaceToTexture(SDL_Surface*);
-
-	ipoint GetTextureSize(SDL_Texture*);
+	ipoint GetTextureSize(Texture*);
 
 private:
+
+	SDL_Texture* SurfaceToTexture(SDL_Surface*);
 
 	vector<Texture*> textures; 
 };

@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "Scenes.h"
 
-Scrollbar::Scrollbar(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, float start, TTF_Font* valuefont, bool worldposition, UIElement* manager)
+Scrollbar::Scrollbar(string name, Font* font, fpoint position, ipoint size, color maincolor, float start, Font* valuefont, bool worldposition, UIElement* manager)
 {
 	type = SCROLLBAR;
 

@@ -46,7 +46,7 @@ public:
 	string name;
 	elementtype type;
 	color maincolor;
-	TTF_Font* font;
+	Font* font;
 
 	fpoint position;
 	ipoint size;
@@ -78,15 +78,15 @@ class Button : public UIElement
 public:
 
 	Button();
-	Button(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
+	Button(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
 	~Button();
 
-	void Set(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
+	void Set(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
 
 	elementstate Update(float dt);
 	bool CleanUp();
 
-	SDL_Texture* text;
+	Texture* text;
 	ipoint textsize;
 	fpoint textposition;
 
@@ -99,7 +99,7 @@ class ButtonArray : public UIElement
 {
 public:
 
-	ButtonArray(string name, TTF_Font* font, fpoint position, ipoint size, color buttoncolor, TTF_Font* subfont = nullptr, bool worldposition = false);
+	ButtonArray(string name, Font* font, fpoint position, ipoint size, color buttoncolor, Font* subfont = nullptr, bool worldposition = false);
 	~ButtonArray();
 
 	elementstate Update(float dt);
@@ -112,14 +112,14 @@ public:
 	bool displaying;
 	int current;
 
-	SDL_Texture* maintext;
+	Texture* maintext;
 	fpoint mainposition;
 	ipoint mainsize;
 
 	fpoint currentposition;
 	ipoint currentsize;
 
-	TTF_Font* subfont;
+	Font* subfont;
 
 	Button* mainbutton;
 
@@ -134,7 +134,7 @@ class Scrollbar : public UIElement
 {
 public:
 
-	Scrollbar(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, float start = 0.0f, TTF_Font* valuefont = nullptr, bool worldposition = false, UIElement* manager = nullptr);
+	Scrollbar(string name, Font* font, fpoint position, ipoint size, color maincolor, float start = 0.0f, Font* valuefont = nullptr, bool worldposition = false, UIElement* manager = nullptr);
 	~Scrollbar();
 
 	elementstate Update(float dt);
@@ -146,12 +146,12 @@ public:
 
 	Button* scroll;
 
-	SDL_Texture* text;
+	Texture* text;
 	fpoint textposition;
 	ipoint textsize;
 
-	TTF_Font* valuefont;
-	SDL_Texture* valuetext;
+	Font* valuefont;
+	Texture* valuetext;
 	fpoint valueposition;
 	ipoint valuesize;
 
@@ -163,7 +163,7 @@ class InputBox : public UIElement
 {
 public:
 
-	InputBox(string name, TTF_Font* font, fpoint position, ipoint size, color maincolor, bool worldposition = false, UIElement* manager = nullptr);
+	InputBox(string name, Font* font, fpoint position, ipoint size, color maincolor, bool worldposition = false, UIElement* manager = nullptr);
 	~InputBox();
 
 	elementstate Update(float dt);
@@ -175,7 +175,7 @@ public:
 
 private:
 
-	SDL_Texture* text;
+	Texture* text;
 	fpoint textposition;
 	ipoint textsize;
 

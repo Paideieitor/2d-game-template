@@ -40,9 +40,9 @@ public:
 
 private:
 
-	SDL_Texture* test;
+	Texture* test;
 
-	TTF_Font* buttonfont;
+	Font* buttonfont;
 
 	Button* tooptions;
 	Button* exit;
@@ -67,7 +67,7 @@ public:
 
 private:
 
-	TTF_Font* buttonfont;
+	Font* buttonfont;
 
 	Button* fullscreen;
 	Button* borderless;

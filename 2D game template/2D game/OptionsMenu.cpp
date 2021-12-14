@@ -29,9 +29,9 @@ bool OptionsMenu::Start()
 
 	resolution = new ButtonArray("resolution", buttonfont, game->Center({ 400,70 }, { 0,0 }, game->render->resolution, { 0,400 }, true, false), { 400,70 }, { 75,75,255,255 });
 
-	music = new Scrollbar("music", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,550 }, true, false), { 500,20 }, { 0,0,255,255 }, game->audio->musicvolume, buttonfont, true);
+	music = new Scrollbar("music", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,550 }, true, false), { 500,20 }, { 0,0,255,255 }, (float)game->audio->GetMusicVolume(), buttonfont, true);
 
-	sfx = new Scrollbar("sfx", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,700 }, true, false), { 500,20 }, { 0,0,255,255 }, game->audio->sfxvolume, buttonfont, true);
+	sfx = new Scrollbar("sfx", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,700 }, true, false), { 500,20 }, { 0,0,255,255 }, (float)game->audio->GetSfxVolume(), buttonfont, true);
 
 	tomenu = new Button("main menu", buttonfont, game->Center({ 300,70 }, { 0,0 }, game->render->resolution, { 0,850 }, true, false), { 300,70 }, { 75,75,255,255 });
 
