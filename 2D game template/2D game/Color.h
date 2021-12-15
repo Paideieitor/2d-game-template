@@ -3,9 +3,9 @@
 
 #include "SDL/include/SDL.h"
 
-struct color
+struct Color
 {
-	color(unsigned int r = 0u, unsigned int g = 0u, unsigned int b = 0u, unsigned int a = 255u)
+	Color(unsigned int r = 0u, unsigned int g = 0u, unsigned int b = 0u, unsigned int a = 255u)
 	{
 		this->r = r;
 		this->g = g;
@@ -83,7 +83,7 @@ struct color
 	unsigned int b;
 	unsigned int a;
 
-	color operator+(int n)
+	Color operator+(int n)
 	{
 		int red = r;
 		int green = g;
@@ -99,10 +99,10 @@ struct color
 		if (blue > 255)
 			blue = 255;
 
-		color output(red, green, blue, a);
+		Color output(red, green, blue, a);
 		return output;
 	}
-	color operator-(int n)
+	Color operator-(int n)
 	{
 		int red = r;
 		int green = g;
@@ -118,10 +118,16 @@ struct color
 		if (blue < 0)
 			blue = 0;
 
-		color output(red, green, blue, a);
+		Color output(red, green, blue, a);
 		return output;
 	}
 
+	bool operator==(Color color)
+	{
+		if (color.r == r && color.b == b && color.g == g)
+			return true;
+		return false;
+	}
 };
 
 #endif

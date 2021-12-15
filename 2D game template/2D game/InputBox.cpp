@@ -5,13 +5,13 @@
 #include "Window.h"
 #include "Scenes.h"
 
-InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, color maincolor, bool worldposition, UIElement* manager)
+InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, Color maincolor, bool worldposition, UIElement* manager)
 {
 	this->name = name;
 	this->font = font;
 	this->position = position;
 	this->size = size;
-	color buttoncolor = maincolor;
+	Color buttoncolor = maincolor;
 	this->worldposition = worldposition;
 	
 	if (manager)

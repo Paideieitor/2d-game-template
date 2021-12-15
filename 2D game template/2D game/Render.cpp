@@ -77,7 +77,7 @@ bool Render::CleanUp()
 	return true;
 }
 
-void Render::AddRectangleEvent(int layer, fpoint position, int width, int height, color color, bool usescale, float speed, bool filled)
+void Render::AddRectangleEvent(int layer, fpoint position, int width, int height, Color color, bool usescale, float speed, bool filled)
 {
 	RenderEvent event;
 
@@ -198,7 +198,7 @@ bool Render::DrawTexture(Texture* texture, fpoint position, int x, int y, int wi
 	return true;
 }
 
-bool Render::DrawRect(fpoint position, int width, int height, color color, bool usescale, bool filled) const
+bool Render::DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const
 {
 	float scale = game->window->scale;
 

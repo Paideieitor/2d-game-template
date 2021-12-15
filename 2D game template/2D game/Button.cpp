@@ -11,7 +11,7 @@ Button::Button()
 	state = NOTPRESSED;
 }
 
-Button::Button(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+Button::Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
 {
 	type = BUTTON;
 	state = NOTPRESSED;
@@ -42,7 +42,7 @@ Button::~Button()
 	game->textures->Unload(text);
 }
 
-void Button::Set(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+void Button::Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
 {
 	text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
 
@@ -64,7 +64,7 @@ elementstate Button::Update(float dt)
 {
 	elementstate output = OK;
 
-	color color;
+	Color color;
 
 	if (presstype == REPEATPRESS && state == PRESSED && game->input->GetButton(1) == REPEAT) 
 	{}

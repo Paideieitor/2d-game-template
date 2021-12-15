@@ -16,7 +16,7 @@ OptionsMenu::~OptionsMenu()
 
 bool OptionsMenu::Start()
 {
-	background = new color(150,150,200,255);
+	background = new Color(150,150,200,255);
 
 	game->window->grabbed = false;
 	SDL_SetWindowGrab(game->window->window, SDL_FALSE);
@@ -90,7 +90,7 @@ void OptionsMenu::UIEvent(UIElement* element)
 		string x;
 		string y;
 		ipoint res;
-
+		
 		bool change = false;
 		for (string::iterator s = current.begin(); s != current.end(); s++)
 		{
@@ -102,18 +102,18 @@ void OptionsMenu::UIEvent(UIElement* element)
 			else
 				y.push_back(*s);
 		}
-
+		
 		res.x = game->StringToInt(x);
 		res.y = game->StringToInt(y);
-
+		
 		SDL_SetWindowSize(game->window->window, res.x, res.y);
 		SDL_SetWindowPosition(game->window->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-
+		
 		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str());
-
+		
 		node.attribute("width").set_value(res.x);
 		node.attribute("height").set_value(res.y);
-
+		
 		game->document.save_file("config.xml");
 	}
 	else if (element == music)

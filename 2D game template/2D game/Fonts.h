@@ -42,7 +42,7 @@ public:
 
 private:
 
-	SDL_Surface* TextToSurface(TTF_Font* font, const char* text, color color);
+	SDL_Surface* TextToSurface(TTF_Font* font, const char* text, Color color);
 	vector<Font*> fonts;
 
 	friend class Textures;

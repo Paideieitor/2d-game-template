@@ -53,7 +53,10 @@ Texture* Textures::Load(const char* path)
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
 		if ((*t)->path == path)
+		{
+			++(*t)->instances;
 			return *t;
+		}
 	}
 
 	char* buffer;
@@ -77,12 +80,23 @@ Texture* Textures::Load(const char* path)
 
 	Texture* output = new Texture(path, texture);
 	textures.push_back(output);
+	++output->instances;
 
 	return output;
 }
 
-Texture* Textures::LoadText(Font* font, const char* text, color color, ipoint& size)
+Texture* Textures::LoadText(Font* font, const char* text, Color color, ipoint& size)
 {
+	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
+	{
+		if ((*t)->path == text && (*t)->font == font && (*t)->color == color)
+		{
+			++(*t)->instances;
+			size = game->textures->GetTextureSize(*t);
+			return *t;
+		}
+	}
+
 	SDL_Surface* surface = game->fonts->TextToSurface(font->font, text, color);
 	
 	SDL_Texture* texture = nullptr;
@@ -102,6 +116,9 @@ Texture* Textures::LoadText(Font* font, const char* text, color color, ipoint& s
 
 	Texture* output = new Texture(text, texture);
 	textures.push_back(output);
+	++output->instances;
+	output->font = font;
+	output->color = color;
 
 	size = game->textures->GetTextureSize(output);
 
@@ -114,8 +131,12 @@ void Textures::Unload(Texture* texture)
 	{
 		if (*t == texture)
 		{
-			delete texture;
-			textures.erase(t);
+			--(*t)->instances;
+			if ((*t)->instances <= 0)
+			{
+				delete texture;
+				textures.erase(t);
+			}
 
 			break;
 		}
@@ -140,4 +161,12 @@ ipoint Textures::GetTextureSize(Texture* texture)
 	SDL_QueryTexture(texture->texture, NULL, NULL, &output.x, &output.y);
 
 	return output;
+}
+
+void Textures::ChangeTexture(Texture*& source, Texture*& destination)
+{
+	Unload(destination);
+
+	++source->instances;
+	destination = source;
 }

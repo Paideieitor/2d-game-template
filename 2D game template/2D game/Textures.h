@@ -8,7 +8,7 @@ class Texture
 {
 public:
 	Texture() = delete;
-	Texture(string path, SDL_Texture* texture) : path(path), texture(texture) {}
+	Texture(const Texture& newTexture) = delete;
 
 	~Texture()
 	{
@@ -18,9 +18,17 @@ public:
 	SDL_Texture* const Get() const { return texture; }
 
 private:
+
+	Texture(string path, SDL_Texture* texture) : path(path), texture(texture), instances(0), font(nullptr), color() {}
+
 	string path;
 
 	SDL_Texture* texture;
+
+	int instances;
+
+	Font* font;
+	Color color;
 
 	friend class Textures;
 };
@@ -39,10 +47,12 @@ public:
 	bool CleanUp();
 
 	Texture* Load(const char* path);
-	Texture* LoadText(Font* font, const char* text, color color, ipoint& size);
+	Texture* LoadText(Font* font, const char* text, Color color, ipoint& size);
 	void Unload(Texture*);
 
 	ipoint GetTextureSize(Texture*);
+
+	void ChangeTexture(Texture*& source, Texture*& destination);
 
 private:
 

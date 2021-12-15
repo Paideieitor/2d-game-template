@@ -58,7 +58,7 @@ Font* Fonts::Load(const char* path, int size)
 	return output;
 }
 
-SDL_Surface* Fonts::TextToSurface(TTF_Font* font, const char* text, color color)
+SDL_Surface* Fonts::TextToSurface(TTF_Font* font, const char* text, Color color)
 {
 	return TTF_RenderText_Solid(font, text, color.ToSDL());
 }

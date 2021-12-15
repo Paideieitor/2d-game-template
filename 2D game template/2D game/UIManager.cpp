@@ -37,7 +37,7 @@ bool UIManager::Update(float dt)
 	}
 
 	if(elements.size() != 0)
-		for (int e = elements.size() - 1; e > -1; e--)
+		for (int e = elements.size() - 1; e > -1; --e)
 		{
 			UIElement* element = *(elements.begin() + e);
 
@@ -66,16 +66,14 @@ bool UIManager::Update(float dt)
 	while (stop)
 	{
 		stop = false;
-		for (vector<UIElement*>::iterator e = elements.begin() + counter; e != elements.end(); e++)
+		for (int i = counter; i < elements.size(); ++i)
 		{
-			UIElement* element = *e;
-
-			switch (element->Update(dt))
+			switch (elements[i]->Update(dt))
 			{
 			case OK:
 				break;
 			case ERROR:
-				cout << "UIManager Update -> Bad Thing, Error in " << element->name << endl;
+				cout << "UIManager Update -> Bad Thing, Error in " << elements[i]->name << endl;
 				return false;
 			case CHILD_CREATION:
 				stop = true;

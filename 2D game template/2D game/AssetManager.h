@@ -12,9 +12,7 @@ public:
 	AssetManager();
 	virtual ~AssetManager();
 
-
 	bool SetUp(pugi::xml_node&);
-
 
 	bool Exists(const char* file) const;
 

@@ -15,7 +15,7 @@ MainMenu::~MainMenu()
 
 bool MainMenu::Start()
 {
-	background = new color(255,255,0,255);
+	background = new Color(255,255,0,255);
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
@@ -31,8 +31,7 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-
-	game->render->AddTextureEvent(5, test, { 50,50 }, 0, 0, 507, 462);
+	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, 507, 462);
 	game->render->AddRectangleEvent(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;

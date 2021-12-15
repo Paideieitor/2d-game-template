@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "Scenes.h"
 
-ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, color maincolor, Font* subfont, bool worldposition)
+ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, Color maincolor, Font* subfont, bool worldposition)
 {
 	type = BUTTONARRAY;
 
@@ -102,9 +102,7 @@ bool ButtonArray::CleanUp()
 void ButtonArray::UIEvent(UIElement* element)
 {
 	if (element == mainbutton)
-	{
 		displaying = true;
-	}
 
 	if (displaying)
 		for (int i = 0; i < amount; i++)
@@ -112,7 +110,7 @@ void ButtonArray::UIEvent(UIElement* element)
 			{
 				current = i;
 				mainbutton->name = buttons[i].name;
-				mainbutton->text = buttons[i].text;
+				game->textures->ChangeTexture(buttons[i].text, mainbutton->text);
 				mainbutton->textsize = buttons[i].textsize;
 
 				pugi::xml_node arraynode = game->scenes->mainnode.child(scene->name.c_str()).child(name.c_str());

@@ -36,7 +36,7 @@ public:
 
 	void UIEvent(UIElement*);
 
-	color* background;
+	Color* background;
 
 private:
 
@@ -63,7 +63,7 @@ public:
 
 	void UIEvent(UIElement*);
 
-	color* background;
+	Color* background;
 
 private:
 

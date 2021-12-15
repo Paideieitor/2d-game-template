@@ -45,7 +45,7 @@ public:
 
 	string name;
 	elementtype type;
-	color maincolor;
+	Color maincolor;
 	Font* font;
 
 	fpoint position;
@@ -78,10 +78,10 @@ class Button : public UIElement
 public:
 
 	Button();
-	Button(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
+	Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
 	~Button();
 
-	void Set(string name, Font* font, fpoint position, ipoint size, color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
+	void Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, UIElement* manager = nullptr);
 
 	elementstate Update(float dt);
 	bool CleanUp();
@@ -99,7 +99,7 @@ class ButtonArray : public UIElement
 {
 public:
 
-	ButtonArray(string name, Font* font, fpoint position, ipoint size, color buttoncolor, Font* subfont = nullptr, bool worldposition = false);
+	ButtonArray(string name, Font* font, fpoint position, ipoint size, Color buttoncolor, Font* subfont = nullptr, bool worldposition = false);
 	~ButtonArray();
 
 	elementstate Update(float dt);
@@ -134,7 +134,7 @@ class Scrollbar : public UIElement
 {
 public:
 
-	Scrollbar(string name, Font* font, fpoint position, ipoint size, color maincolor, float start = 0.0f, Font* valuefont = nullptr, bool worldposition = false, UIElement* manager = nullptr);
+	Scrollbar(string name, Font* font, fpoint position, ipoint size, Color maincolor, float start = 0.0f, Font* valuefont = nullptr, bool worldposition = false, UIElement* manager = nullptr);
 	~Scrollbar();
 
 	elementstate Update(float dt);
@@ -163,7 +163,7 @@ class InputBox : public UIElement
 {
 public:
 
-	InputBox(string name, Font* font, fpoint position, ipoint size, color maincolor, bool worldposition = false, UIElement* manager = nullptr);
+	InputBox(string name, Font* font, fpoint position, ipoint size, Color maincolor, bool worldposition = false, UIElement* manager = nullptr);
 	~InputBox();
 
 	elementstate Update(float dt);
