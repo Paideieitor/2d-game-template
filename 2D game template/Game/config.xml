@@ -7,7 +7,7 @@
 		<fullscreen value="false" />
 		<borderless value="false" />
 	</window>
-	<audio music="100" sfx="56" />
+	<audio music="100" sfx="100" />
 	<scenemanager>
 		<menu />
 		<options>

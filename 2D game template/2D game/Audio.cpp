@@ -1,9 +1,7 @@
 #include "Audio.h"
 
 #include "MIX/include/SDL_mixer.h"
-#include "IMG/include/SDL_image.h"
 #pragma comment ( lib, "MIX/lib/SDL2_mixer.lib" )
-#pragma comment ( lib, "IMG/lib/SDL2_image.lib" )
 
 Audio::Audio()
 {
@@ -47,7 +45,7 @@ bool Audio::SetUp(pugi::xml_node& node)
 	LoadSFX("AudioTest/sfx.wav");
 
 	//Playing SFX number 0 with 0 repetition
-	PlaySFX(0,0);
+	PlaySFX(0,-1);
 	
 	//Playing music number 1
 	PlayMusic(1);
@@ -57,7 +55,6 @@ bool Audio::SetUp(pugi::xml_node& node)
 
 bool Audio::Update(float dt)
 {
-	UpdateVolume();
 	return true;
 }
 
@@ -129,6 +126,8 @@ void Audio::SetMusicVolume(int volume)
 
 	node.attribute("music").set_value(musicvolume);
 	game->document.save_file("config.xml");
+
+	Mix_VolumeMusic(musicvolume * audioVolumeOffset);
 }
 
 void Audio::SetSfxVolume(int volume)
@@ -137,16 +136,11 @@ void Audio::SetSfxVolume(int volume)
 
 	node.attribute("sfx").set_value(sfxvolume);
 	game->document.save_file("config.xml");
-}
 
-void Audio::UpdateVolume()
-{
-	Mix_VolumeMusic(musicvolume * audioVolumeOffset);
-	for(int k = 0; k < soundList.size(); k++)
+	for (int k = 0; k < soundList.size(); k++)
 	{
 		Mix_VolumeChunk(soundList[k], sfxvolume * audioVolumeOffset);
 	}
-
 }
 
 void Audio::FreeSFX()

@@ -1,5 +1,8 @@
 #include "Module.h"
-#include "MIX/include/SDL_mixer.h"
+
+struct _Mix_Music;
+typedef struct _Mix_Music Mix_Music;
+struct Mix_Chunk;
 
 class Audio : public Module
 {
@@ -23,8 +26,6 @@ public:
 
 	void SetMusicVolume(int);
 	void SetSfxVolume(int);
-
-	void UpdateVolume();
 
 private:
 
