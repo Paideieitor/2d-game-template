@@ -1,5 +1,7 @@
 #include "Audio.h"
 
+#include "AssetManager.h"
+
 #include "MIX/include/SDL_mixer.h"
 #pragma comment ( lib, "MIX/lib/SDL2_mixer.lib" )
 
@@ -38,17 +40,18 @@ bool Audio::SetUp(pugi::xml_node& node)
 	}
 
 	//Loading music number 0 and 1
-	LoadMusic("AudioTest/music.ogg");
-	LoadMusic("AudioTest/music1.ogg");
+	LoadMusic("audio/music/music.ogg");
+	LoadMusic("audio/music/music1.ogg");
 
 	//Loading SFX number 0
-	LoadSFX("AudioTest/sfx.wav");
+	LoadSFX("audio/sfx/sfx.wav");
 
 	//Playing SFX number 0 with 0 repetition
 	PlaySFX(0,-1);
 	
 	//Playing music number 1
 	PlayMusic(1);
+
 
 	return true;
 }
@@ -69,7 +72,9 @@ bool Audio::CleanUp()
 
 void Audio::LoadMusic(const char* path)
 {
-	Mix_Music* music = Mix_LoadMUS(path);
+	Music* music = new Music;
+	music->song = Mix_LoadMUS_RW(game->assets->Load(path, &music->buffer), 1);
+
 	if (music == nullptr)
 	{
 		printf("Bad thing -> Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
@@ -83,7 +88,10 @@ void Audio::LoadMusic(const char* path)
 
 void Audio::LoadSFX(const char* path)
 {
-	Mix_Chunk* sfx = Mix_LoadWAV(path);
+	Sfx* sfx = new Sfx;
+	sfx->sfx = Mix_LoadWAV_RW(game->assets->Load(path, &sfx->buffer), 1);
+
+
 	if (sfx == nullptr)
 	{
 		printf("Bad thing -> Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
@@ -102,7 +110,7 @@ void Audio::PlaySFX(int soundEffect, int repetition)
 	}
 	else
 	{
-		Mix_PlayChannel(-1, soundList[soundEffect], repetition);
+		Mix_PlayChannel(-1, soundList[soundEffect]->sfx, repetition);
 	}
 
 }
@@ -115,7 +123,7 @@ void Audio::PlayMusic(int music)
 	}
 	else
 	{
-		Mix_PlayMusic(musicList[music], -1);
+		Mix_PlayMusic(musicList[music]->song, -1);
 	}
 
 }
@@ -139,7 +147,7 @@ void Audio::SetSfxVolume(int volume)
 
 	for (int k = 0; k < soundList.size(); k++)
 	{
-		Mix_VolumeChunk(soundList[k], sfxvolume * audioVolumeOffset);
+		Mix_VolumeChunk(soundList[k]->sfx, sfxvolume * audioVolumeOffset);
 	}
 }
 
@@ -147,7 +155,8 @@ void Audio::FreeSFX()
 {
 	for(int i = 0; i < soundList.size(); i++)
 	{
-		Mix_FreeChunk(soundList[i]);
+		Mix_FreeChunk(soundList[i]->sfx);
+		delete soundList[i]->buffer;
 	}
 }
 
@@ -155,6 +164,7 @@ void Audio::FreeMusic()
 {
 	for (int i = 0; i < musicList.size(); i++)
 	{
-		Mix_FreeMusic(musicList[i]);
+		Mix_FreeMusic(musicList[i]->song);
+		delete musicList[i]->buffer;
 	}
 }

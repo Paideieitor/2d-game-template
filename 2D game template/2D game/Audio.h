@@ -4,6 +4,19 @@ struct _Mix_Music;
 typedef struct _Mix_Music Mix_Music;
 struct Mix_Chunk;
 
+
+struct Music 
+{
+	Mix_Music* song = nullptr;
+	char* buffer = nullptr;
+};
+
+struct Sfx
+{
+	Mix_Chunk* sfx = nullptr;
+	char* buffer = nullptr;
+};
+
 class Audio : public Module
 {
 public:
@@ -37,8 +50,8 @@ private:
 	int musicvolume;
 	int sfxvolume;
 
-	std::vector<Mix_Music*> musicList;
-	std::vector<Mix_Chunk*> soundList;
+	vector<Music*> musicList;
+	vector<Sfx*> soundList;
 
 
 	pugi::xml_node node;
