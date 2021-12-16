@@ -24,11 +24,14 @@ public:
 	void SetMusicVolume(int);
 	void SetSfxVolume(int);
 
+	void UpdateVolume();
+
 private:
 
 	void FreeSFX();
 	void FreeMusic();
 
+	float audioVolumeOffset = 1.28;
 
 	int musicvolume;
 	int sfxvolume;

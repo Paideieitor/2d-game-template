@@ -57,6 +57,7 @@ bool Audio::SetUp(pugi::xml_node& node)
 
 bool Audio::Update(float dt)
 {
+	UpdateVolume();
 	return true;
 }
 
@@ -136,6 +137,16 @@ void Audio::SetSfxVolume(int volume)
 
 	node.attribute("sfx").set_value(sfxvolume);
 	game->document.save_file("config.xml");
+}
+
+void Audio::UpdateVolume()
+{
+	Mix_VolumeMusic(musicvolume * audioVolumeOffset);
+	for(int k = 0; k < soundList.size(); k++)
+	{
+		Mix_VolumeChunk(soundList[k], sfxvolume * audioVolumeOffset);
+	}
+
 }
 
 void Audio::FreeSFX()
