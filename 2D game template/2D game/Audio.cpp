@@ -38,12 +38,19 @@ bool Audio::SetUp(pugi::xml_node& node)
 		printf("Bad thing -> SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
 	}
-	LoadMusic();
-	LoadSFX();
 
+	//Loading music number 0 and 1
+	LoadMusic("AudioTest/music.ogg");
+	LoadMusic("AudioTest/music1.ogg");
 
-	Mix_PlayMusic(music, -1);
+	//Loading SFX number 0
+	LoadSFX("AudioTest/sfx.wav");
 
+	//Playing SFX number 0 with 0 repetition
+	PlaySFX(0,0);
+	
+	//Playing music number 1
+	PlayMusic(1);
 
 	return true;
 }
@@ -55,29 +62,64 @@ bool Audio::Update(float dt)
 
 bool Audio::CleanUp()
 {
-	Mix_FreeChunk(sfx);
-	Mix_FreeMusic(music);
+	FreeSFX();
+	FreeMusic();
 	Mix_Quit();
 
 	return true;
 }
 
-void Audio::LoadMusic()
+void Audio::LoadMusic(const char* path)
 {
-	music = Mix_LoadMUS("AudioTest/music.ogg");
+	Mix_Music* music = Mix_LoadMUS(path);
 	if (music == nullptr)
 	{
 		printf("Bad thing -> Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 	}
+	else 
+	{
+		musicList.push_back(music);
+	}
+	
 }
 
-void Audio::LoadSFX()
+void Audio::LoadSFX(const char* path)
 {
-	sfx = Mix_LoadWAV("AudioTest/sfx.wav");
-	if (sfx == NULL)
+	Mix_Chunk* sfx = Mix_LoadWAV(path);
+	if (sfx == nullptr)
 	{
 		printf("Bad thing -> Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 	}
+	else
+	{
+		soundList.push_back(sfx);
+	}
+}
+
+void Audio::PlaySFX(int soundEffect, int repetition)
+{
+	if(soundEffect > soundList.size() - 1)
+	{
+		printf("Bad thing -> Sound effect is out of range");
+	}
+	else
+	{
+		Mix_PlayChannel(-1, soundList[soundEffect], repetition);
+	}
+
+}
+
+void Audio::PlayMusic(int music)
+{
+	if(music > musicList.size() - 1)
+	{
+		printf("Bad thing -> Music is out of range");
+	}
+	else
+	{
+		Mix_PlayMusic(musicList[music], -1);
+	}
+
 }
 
 void Audio::SetMusicVolume(int volume)
@@ -94,4 +136,20 @@ void Audio::SetSfxVolume(int volume)
 
 	node.attribute("sfx").set_value(sfxvolume);
 	game->document.save_file("config.xml");
+}
+
+void Audio::FreeSFX()
+{
+	for(int i = 0; i < soundList.size(); i++)
+	{
+		Mix_FreeChunk(soundList[i]);
+	}
+}
+
+void Audio::FreeMusic()
+{
+	for (int i = 0; i < musicList.size(); i++)
+	{
+		Mix_FreeMusic(musicList[i]);
+	}
 }

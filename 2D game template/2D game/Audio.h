@@ -12,8 +12,11 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void LoadMusic();
-	void LoadSFX();
+	void LoadMusic(const char* path);
+	void LoadSFX(const char* path);
+
+	void PlaySFX(int soundEffect, int repetition);
+	void PlayMusic(int music);
 
 	int GetMusicVolume() { return musicvolume; }
 	int GetSfxVolume() { return sfxvolume; }
@@ -23,14 +26,15 @@ public:
 
 private:
 
+	void FreeSFX();
+	void FreeMusic();
+
+
 	int musicvolume;
 	int sfxvolume;
 
-
-	Mix_Music* music = nullptr;
-
-
-	Mix_Chunk* sfx = nullptr;
+	std::vector<Mix_Music*> musicList;
+	std::vector<Mix_Chunk*> soundList;
 
 
 	pugi::xml_node node;
