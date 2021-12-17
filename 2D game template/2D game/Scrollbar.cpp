@@ -1,11 +1,13 @@
-#include "UIElements.h"
+#include "Scrollbar.h"
 
 #include "Render.h"
 #include "Input.h"
 #include "Window.h"
 #include "Scenes.h"
 
-Scrollbar::Scrollbar(string name, Font* font, fpoint position, ipoint size, Color maincolor, float start, Font* valuefont, bool worldposition, UIElement* manager)
+#include "Button.h"
+
+Scrollbar::Scrollbar(string name, Font* font, fpoint position, ipoint size, Color maincolor, float start, Font* valuefont, bool worldposition, Observer observer) : UIElement(observer)
 {
 	type = SCROLLBAR;
 
@@ -16,8 +18,8 @@ Scrollbar::Scrollbar(string name, Font* font, fpoint position, ipoint size, Colo
 	this->maincolor = maincolor;
 	this->worldposition = worldposition;
 
-	text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, this->textsize);
-	textposition = { position.x, position.y - textsize.y };
+	text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
+	textposition = { position.x, position.y - text->GetSize().y };
 
 	this->valuefont = valuefont;
 	value = start;
@@ -33,15 +35,11 @@ Scrollbar::Scrollbar(string name, Font* font, fpoint position, ipoint size, Colo
 
 	if (valuefont)
 	{
-		valuetext = game->textures->LoadText(valuefont, game->IntToString((int)value).c_str(), { 0,0,0,255 }, valuesize);
-		valueposition = { position.x + size.x + scrollsize.x / 1.5f, position.y - valuesize.y / 2 };
+		valuetext = game->textures->LoadText(valuefont, game->IntToString((int)value).c_str(), { 0,0,0,255 });
+		valueposition = { position.x + size.x + scrollsize.x / 1.5f, position.y - valuetext->GetSize().y / 2 };
 	}
 	else
 		valuetext = nullptr;
-
-	if (manager)
-		scene = nullptr;
-	this->manager = manager;
 }
 
 Scrollbar::~Scrollbar()
@@ -55,7 +53,7 @@ Scrollbar::~Scrollbar()
 elementstate Scrollbar::Update(float dt)
 {
 	game->render->AddRectangleEvent(20, position, size.x, size.y, maincolor, worldposition);
-	game->render->AddTextureEvent(20, text, textposition, 0, 0, textsize.x, textsize.y);
+	game->render->AddTextureEvent(20, text, textposition, 0, 0, text->GetSize());
 
 	if (valuetext)
 	{
@@ -63,9 +61,9 @@ elementstate Scrollbar::Update(float dt)
 		{
 			updatevalue = false;
 			game->textures->Unload(valuetext);
-			valuetext = game->textures->LoadText(valuefont, game->IntToString((int)value).c_str(), { 0,0,0,255 }, valuesize);
+			valuetext = game->textures->LoadText(valuefont, game->IntToString((int)value).c_str(), { 0,0,0,255 });
 		}
-		game->render->AddTextureEvent(20, valuetext, valueposition, 0, 0, valuesize.x, valuesize.y);
+		game->render->AddTextureEvent(20, valuetext, valueposition, 0, 0, valuetext->GetSize());
 	}
 
 	return OK;
@@ -85,7 +83,7 @@ void Scrollbar::UIEvent(UIElement* element)
 		if (worldposition)
 		{
 			fpoint camera = { (float)-game->render->camera.x, (float)-game->render->camera.y };
-			camera /= game->window->scale;
+			camera /= game->window->GetScale();
 
 			mouseposition = camera + mouseposition;
 		}
@@ -109,10 +107,7 @@ void Scrollbar::UIEvent(UIElement* element)
 		if (valuetext && (int)pastvalue != (int)value)
 			updatevalue = true;
 
-		if (scene)
-			scene->UIEvent(this);
-		else
-			manager->UIEvent(this);
+		observer.UIEvent(this);
 	}
 }
 

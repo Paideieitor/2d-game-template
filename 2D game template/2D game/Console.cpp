@@ -2,6 +2,8 @@
 
 #include "Input.h"
 #include "Render.h"
+#include "Fonts.h"
+#include "SceneManager.h"
 
 Console::Console()
 {

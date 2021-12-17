@@ -64,7 +64,7 @@ bool Input::Update(float dt)
 		switch (event.type)
 		{
 		case SDL_QUIT:
-			game->window->state = windowstate::QUIT;
+			game->window->SetState(windowstate::QUIT);
 			break;
 		case SDL_WINDOWEVENT:
 			switch (event.window.event)
@@ -72,13 +72,13 @@ bool Input::Update(float dt)
 			case SDL_WINDOWEVENT_HIDDEN:
 			case SDL_WINDOWEVENT_MINIMIZED:
 			case SDL_WINDOWEVENT_FOCUS_LOST:
-				game->window->state = windowstate::HIDE;
+				game->window->SetState(windowstate::HIDE);
 				break;
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_FOCUS_GAINED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
 			case SDL_WINDOWEVENT_RESTORED:
-				game->window->state = windowstate::SHOW;
+				game->window->SetState(windowstate::SHOW);
 				break;
 			}
 			break;
@@ -134,6 +134,6 @@ fpoint Input::GetMousePos(bool usescale) const
 {
 	fpoint output;
 	if (usescale)
-		return mouse / game->window->scale;
+		return mouse / game->window->GetScale();
 	return mouse;
 }

@@ -1,9 +1,10 @@
 #include "UIManager.h"
-#include "UIElements.h"
+#include "UIElement.h"
 
 #include "Render.h"
 #include "Window.h"
 #include "Input.h"
+#include "SceneManager.h"
 
 UIManager::UIManager()
 {
@@ -46,7 +47,8 @@ bool UIManager::Update(float dt)
 			if (element->worldposition)
 			{
 				camera = { -game->render->camera.x, -game->render->camera.y };
-				camera /= game->window->scale;
+				camera.x = (int)((float)camera.x / game->window->GetScale());
+				camera.y = (int)((float)camera.y / game->window->GetScale());
 			}
 
 			if (!found && element->position.x < camera.x + mousepos.x && camera.x + mousepos.x < element->position.x + element->size.x &&
@@ -66,7 +68,7 @@ bool UIManager::Update(float dt)
 	while (stop)
 	{
 		stop = false;
-		for (int i = counter; i < elements.size(); ++i)
+		for (size_t i = counter; i < elements.size(); ++i)
 		{
 			switch (elements[i]->Update(dt))
 			{

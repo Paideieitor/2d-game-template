@@ -85,14 +85,13 @@ Texture* Textures::Load(const char* path)
 	return output;
 }
 
-Texture* Textures::LoadText(Font* font, const char* text, Color color, ipoint& size)
+Texture* Textures::LoadText(Font* font, const char* text, Color color)
 {
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
 		if ((*t)->path == text && (*t)->font == font && (*t)->color == color)
 		{
 			++(*t)->instances;
-			size = game->textures->GetTextureSize(*t);
 			return *t;
 		}
 	}
@@ -119,8 +118,6 @@ Texture* Textures::LoadText(Font* font, const char* text, Color color, ipoint& s
 	++output->instances;
 	output->font = font;
 	output->color = color;
-
-	size = game->textures->GetTextureSize(output);
 
 	return output;
 }
@@ -151,14 +148,6 @@ SDL_Texture* Textures::SurfaceToTexture(SDL_Surface* surface)
 		cout << "Texture texture creation -> Bad Thing, Error:" << SDL_GetError() << endl;
 		return nullptr;
 	}
-
-	return output;
-}
-
-ipoint Textures::GetTextureSize(Texture* texture)
-{
-	ipoint output;
-	SDL_QueryTexture(texture->texture, NULL, NULL, &output.x, &output.y);
 
 	return output;
 }

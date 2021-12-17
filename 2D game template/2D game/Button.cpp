@@ -1,25 +1,24 @@
-#include "UIElements.h"
+#include "Button.h"
 
 #include "Input.h"
+#include "Textures.h"
 #include "Render.h"
-#include "Window.h"
-#include "Scenes.h"
 
-Button::Button()
+Button::Button() : UIElement(Observer())
 {
 	type = BUTTON;
 	state = NOTPRESSED;
 }
 
-Button::Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+Button::Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, Observer observer) : UIElement(observer)
 {
 	type = BUTTON;
 	state = NOTPRESSED;
 
 	if (name != "")
 	{
-		text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
-		textposition = game->Center(textsize, position, { (int)size.x,(int)size.y });
+		text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
+		textposition = game->Center(text->GetSize(), position, { (int)size.x,(int)size.y });
 	}
 	else
 		text = nullptr;
@@ -31,10 +30,6 @@ Button::Button(string name, Font* font, fpoint position, ipoint size, Color main
 	this->maincolor = maincolor;
 	this->presstype = presstype;
 	this->worldposition = worldposition;
-
-	if(manager)
-		scene = nullptr;
-	this->manager = manager;
 }
 
 Button::~Button()
@@ -42,11 +37,15 @@ Button::~Button()
 	game->textures->Unload(text);
 }
 
-void Button::Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, UIElement* manager)
+void Button::Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, Observer observer)
 {
-	text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
-
-	textposition = game->Center(textsize, position, { (int)size.x,(int)size.y });
+	if (name != "")
+	{
+		text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
+		textposition = game->Center(text->GetSize(), position, { (int)size.x,(int)size.y });
+	}
+	else
+		text = nullptr;
 
 	this->name = name;
 	this->position = position;
@@ -55,9 +54,7 @@ void Button::Set(string name, Font* font, fpoint position, ipoint size, Color ma
 	this->presstype = presstype;
 	this->worldposition = worldposition;
 
-	if (manager)
-		scene = nullptr;
-	this->manager = manager;
+	this->observer = observer;
 }
 
 elementstate Button::Update(float dt)
@@ -96,10 +93,7 @@ elementstate Button::Update(float dt)
 		break;
 	case PRESSED:
 		color = maincolor + 30;
-		if (!manager && scene)
-			scene->UIEvent(this);
-		else
-			manager->UIEvent(this);
+		observer.UIEvent(this);
 		break;
 	case HOVER:
 		color = maincolor - 30;
@@ -109,12 +103,7 @@ elementstate Button::Update(float dt)
 	game->render->AddRectangleEvent(20, position, size.x, size.y, color, worldposition);
 
 	if (text)
-	{
-		Uint8 a;
-		if (SDL_GetTextureAlphaMod(text->Get(), &a) == -1)
-			text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, textsize);
-		game->render->AddTextureEvent(20, text, textposition, 0, 0, textsize.x, textsize.y, false, color.a, worldposition);
-	}
+		game->render->AddTextureEvent(20, text, textposition, 0, 0, text->GetSize(), false, color.a, worldposition);
 
 	return output;
 }

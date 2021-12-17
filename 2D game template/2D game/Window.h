@@ -23,6 +23,18 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+	void SetTitle(const char* title);
+	void SetState(windowstate state);
+	void SetGrabbed(bool enable);
+	void SetFullscreen(bool enable);
+	void SetBorderless(bool enable);
+	void SetWindowSize(ipoint size);
+
+	void CenterWindowPosition();
+
+	const float GetScale() const { return scale; }
+
+private:
 	SDL_Window* window;
 
 	windowstate state;
@@ -32,6 +44,8 @@ public:
 	float scale;
 
 	bool grabbed;
+
+	friend class Render;
 };
 
 #endif

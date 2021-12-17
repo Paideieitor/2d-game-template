@@ -18,11 +18,6 @@ bool Audio::SetUp(pugi::xml_node& node)
 {
 	this->node = node;
 
-	musicvolume = node.attribute("music").as_int();
-	sfxvolume = node.attribute("sfx").as_int();
-
-
-
 	//SDL Initialization stuff
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
@@ -49,6 +44,9 @@ bool Audio::SetUp(pugi::xml_node& node)
 	
 	//Playing music number 1
 	PlayMusic(1);
+
+	SetMusicVolume(node.attribute("music").as_int());
+	SetSfxVolume(sfxvolume = node.attribute("sfx").as_int());
 
 	return true;
 }

@@ -98,19 +98,19 @@ void Render::AddRectangleEvent(int layer, fpoint position, int width, int height
 		eventlist.insert(make_pair(layer, event));
 }
 
-void Render::AddTextureEvent(int layer, Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+void Render::AddTextureEvent(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
 	RenderEvent event;
 
 	event.type = TEXTURE;
 
-	event.texture = texture;
+	event.texture = texture->texture;
 	event.position = position;
 
 	event.x = x;
 	event.y = y;
-	event.width = width;
-	event.height = height;
+	event.width = size.x;
+	event.height = size.y;
 
 	event.color = { 0,0,0,(unsigned int)alpha };
 
@@ -122,7 +122,7 @@ void Render::AddTextureEvent(int layer, Texture* texture, fpoint position, int x
 	event.angle = angle;
 	event.pivot = pivot;
 	
-	if (InCamera((int)position.x, (int)position.y, width, height) || !usescale)
+	if (InCamera((int)position.x, (int)position.y, size.x, size.y) || !usescale)
 		eventlist.insert(make_pair(layer, event));
 }
 
@@ -154,9 +154,9 @@ void Render::ClearEvents()
 	eventlist.erase(eventlist.begin(), eventlist.end());
 }
 
-bool Render::DrawTexture(Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
-	float scale = game->window->scale;
+	const float scale = game->window->GetScale();
 
 	SDL_Rect section = { x,y,width,height };
 
@@ -178,7 +178,7 @@ bool Render::DrawTexture(Texture* texture, fpoint position, int x, int y, int wi
 		rect.y = (int)position.y;
 	}
 
-	SDL_SetTextureAlphaMod(texture->Get(), (Uint8)alpha);
+	SDL_SetTextureAlphaMod(texture, (Uint8)alpha);
 
 	SDL_Point p;
 	
@@ -189,7 +189,7 @@ bool Render::DrawTexture(Texture* texture, fpoint position, int x, int y, int wi
 	if (flip)
 		f = SDL_FLIP_HORIZONTAL;
 
-	if (SDL_RenderCopyEx(renderer, texture->Get(), &section, &rect, angle, &p, f) != 0)
+	if (SDL_RenderCopyEx(renderer, texture, &section, &rect, angle, &p, f) != 0)
 	{
 		cout << "Draw Texture -> Bad Thing, Error: " << SDL_GetError() << endl;
 		return false;
@@ -200,7 +200,7 @@ bool Render::DrawTexture(Texture* texture, fpoint position, int x, int y, int wi
 
 bool Render::DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const
 {
-	float scale = game->window->scale;
+	const float scale = game->window->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -235,7 +235,7 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 
 bool Render::InCamera(int x, int y, int width, int height)
 {
-	float scale = game->window->scale;
+	const float scale = game->window->GetScale();
 
 	SDL_Rect cull = camera;
 	cull.x = (int)(cull.x / -scale);

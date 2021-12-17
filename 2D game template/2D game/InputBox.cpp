@@ -1,11 +1,13 @@
-#include "UIElements.h"
+#include "InputBox.h"
 
 #include "Input.h"
 #include "Render.h"
 #include "Window.h"
 #include "Scenes.h"
 
-InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, Color maincolor, bool worldposition, UIElement* manager)
+#include "Button.h"
+
+InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, Color maincolor, bool worldposition, Observer observer) : UIElement(observer)
 {
 	this->name = name;
 	this->font = font;
@@ -13,10 +15,6 @@ InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, Color 
 	this->size = size;
 	Color buttoncolor = maincolor;
 	this->worldposition = worldposition;
-	
-	if (manager)
-		scene = nullptr;
-	this->manager = manager;
 
 	frame = new Button("", nullptr, position, size, buttoncolor, SINGLECLICK, worldposition, this);
 
@@ -70,10 +68,7 @@ elementstate InputBox::Update(float dt)
 	else if (game->input->GetKey(SDL_SCANCODE_RETURN) == DOWN)
 	{
 		if (getinput && content != "")
-			if (!manager && scene)
-				scene->UIEvent(this);
-			else
-				manager->UIEvent(this);
+			observer.UIEvent(this);
 	}
 
 	if (text)
@@ -87,18 +82,18 @@ elementstate InputBox::Update(float dt)
 			string::iterator itr = buffer.begin() + current;
 			buffer.insert(itr, '|');
 		}
-		text = game->textures->LoadText(font, buffer.c_str(), { 0,0,0,255 }, textsize);
+		text = game->textures->LoadText(font, buffer.c_str(), { 0,0,0,255 });
 
 		ipoint p = { 0,0 };
-		ipoint s = textsize;
+		ipoint s = text->GetSize();
 		if (s.x > size.x)
 		{
 			s.x = size.x;
 			if (getinput)
-				p.x = textsize.x - size.x;
+				p.x = text->GetSize().x - size.x;
 		}
 
-		game->render->AddTextureEvent(21, text, position, p.x, p.y, s.x, s.y, false, 255, worldposition);
+		game->render->AddTextureEvent(21, text, position, p.x, p.y, s, false, 255, worldposition);
 	}
 
 	return OK;

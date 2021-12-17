@@ -156,31 +156,39 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Scrollbar.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonArray.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputBox.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scenes.h" />
+    <ClInclude Include="Scrollbar.h" />
     <ClInclude Include="Textures.h" />
-    <ClInclude Include="UIElements.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

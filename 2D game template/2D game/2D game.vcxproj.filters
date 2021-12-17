@@ -31,6 +31,9 @@
     <Filter Include="Archivos de recursos\UIElements">
       <UniqueIdentifier>{766414e3-578d-47cb-b540-5eef1d8f064f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de recursos\Util">
+      <UniqueIdentifier>{b9023f9c-7287-432d-9033-a036108745bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -90,6 +93,12 @@
     <ClCompile Include="Console.cpp">
       <Filter>Archivos de recursos\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Archivos de recursos\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -122,9 +131,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Archivos de recursos\Modules\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="UIElements.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClInclude>
     <ClInclude Include="Fonts.h">
       <Filter>Archivos de recursos\Modules\Image</Filter>
     </ClInclude>
@@ -139,6 +145,27 @@
     </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Archivos de recursos\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Archivos de recursos\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonArray.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Scrollbar.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="InputBox.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

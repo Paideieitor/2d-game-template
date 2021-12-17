@@ -2,6 +2,7 @@
 
 #include "Render.h"
 #include "Window.h"
+#include "SceneManager.h"
 
 MainMenu::MainMenu()
 {
@@ -31,7 +32,7 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, 507, 462);
+	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, test->GetSize());
 	game->render->AddRectangleEvent(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;
@@ -51,7 +52,7 @@ void MainMenu::UIEvent(UIElement* element)
 	if (element == tooptions)
 		game->scenes->ChangeScene(game->scenes->options);
 	else if (element == exit)
-		game->window->state = windowstate::QUIT;
+		game->window->SetState(windowstate::QUIT);
 	else if (element == box)
-		SDL_SetWindowTitle(game->window->window, box->GetContent().c_str());
+		game->window->SetTitle(box->GetContent().c_str());
 }

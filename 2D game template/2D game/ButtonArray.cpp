@@ -1,17 +1,19 @@
-#include "UIElements.h"
+#include "ButtonArray.h"
 
 #include "Input.h"
+#include "SceneManager.h"
+#include "Textures.h"
 #include "Render.h"
-#include "Window.h"
-#include "Scenes.h"
 
-ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, Color maincolor, Font* subfont, bool worldposition)
+#include "Button.h"
+
+ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, Color maincolor, Font* subfont, bool worldposition) : UIElement(Observer())
 {
 	type = BUTTONARRAY;
 
-	maintext = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 }, mainsize);
+	maintext = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
 
-	mainposition = game->Center(mainsize, position, { (int)size.x/2,(int)size.y });
+	mainposition = game->Center(maintext->GetSize(), position, { (int)size.x/2,(int)size.y });
 
 	this->name = name;
 	this->position = position;
@@ -26,7 +28,7 @@ ButtonArray::ButtonArray(string name, Font* font, fpoint position, ipoint size, 
 	else
 		this->subfont = font;
 
-	pugi::xml_node arraynode = game->scenes->mainnode.child(scene->name.c_str()).child(name.c_str());
+	pugi::xml_node arraynode = game->scenes->mainnode.child(observer.GetName()).child(name.c_str());
 
 	current = arraynode.attribute("current").as_int();
 
@@ -87,7 +89,7 @@ elementstate ButtonArray::Update(float dt)
 		}
 
 	game->render->AddRectangleEvent(20, position, size.x/2, size.y, maincolor, worldposition);
-	game->render->AddTextureEvent(20, maintext, mainposition, 0, 0, mainsize.x, mainsize.y, false, maincolor.a, worldposition);
+	game->render->AddTextureEvent(20, maintext, mainposition, 0, 0, maintext->GetSize(), false, maincolor.a, worldposition);
 
 	if(displaying)
 		displaying = false;
@@ -111,9 +113,8 @@ void ButtonArray::UIEvent(UIElement* element)
 				current = i;
 				mainbutton->name = buttons[i].name;
 				game->textures->ChangeTexture(buttons[i].text, mainbutton->text);
-				mainbutton->textsize = buttons[i].textsize;
 
-				pugi::xml_node arraynode = game->scenes->mainnode.child(scene->name.c_str()).child(name.c_str());
+				pugi::xml_node arraynode = game->scenes->mainnode.child(observer.GetName()).child(name.c_str());
 
 				arraynode.attribute("current").set_value(current);
 				game->document.save_file("config.xml");
@@ -121,7 +122,7 @@ void ButtonArray::UIEvent(UIElement* element)
 				mainbutton->state = NOTPRESSED;
 				displaying = false;
 
-				scene->UIEvent(this);
+				observer.UIEvent(this);
 				break;
 			}
 }

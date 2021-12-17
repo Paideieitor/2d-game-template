@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Window.h"
 #include "Audio.h"
+#include "SceneManager.h"
 
 OptionsMenu::OptionsMenu()
 {
@@ -18,8 +19,7 @@ bool OptionsMenu::Start()
 {
 	background = new Color(150,150,200,255);
 
-	game->window->grabbed = false;
-	SDL_SetWindowGrab(game->window->window, SDL_FALSE);
+	game->window->SetGrabbed(false);
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
@@ -61,16 +61,11 @@ void OptionsMenu::UIEvent(UIElement* element)
 		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str()).child("fullscreen");
 		bool fullscreen = node.attribute("value").as_bool();
 		
+		game->window->SetFullscreen(fullscreen);
 		if (fullscreen)
-		{
-			SDL_SetWindowFullscreen(game->window->window, 0);
 			node.attribute("value").set_value("false");
-		}
 		else
-		{
-			SDL_SetWindowFullscreen(game->window->window, SDL_WINDOW_FULLSCREEN);
 			node.attribute("value").set_value("true");
-		}
 		
 		game->document.save_file("config.xml");
 	}
@@ -79,7 +74,7 @@ void OptionsMenu::UIEvent(UIElement* element)
 		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str()).child("borderless");
 		bool borderless = !node.attribute("value").as_bool();
 
-		SDL_SetWindowBordered(game->window->window, (SDL_bool)!borderless);
+		game->window->SetBorderless(borderless);
 		node.attribute("value").set_value(borderless);
 
 		game->document.save_file("config.xml");
@@ -106,8 +101,8 @@ void OptionsMenu::UIEvent(UIElement* element)
 		res.x = game->StringToInt(x);
 		res.y = game->StringToInt(y);
 		
-		SDL_SetWindowSize(game->window->window, res.x, res.y);
-		SDL_SetWindowPosition(game->window->window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		game->window->SetWindowSize(res);
+		game->window->CenterWindowPosition();
 		
 		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str());
 		
@@ -130,8 +125,7 @@ void OptionsMenu::UIEvent(UIElement* element)
 	}
 	else if (element == tomenu)
 	{
-		game->window->grabbed = true;
-		SDL_SetWindowGrab(game->window->window, SDL_TRUE);
+		game->window->SetGrabbed(true);
 		game->scenes->ChangeScene(game->scenes->menu);
 	}
 

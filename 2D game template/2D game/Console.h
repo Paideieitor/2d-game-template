@@ -1,5 +1,7 @@
 #include "Module.h"
-#include "UIElements.h"
+#include "UI.h"
+
+class Font;
 
 class Console : public Module
 {
