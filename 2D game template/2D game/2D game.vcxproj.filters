@@ -105,6 +105,9 @@
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>Archivos de recursos\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Archivos de recursos\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -174,6 +177,9 @@
       <Filter>Archivos de recursos\UIElements</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsComponent.h">
+      <Filter>Archivos de recursos\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
       <Filter>Archivos de recursos\Physics</Filter>
     </ClInclude>
   </ItemGroup>
