@@ -34,6 +34,9 @@
     <Filter Include="Archivos de recursos\Util">
       <UniqueIdentifier>{b9023f9c-7287-432d-9033-a036108745bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de recursos\Physics">
+      <UniqueIdentifier>{34ae78f5-f65a-454d-9e74-97299a9087d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pugixml.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Archivos de recursos\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Archivos de recursos\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Archivos de recursos\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,11 +32,12 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, test->GetSize());
+
+	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, true, 1.0f, 30, fpoint(test->GetSize().x/2,test->GetSize().y/2));
 	game->render->AddRectangleEvent(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;
-}
+} 
 
 bool MainMenu::CleanUp()
 {
