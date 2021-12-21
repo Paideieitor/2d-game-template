@@ -1,34 +1,48 @@
 #include "PhysicsComponent.h"
 #include "Physics.h"
+#include "Render.h"
+#include "Textures.h"
 
 #include "BOX2D/Box2D/Box2D.h"
 #pragma comment( lib, "BOX2D/libx86/Release/Box2D.lib" )
 
-PhysicsComponent::PhysicsComponent(fpoint position, fpoint dimentions)
+PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions)
 {
-	SetPosition(position.x, position.y);
-	SetVelocity(0, 0);
-	SetAcceleration(0, 0);
-	SetDimentions(dimentions.x, dimentions.y);
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(position.x,position.y);
-	body = game->physics->world->CreateBody(&bodyDef);
-	
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(dimentions.x, dimentions.y);
+	 if(type ==ColliderType::BOX_COLLIDER)
+	 {
+		SetPosition(position.x, position.y);
+		SetDimentions(dimentions.x, dimentions.y);
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &boxShape;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 0.45f;
+		b2BodyDef bodyDef;
+		bodyDef.type = bodyType;
+		bodyDef.position.Set(position.x, position.y);
+		body = game->physics->GetWorld()->CreateBody(&bodyDef);
 
-	fixture = body->CreateFixture(&fixtureDef);
+		b2PolygonShape boxShape;
+		boxShape.SetAsBox(dimentions.x, dimentions.y);
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &boxShape;
+		fixtureDef.density = 1.0f;
+		fixtureDef.friction = 0.3f;
+		fixtureDef.restitution = 1.0f;
+
+		fixture = body->CreateFixture(&fixtureDef);
+		debugTexture = game->textures->Load("images/test.png");
+	 }
+	 else if(type == ColliderType::NONE)
+	 {
+	 }
+
 }
 
 PhysicsComponent::~PhysicsComponent()
 {
+}
+
+fpoint PhysicsComponent::GetDimentions()
+{
+	return dimentions;
 }
 
 
@@ -66,3 +80,14 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 {
 	rotationAngle = rotation;
 }
+
+void PhysicsComponent::DebugDraw()
+{
+	//very very wack right now
+	debugTexture = game->textures->Load("images/test.png");
+
+	if(debugTexture != nullptr)
+	game->render->AddTextureEvent(5, debugTexture, { this->GetBody()->GetPosition().x,-this->GetBody()->GetPosition().y }, 0, 0, { (int)this->GetDimentions().x, (int)this->GetDimentions().y }, false, 255, true, 1.0f, this->GetBody()->GetAngle(), fpoint(this->GetDimentions().x / 2, this->GetDimentions().y / 2));
+}
+
+

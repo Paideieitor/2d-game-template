@@ -14,15 +14,25 @@ public:
 	bool SetUp(pugi::xml_node&);
 	bool Update(float dt);
 	bool CleanUp();
+	b2World* GetWorld();
 
-	b2World* world;
+	void CreateWorld(b2Vec2* gravity);
+	void CreateGround();
+
+	void AddPhysicsObject(PhysicsComponent* object);
+	void PhysicsDebugDraw();
+
 	b2Body* groundBody;
 	PhysicsComponent* box;
 	PhysicsComponent* box1;
 	PhysicsComponent* box2;
+	PhysicsComponent* ground;
+
+
 
 private:
-
-	b2Vec2* gravity;
+	vector<PhysicsComponent*> physicsObjects;
+	b2World* world;
+	float gravity = -9.8f;
 
 };

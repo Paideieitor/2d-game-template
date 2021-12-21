@@ -2,6 +2,8 @@
 
 class b2Body;
 class b2Fixture;
+class Texture;
+enum  b2BodyType;
 
 enum ColliderType
 {
@@ -14,9 +16,9 @@ class PhysicsComponent
 {
 public:
 
-	PhysicsComponent(fpoint position, fpoint dimentions);
+	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions);
 	~PhysicsComponent();
-
+	fpoint GetDimentions();
 	b2Body* GetBody();
 
 	void SetPosition(float x, float y);
@@ -24,6 +26,8 @@ public:
 	void SetAcceleration(float x, float y);
 	void SetDimentions(float x, float y);
 	void SetRotationAngle(float rotation);
+
+	void DebugDraw();
 
 private:
 
@@ -38,4 +42,6 @@ private:
 
 	b2Fixture* fixture = nullptr;
 
+
+	Texture* debugTexture;
 };

@@ -7,8 +7,6 @@
 
 //TEST
 #include "Physics.h"
-#include "PhysicsComponent.h"
-//
 
 MainMenu::MainMenu()
 {
@@ -38,14 +36,11 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, true, 1.0f, 30, fpoint(test->GetSize().x/2,test->GetSize().y/2));
+	game->render->AddTextureEvent(5, test, { 50,100 }, 0, 0, test->GetSize());
 
-	//TEST
-	game->render->AddRectangleEvent(5, { game->physics->box->GetBody()->GetPosition().x,-game->physics->box->GetBody()->GetPosition().y }, 30, 30, { 122, 129, 10, 255 });
-	game->render->AddRectangleEvent(5, { game->physics->box1->GetBody()->GetPosition().x,-game->physics->box1->GetBody()->GetPosition().y }, 30, 30, { 222, 12, 10, 255 });
-	game->render->AddRectangleEvent(5, { game->physics->box2->GetBody()->GetPosition().x,-game->physics->box2->GetBody()->GetPosition().y }, 30, 30, { 2, 129, 10, 55 });
-	game->render->AddRectangleEvent(5, { game->physics->groundBody->GetPosition().x,-game->physics->groundBody->GetPosition().y }, 5000, 12, { 122, 129, 10, 255 });
-	//
+	//Physics test
+	game->physics->PhysicsDebugDraw();
+
 	game->render->AddRectangleEvent(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;
