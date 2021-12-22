@@ -7,7 +7,6 @@
 Physics::Physics()
 {
 	CreateWorld(&b2Vec2(0.0f, gravity));
-	CreateGround();
 }
 
 Physics::~Physics()
@@ -17,10 +16,14 @@ Physics::~Physics()
 
 bool Physics::SetUp(pugi::xml_node&)
 {
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 401,3 }, { 20,23 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,2 }, { 15,20 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 402,6 }, { 20,44 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_staticBody, { 0,-700 }, { 5000,20 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 40,23 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,30 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,90 }, { 23,44 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,20 }, { 23,44 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,50 }, { 23,44 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,110 }, { 23,44 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,240 }, { 23,44 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_staticBody, { 40,-1000 }, { 500,20 }));
 	return true;
 }
 
@@ -44,20 +47,6 @@ b2World* Physics::GetWorld()
 void Physics::CreateWorld(b2Vec2* gravity)
 {
 	world = new b2World(*gravity);
-}
-
-void Physics::CreateGround()
-{
-	// Create gorund
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -700.0f);
-	groundBodyDef.type = b2BodyType::b2_staticBody;
-	groundBody = world->CreateBody(&groundBodyDef);
-
-	//Make ground fixture (structure, the form of the object)
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(5000.0f, 10.0f);
-	groundBody->CreateFixture(&groundBox, 1.0f);
 }
 
 void Physics::AddPhysicsObject(PhysicsComponent* object)
