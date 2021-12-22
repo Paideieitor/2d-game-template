@@ -20,10 +20,7 @@ bool Physics::SetUp(pugi::xml_node&)
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,30 }));
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,90 }, { 23,44 }));
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,20 }, { 23,44 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,50 }, { 23,44 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,110 }, { 23,44 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 540,240 }, { 23,44 }));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_staticBody, { 40,-1000 }, { 500,20 }));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_staticBody, { 40,-1000 }, { 5000,20 }));
 	return true;
 }
 
