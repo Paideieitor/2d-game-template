@@ -6,7 +6,7 @@
 #include "BOX2D/Box2D/Box2D.h"
 #pragma comment( lib, "BOX2D/libx86/Release/Box2D.lib" )
 
-PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions)
+PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float density, float friction, float restitution)
 {
 	 if(type ==ColliderType::BOX_COLLIDER)
 	 {
@@ -23,9 +23,9 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &boxShape;
-		fixtureDef.density = 1.0f;
-		fixtureDef.friction = 0.3f;
-		fixtureDef.restitution = 0.7f;
+		fixtureDef.density = density;
+		fixtureDef.friction = friction;
+		fixtureDef.restitution = restitution;
 
 		fixture = body->CreateFixture(&fixtureDef);
 		debugTexture = game->textures->Load("images/test.png");

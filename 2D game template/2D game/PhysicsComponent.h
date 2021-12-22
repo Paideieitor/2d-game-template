@@ -16,7 +16,7 @@ class PhysicsComponent
 {
 public:
 
-	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions);
+	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float density, float friction,float restitution);
 	~PhysicsComponent();
 	fpoint GetDimentions();
 	b2Body* GetBody();
