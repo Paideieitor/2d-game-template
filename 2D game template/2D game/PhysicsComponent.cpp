@@ -87,9 +87,7 @@ void PhysicsComponent::DebugDraw()
 	debugTexture = game->textures->Load("images/test.png");
 
 	if(debugTexture != nullptr)
-	//game->render->AddTextureEvent(5, debugTexture, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, this->GetBody()->GetAngle() * 57.2958f, fpoint(this->GetDimentions().x / 2, this->GetDimentions().y / 2));
-
-	game->render->AddTextureEvent(5, debugTexture, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, this->GetBody()->GetAngle() * 57.2958f, fpoint(this->GetDimentions().x, this->GetDimentions().y));
+		game->render->AddTextureEvent(5, debugTexture, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f,- this->GetBody()->GetAngle() * 57.2958f, fpoint(this->GetDimentions().x, this->GetDimentions().y));
 }
 
 
