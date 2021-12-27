@@ -16,7 +16,7 @@ class PhysicsComponent
 {
 public:
 
-	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float density, float friction,float restitution);
+	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions,float rotation, float density, float friction,float restitution,bool isSensor);
 	~PhysicsComponent();
 	fpoint GetDimentions();
 	b2Body* GetBody();
@@ -31,6 +31,7 @@ public:
 
 private:
 
+	void DrawRectangle();
 	b2Body* body = nullptr;
 	fpoint position;
 	fpoint velocity;
@@ -39,9 +40,7 @@ private:
 	float rotationAngle;
 	ColliderType colliderType = ColliderType::NONE;
 
+	Texture* test;
 
 	b2Fixture* fixture = nullptr;
-
-
-	Texture* debugTexture;
 };
