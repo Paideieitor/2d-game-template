@@ -1,206 +1,197 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de origen">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Archivos de recursos\Modules">
-      <UniqueIdentifier>{67ba227c-deee-4e61-b4ad-e4870bf63575}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\Modules\Image">
-      <UniqueIdentifier>{3e311cc1-6779-4220-bdcb-19d8af0ec9b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\xml">
-      <UniqueIdentifier>{e0e25557-4780-4cda-ba91-02a2cde3bdf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\Scenes">
-      <UniqueIdentifier>{798e56b7-8aa5-4034-982b-069b34608a0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\Modules\Managers">
-      <UniqueIdentifier>{a43bbd5d-9958-42eb-8a2d-c51998466680}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\UIElements">
-      <UniqueIdentifier>{766414e3-578d-47cb-b540-5eef1d8f064f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\Util">
-      <UniqueIdentifier>{b9023f9c-7287-432d-9033-a036108745bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de recursos\Physics">
-      <UniqueIdentifier>{34ae78f5-f65a-454d-9e74-97299a9087d0}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="pugixml.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Archivos de recursos\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionsMenu.cpp">
-      <Filter>Archivos de recursos\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
+    <ClCompile Include="2D game.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Fonts.cpp">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="ButtonArray.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Scrollbar.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="InputBox.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClCompile>
-    <ClCompile Include="2D game.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Archivos de recursos\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="UIElement.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Label.cpp">
-      <Filter>Archivos de recursos\UIElements</Filter>
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
-      <Filter>Archivos de recursos</Filter>
+      <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Archivos de recursos\Physics</Filter>
+    <ClCompile Include="Console.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="InputBox.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Physics.cpp">
-      <Filter>Archivos de recursos\Physics</Filter>
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Scrollbar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Modules\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Modules\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Modules\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Fonts.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Module.h">
-      <Filter>Archivos de origen</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Archivos de origen</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Archivos de recursos</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Archivos de recursos</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Fonts.h">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Archivos de recursos\Modules\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>Archivos de recursos\Modules\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Console.h">
-      <Filter>Archivos de recursos\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Archivos de recursos\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClInclude>
-    <ClInclude Include="UIElement.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ButtonArray.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Scrollbar.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
+    <ClInclude Include="Color.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="InputBox.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Archivos de recursos\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionsMenu.h">
-      <Filter>Archivos de recursos\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Archivos de recursos\Scenes</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
-      <Filter>Archivos de recursos\UIElements</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Archivos de recursos\Physics</Filter>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
-      <Filter>Archivos de recursos\Physics</Filter>
+      <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scrollbar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Modules\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Modules\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Modules\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Fonts.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{4224771b-e54e-4e46-a9d0-d6bd06abc145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{da10931f-e5c6-461e-80c9-f76faa9730a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{e83ec772-6490-4f06-80ed-e62baaf71581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{add1170c-0ba1-435b-88d1-37fc58ff3e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML">
+      <UniqueIdentifier>{4bf95b9a-3cd0-48f5-a2a1-7b033b421d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{843dee5d-2865-41a0-873a-6f8a045d56c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{a0a1559b-1e2a-483e-ab4e-837c726c04ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Image &amp; Audio">
+      <UniqueIdentifier>{d3930ca9-49b0-4e46-9156-cf7d60dafe74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Managers">
+      <UniqueIdentifier>{8e455241-c126-4f08-bd00-3c18a00e80e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
-      <Filter>Archivos de recursos\xml</Filter>
+      <Filter>XML</Filter>
     </Xml>
   </ItemGroup>
 </Project>

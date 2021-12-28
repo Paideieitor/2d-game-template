@@ -4,7 +4,7 @@
 #include "Textures.h"
 
 #include "BOX2D/Box2D/Box2D.h"
-#pragma comment( lib, "BOX2D/libx86/Release/Box2D.lib" )
+#pragma comment( lib, "BOX2D/libfiles/ReleaseBox2d/Box2D.lib" )
 
 PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float rotation, float density, float friction, float restitution, bool isSensor)
 {
@@ -107,7 +107,7 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 void PhysicsComponent::DebugDraw()
 {
 	test = game->textures->Load("images/test.png");
-		game->render->AddTextureEvent(5, test, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, -(this->GetBody()->GetAngle() * 57.2958f), fpoint(this->GetDimentions().x, this->GetDimentions().y));
+		game->render->RenderTexture(5, test, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, -(this->GetBody()->GetAngle() * 57.2958f), fpoint(this->GetDimentions().x, this->GetDimentions().y));
 		
 		//fpoint* point1 = new fpoint(this->GetBody()->GetPosition().x - (this->GetDimentions().x / 2),-this->GetBody()->GetPosition().y - (this->GetDimentions().y / 2));
 		//fpoint* point2 = new fpoint(this->GetBody()->GetPosition().x + (this->GetDimentions().x / 2), -this->GetBody()->GetPosition().y + (this->GetDimentions().y / 2));

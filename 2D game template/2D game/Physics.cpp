@@ -2,7 +2,7 @@
 #include "PhysicsComponent.h"
 #include "Input.h"
 #include "BOX2D/Box2D/Box2D.h"
-#pragma comment( lib, "BOX2D/libx86/Release/Box2D.lib" )
+#pragma comment( lib, "BOX2D/libfiles/ReleaseBox2d/Box2D.lib" )
 
 Physics::Physics()
 {
