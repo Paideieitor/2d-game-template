@@ -52,11 +52,17 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void AddRectangleEvent(int layer, fpoint position, int width, int height, Color color, bool usescale = true, float speed = 1.0f, bool filled = true);
-	void AddCircleEvent(int layer, fpoint center, int r, Color color, bool usescale = false, float speed = 1.0f, bool filled = true) {}
-	void AddTextureEvent(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
+	void RenderRectangle(int layer, fpoint position, ipoint size, Color color, bool usescale = true, float speed = 1.0f, bool filled = true)
+	{
+		RenderRectangle(layer, position, size.x, size.y, color, usescale, speed, filled);
+	}
+	void RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale = true, float speed = 1.0f, bool filled = true);
+	void RenderCircle(int layer, fpoint center, int r, Color color, bool usescale = false, float speed = 1.0f, bool filled = true) {}
+	void RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
 
 	void ClearEvents();
+
+	ipoint GetCameraPosition(bool worldposition = false);
 
 	SDL_Renderer* renderer;
 

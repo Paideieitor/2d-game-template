@@ -4,9 +4,9 @@
 #include "SceneManager.h"
 #include "Textures.h"
 
-UIElement::UIElement(Observer observer) : observer(observer)
+UIElement::UIElement(const Type& type, const fpoint& position, Texture* texture, bool worldposition, const Observer& observer)
+	: type(type), active(true), position(position), size(ipoint(0,0)), worldposition(worldposition), state(State::IDLE), texture(texture), observer(observer)
 {
-	clickable = false;
 	game->ui->elements.push_back(this);
 	if (this->observer.IsEmpty())
 		this->observer.Fill(game->scenes->currentscene);

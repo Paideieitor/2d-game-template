@@ -45,16 +45,16 @@ unsigned int AssetManager::LoadData(const char* file, char** buffer) const
 
 	if (data_file != nullptr)
 	{
-		int file_lenght = PHYSFS_fileLength(data_file);								
+		PHYSFS_sint64 file_lenght = PHYSFS_fileLength(data_file);
 		*buffer = new char[(unsigned int)file_lenght];
-		unsigned int readed = PHYSFS_read(data_file, *buffer, 1, (unsigned int)file_lenght);
+		PHYSFS_sint64 readed = PHYSFS_read(data_file, *buffer, 1, (PHYSFS_uint32)file_lenght);
 		if (readed != file_lenght)													
 		{	
 			cout << "Asset Manager data loading -> Bad Thing, Error in " << file << " -> " << PHYSFS_getLastError() << endl;
 			delete buffer;														
 		}
 		else
-			output = readed;
+			output = (unsigned int)readed;
 				
 		PHYSFS_close(data_file);													
 	}

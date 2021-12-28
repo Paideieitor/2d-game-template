@@ -18,10 +18,16 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void DestroyElement(UIElement*);
+private:
+
 	void EraseElement(UIElement* element);
+	bool IsFocused(UIElement*);
+
+private:
 
 	vector<UIElement*> elements;
+
+	friend class UIElement;
 };
 
 #endif

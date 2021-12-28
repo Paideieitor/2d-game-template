@@ -1,114 +1,126 @@
 #include "Button.h"
-
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
 
-Button::Button() : UIElement(Observer())
-{
-	type = BUTTON;
-	state = NOTPRESSED;
-}
+#include "Label.h"
 
-Button::Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, Observer observer) : UIElement(observer)
+Button::Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, Button::Type presstype,
+	bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false)
 {
-	type = BUTTON;
-	state = NOTPRESSED;
-
-	if (name != "")
+	if (text.size() > 0 && font)
 	{
-		text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
-		textposition = game->Center(text->GetSize(), position, { (int)size.x,(int)size.y });
+		label = new Label(text, font, fontcolor, position, worldposition);
+		if (!texture)
+			SetSize(game->ResizeIPoint(label->GetSize(), RECT_SIZE_MULTIPLIER));
 	}
-	else
-		text = nullptr;
 
-	this->name = name;
-	this->font = font;
-	this->position = position;
-	this->size = size;
-	this->maincolor = maincolor;
-	this->presstype = presstype;
-	this->worldposition = worldposition;
+	CenterLabel();
 }
 
 Button::~Button()
 {
-	game->textures->Unload(text);
+	if (label)
+		delete label;
 }
 
-void Button::Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype, bool worldposition, Observer observer)
+UIElement::Output Button::Update(float dt)
 {
-	if (name != "")
-	{
-		text = game->textures->LoadText(font, name.c_str(), { 0,0,0,255 });
-		textposition = game->Center(text->GetSize(), position, { (int)size.x,(int)size.y });
-	}
-	else
-		text = nullptr;
+	color = Color::red;
 
-	this->name = name;
-	this->position = position;
-	this->size = size;
-	this->maincolor = maincolor;
-	this->presstype = presstype;
-	this->worldposition = worldposition;
-
-	this->observer = observer;
-}
-
-elementstate Button::Update(float dt)
-{
-	elementstate output = OK;
-
-	Color color;
-
-	if (presstype == REPEATPRESS && state == PRESSED && game->input->GetButton(1) == REPEAT) 
-	{}
-	else if (clickable)
-	{
-		if(presstype != LOCKONCLICK)
-			state = HOVER;
-		if (game->input->GetButton(1) == DOWN)
-			if(presstype != LOCKONCLICK)
-				state = PRESSED;
-			else
-				switch (state)
-				{
-				case PRESSED:
-					state = NOTPRESSED;
-					break;
-				case NOTPRESSED:
-					state = PRESSED;
-					break;
-				}
-	}
-	else if (presstype != LOCKONCLICK)
-		state = NOTPRESSED;
+	if (repeat)
+		if (game->input->GetButton(1) == keystate::UP)
+			repeat = false;
+		else
+			SetClicked();
 
 	switch (state)
 	{
-	case NOTPRESSED:
-		color = maincolor;
+	case UIElement::State::IDLE:
 		break;
-	case PRESSED:
-		color = maincolor + 30;
+	case UIElement::State::HOVER:
+		color.r -= 100;
+		break;
+	case UIElement::State::CLICK:
+		color.b += 100;
+		switch (presstype)
+		{
+		case Button::Type::LOCKONCLICK:
+			locked = !locked;
+			break;
+		case Button::Type::REPEATPRESS:
+			repeat = true;
+			break;
+		}
 		observer.UIEvent(this);
 		break;
-	case HOVER:
-		color = maincolor - 30;
+	case UIElement::State::DISABLED:
 		break;
 	}
 
-	game->render->AddRectangleEvent(20, position, size.x, size.y, color, worldposition);
+	if (locked)
+		color = Color::blue;// color.a -= 100;
 
-	if (text)
-		game->render->AddTextureEvent(20, text, textposition, 0, 0, text->GetSize(), false, color.a, worldposition);
-
-	return output;
+	return UIElement::Output::NO_MODIFY;
 }
 
-bool Button::CleanUp()
+void Button::Render()
 {
-	return true;
+	if (texture)
+		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, GetSize(), false, color.a);
+	else
+		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
+}
+
+const string Button::GetText() const
+{
+	return label ? label->GetText() : "";
+}
+
+Font* const Button::GetFont() const
+{
+	return label ? label->GetFont() : nullptr;
+}
+
+const Color Button::GetColor() const
+{
+	return label ? label->GetColor() : Color::black;
+}
+
+void Button::ChangeText(const string& text)
+{
+	if (label)
+	{
+		label->ChangeText(text);
+		CenterLabel();
+	}
+}
+
+void Button::ActiveChanged()
+{
+	label->SetActive(IsActive());
+}
+
+void Button::PositionChanged()
+{
+	CenterLabel();
+}
+
+void Button::SizeChanged()
+{
+	CenterLabel();
+}
+
+void Button::WorldPosChanged()
+{
+	label->EnableWorldPos(IsWorldPos());
+}
+
+void Button::CenterLabel()
+{
+	if (!label)
+		return;
+
+	label->SetPosition(game->Center(label->GetSize(), GetPosition(), GetSize()));
 }

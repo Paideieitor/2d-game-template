@@ -1,9 +1,16 @@
-#include "Scenes.h"
+#include "OptionsMenu.h"
 
 #include "Render.h"
 #include "Window.h"
 #include "Audio.h"
 #include "SceneManager.h"
+
+#include "Fonts.h"
+#include "Textures.h"
+
+#include "Button.h"
+#include "ButtonArray.h"
+#include "Scrollbar.h"
 
 OptionsMenu::OptionsMenu()
 {
@@ -23,24 +30,39 @@ bool OptionsMenu::Start()
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	fullscreen = new Button("fullscreen", buttonfont, game->Center({ 300,70 }, { 0,0 }, game->render->resolution, { 0,100 }, true, false), { 300,70 }, { 75,75,255,255 });
+	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Button::Type::LOCKONCLICK);
+	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->resolution, { 0,100 }, true, false));
+	fullscreen->Lock(game->window->IsFullscreen());
 
-	borderless = new Button("borderless", buttonfont, game->Center({ 300,70 }, { 0,0 }, game->render->resolution, { 0,250 }, true, false), { 300,70 }, { 75,75,255,255 });
+	borderless = new Button("Borderless", buttonfont, Color::black, { 0.0f, 0.0f });
+	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->resolution, { 0,250 }, true, false));
 
-	resolution = new ButtonArray("resolution", buttonfont, game->Center({ 400,70 }, { 0,0 }, game->render->resolution, { 0,400 }, true, false), { 400,70 }, { 75,75,255,255 });
+	vector<string> resolutuonoptions;
+	pugi::xml_node arraynode = game->scenes->mainnode.child(name.c_str()).child("resolution");
+	int current = arraynode.attribute("current").as_int();
+	pugi::xml_node button = arraynode.first_child();
+	for (button; button != NULL; button = button.next_sibling())
+		resolutuonoptions.push_back(button.attribute("name").as_string());
+	resolution = new ButtonArray("Resolution", buttonfont, Color::black, resolutuonoptions, fpoint(0, 0));
+	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->resolution, { 0,400 }, true, false));
 
-	music = new Scrollbar("music", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,550 }, true, false), { 500,20 }, { 0,0,255,255 }, (float)game->audio->GetMusicVolume(), buttonfont, true);
+	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Scrollbar::Type::INT);
+	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->resolution, { 0,550 }, true, false));
+	music->SetValue((float)game->audio->GetMusicVolume());
 
-	sfx = new Scrollbar("sfx", buttonfont, game->Center({ 500,20 }, { 0,0 }, game->render->resolution, { 0,700 }, true, false), { 500,20 }, { 0,0,255,255 }, (float)game->audio->GetSfxVolume(), buttonfont, true);
+	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Scrollbar::Type::INT);
+	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->resolution, { 0,700 }, true, false));
+	sfx->SetValue((float)game->audio->GetSfxVolume());
 
-	tomenu = new Button("main menu", buttonfont, game->Center({ 300,70 }, { 0,0 }, game->render->resolution, { 0,850 }, true, false), { 300,70 }, { 75,75,255,255 });
+	tomenu = new Button("Main Menu", buttonfont, Color::black, { 0.0f, 0.0f });
+	tomenu->SetPosition(game->Center(tomenu->GetSize(), { 0,0 }, game->render->resolution, { 0,850 }, true, false));
 
 	return true;
 }
 
 bool OptionsMenu::Update(float dt)
 {
-	game->render->AddRectangleEvent(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
+	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;
 }
@@ -57,76 +79,24 @@ bool OptionsMenu::CleanUp()
 void OptionsMenu::UIEvent(UIElement* element)
 {
 	if (element == fullscreen)
-	{ 
-		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str()).child("fullscreen");
-		bool fullscreen = node.attribute("value").as_bool();
-		
-		game->window->SetFullscreen(fullscreen);
-		if (fullscreen)
-			node.attribute("value").set_value("false");
-		else
-			node.attribute("value").set_value("true");
-		
-		game->document.save_file("config.xml");
-	}
+		game->window->SetFullscreen(!game->window->IsFullscreen());
 	else if (element == borderless)
-	{
-		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str()).child("borderless");
-		bool borderless = !node.attribute("value").as_bool();
-
-		game->window->SetBorderless(borderless);
-		node.attribute("value").set_value(borderless);
-
-		game->document.save_file("config.xml");
-	}
+		game->window->SetBorderless(!game->window->IsBorderless());
 	else if (element == resolution)
 	{
-		string current = resolution->GetArrayCurrent();
-		string x;
-		string y;
+		string current = resolution->GetCurrent();
+		int cut = current.find_first_of('x');
 		ipoint res;
-		
-		bool change = false;
-		for (string::iterator s = current.begin(); s != current.end(); s++)
-		{
-			if (!change)
-				if (*s != 'x')
-					x.push_back(*s);
-				else
-					change = true;
-			else
-				y.push_back(*s);
-		}
-		
-		res.x = game->StringToInt(x);
-		res.y = game->StringToInt(y);
+		res.x = game->StringToInt(current.substr(0, cut));
+		res.y = game->StringToInt(current.substr(cut + 1));
 		
 		game->window->SetWindowSize(res);
 		game->window->CenterWindowPosition();
-		
-		pugi::xml_node node = game->document.first_child().child(game->window->name.c_str());
-		
-		node.attribute("width").set_value(res.x);
-		node.attribute("height").set_value(res.y);
-		
-		game->document.save_file("config.xml");
 	}
 	else if (element == music)
-	{
-		int volume = (int)music->GetBarValue();
-
-		game->audio->SetMusicVolume(volume);
-	}
+		game->audio->SetMusicVolume((int)music->GetValue());
 	else if (element == sfx)
-	{
-		int volume = (int)sfx->GetBarValue();
-
-		game->audio->SetSfxVolume(volume);
-	}
+		game->audio->SetSfxVolume((int)sfx->GetValue());
 	else if (element == tomenu)
-	{
-		game->window->SetGrabbed(true);
-		game->scenes->ChangeScene(game->scenes->menu);
-	}
-
+		game->scenes->ChangeScene(Scenes::MENU);
 }

@@ -99,6 +99,12 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Archivos de recursos\UIElements</Filter>
     </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Archivos de recursos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -121,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Archivos de recursos\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes.h">
-      <Filter>Archivos de recursos\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Archivos de recursos\Modules\Managers</Filter>
@@ -165,6 +168,18 @@
       <Filter>Archivos de recursos\UIElements</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>Archivos de recursos\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Archivos de recursos\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
+      <Filter>Archivos de recursos\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Archivos de recursos\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
       <Filter>Archivos de recursos\UIElements</Filter>
     </ClInclude>
   </ItemGroup>

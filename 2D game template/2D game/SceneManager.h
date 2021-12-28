@@ -7,6 +7,13 @@ class Scene;
 class MainMenu;
 class OptionsMenu;
 
+enum class Scenes
+{
+	NONE,
+	MENU,
+	OPTIONS
+};
+
 class SceneManager : public Module
 {
 public:
@@ -20,8 +27,8 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void ChangeScene(Scene*);
-	bool changing;
+	void ChangeScene(Scenes);
+	const bool ChangingScenes() const { return changing; }
 
 	MainMenu* menu;
 	OptionsMenu* options;
@@ -35,6 +42,8 @@ private:
 	Scene* nextscene;
 
 	vector<Scene*> scenes;
+
+	bool changing;
 };
 
 #endif

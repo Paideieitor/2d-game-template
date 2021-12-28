@@ -6,32 +6,26 @@
 template <class data>
 struct point
 {
-	point(){}
-	point(const data &all)
-	{
-		this->x = all;
-		this->y = all;
-	}
-	point(const data &x, const data &y)
-	{
-		this->x = x;
-		this->y = y;
-	}
-	point(const point &p)
-	{
-		x = p.x;
-		y = p.y;
-	}
+	point() : x((data)0), y((data)0) {}
+	point(const data &all) : x(all), y(all) {}
+	point(const data& x, const data& y) : x(x), y(y) {}
+	point(const point &p) : x(p.x), y(p.y) {}
 	~point() {}
 
 	//DATA
-	data x;
-	data y;
+	data x = 0;
+	data y = 0;
 	//UTILITY
 	void Zero()
 	{
 		x = 0;
 		y = 0;
+	}
+	const bool IsZero() const
+	{
+		if (x == 0 && y == 0)
+			return true;
+		return false;
 	}
 	void Negate(const bool x = true, const bool y = true)
 	{
@@ -49,9 +43,7 @@ struct point
 	bool operator==(const point& p) const
 	{
 		if (x == p.x && y == p.y)
-		{
 			return true;
-		}
 		return false;
 	}
 	//ADDITION

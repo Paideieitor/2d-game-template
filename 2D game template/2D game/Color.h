@@ -5,15 +5,10 @@
 
 struct Color
 {
-	Color(unsigned int r = 0u, unsigned int g = 0u, unsigned int b = 0u, unsigned int a = 255u)
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = a;
-	}
+	Color() : r(SDL_MAX_UINT32), g(SDL_MAX_UINT32), b(SDL_MAX_UINT32), a(SDL_MAX_UINT32) {}
+	Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a = 255u) : r(r), g(g), b(b), a(a) {}
 
-	SDL_Color ToSDL()
+	SDL_Color ToSDL() const
 	{
 		SDL_Color output = { (Uint8)r, (Uint8)g, (Uint8)b, (Uint8)a };
 
@@ -32,50 +27,50 @@ struct Color
 		this->a = a;
 	}
 
-	void Red(unsigned int a = -1)
+	void SetRed(int a = -1)
 	{
 		r = 255u;
 		g = 0u;
 		b = 0u;
 
-		if (a >= 0)
-			this->a = a;
+		if (a >= 0 && a <= 255)
+			this->a = (unsigned int)a;
 	}
-	void Green(unsigned int a = -1)
+	void SetGreen(int a = -1)
 	{
 		r = 0u;
 		g = 255u;
 		b = 0u;
 
-		if (a >= 0)
-			this->a = a;
+		if (a >= 0 && a <= 255)
+			this->a = (unsigned int)a;
 	}
-	void Blue(unsigned int a = -1)
+	void SetBlue(int a = -1)
 	{
 		r = 0u;
 		g = 0u;
 		b = 255u;
 
-		if (a >= 0)
-			this->a = a;
+		if (a >= 0 && a <= 255)
+			this->a = (unsigned int)a;
 	}
-	void White(unsigned int a = -1)
+	void SetBlack(int a = -1)
+	{
+		r = 0u;
+		g = 0u;
+		b = 0u;
+
+		if (a >= 0 && a <= 255)
+			this->a = (unsigned int)a;
+	}
+	void SetWhite(int a = -1)
 	{
 		r = 255u;
 		g = 255u;
 		b = 255u;
 
-		if (a >= 0)
-			this->a = a;
-	}
-	void Black(unsigned int a = -1)
-	{
-		r = 0u;
-		g = 0u;
-		b = 0u;
-
-		if (a >= 0)
-			this->a = a;
+		if (a >= 0 && a <= 255)
+			this->a = (unsigned int)a;
 	}
 
 	unsigned int r;
@@ -83,7 +78,7 @@ struct Color
 	unsigned int b;
 	unsigned int a;
 
-	Color operator+(int n)
+	Color operator+(int n) const
 	{
 		int red = r;
 		int green = g;
@@ -102,7 +97,7 @@ struct Color
 		Color output(red, green, blue, a);
 		return output;
 	}
-	Color operator-(int n)
+	Color operator-(int n) const
 	{
 		int red = r;
 		int green = g;
@@ -122,12 +117,27 @@ struct Color
 		return output;
 	}
 
-	bool operator==(Color color)
+	bool operator==(const Color& color) const
 	{
-		if (color.r == r && color.b == b && color.g == g)
+		if (color.r == r && color.b == b && color.g == g && color.a == a)
 			return true;
 		return false;
 	}
+	bool operator!=(const Color& color) const
+	{
+		if (color.r != r && color.b != b && color.g != g || color.a != a)
+			return true;
+		return false;
+	}
+
+	static const Color red;
+	static const Color green;
+	static const Color blue;
+
+	static const Color black;
+	static const Color white;
+
+	static const Color null;
 };
 
 #endif

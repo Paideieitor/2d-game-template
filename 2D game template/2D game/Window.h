@@ -25,14 +25,20 @@ public:
 
 	void SetTitle(const char* title);
 	void SetState(windowstate state);
-	void SetGrabbed(bool enable);
+
+	const bool IsFullscreen() const { return fullscreen; }
 	void SetFullscreen(bool enable);
+	const bool IsBorderless() const { return borderless; }
 	void SetBorderless(bool enable);
+	const bool IsGrabbed() const { return grabbed; }
+	void SetGrabbed(bool enable);
+
 	void SetWindowSize(ipoint size);
 
 	void CenterWindowPosition();
 
 	const float GetScale() const { return scale; }
+	void SetScale(float scale) { this->scale = scale; }
 
 private:
 	SDL_Window* window;
@@ -43,7 +49,11 @@ private:
 	int height;
 	float scale;
 
+	bool fullscreen;
+	bool borderless;
 	bool grabbed;
+
+	pugi::xml_node node;
 
 	friend class Render;
 };

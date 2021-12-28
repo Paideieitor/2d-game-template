@@ -28,72 +28,58 @@ bool UIManager::Start()
 
 bool UIManager::Update(float dt)
 {
-	fpoint mousepos;
-	ipoint camera = { 0, 0 };
-	bool found = false;
-
-	if (game->input->GetKey(SDL_SCANCODE_Q) == DOWN)
-	{
-		int a = 0;
-	}
-
-	if(elements.size() != 0)
-		for (int e = elements.size() - 1; e > -1; --e)
-		{
-			UIElement* element = *(elements.begin() + e);
-
-			mousepos = game->input->GetMousePos(element->worldposition);
-			camera = { 0, 0 };
-			if (element->worldposition)
-			{
-				camera = { -game->render->camera.x, -game->render->camera.y };
-				camera.x = (int)((float)camera.x / game->window->GetScale());
-				camera.y = (int)((float)camera.y / game->window->GetScale());
-			}
-
-			if (!found && element->position.x < camera.x + mousepos.x && camera.x + mousepos.x < element->position.x + element->size.x &&
-				element->position.y < camera.y + mousepos.y && camera.y + mousepos.y < element->position.y + element->size.y)
-			{
-				element->clickable = true;
-				found = true;
-			}
-			else
-			{
-				element->clickable = false;
-			}
-		}
+	UIElement* focused = nullptr;
 
 	int counter = 0;
-	bool stop = true;
-	while (stop)
+	bool stop = false;
+	while (!stop)
 	{
-		stop = false;
+		stop = true;
 		for (size_t i = counter; i < elements.size(); ++i)
 		{
-			switch (elements[i]->Update(dt))
+			if (!elements[i]->IsActive())
 			{
-			case OK:
-				break;
-			case ERROR:
-				cout << "UIManager Update -> Bad Thing, Error in " << elements[i]->name << endl;
-				return false;
-			case CHILD_CREATION:
-				stop = true;
-				break;
-			case CHILD_DESTRUCTION:
-				stop = true;
-				break;
+				counter++;
+				continue;
 			}
-			counter++;
 
-			if (stop)
-				break;
-			if (game->scenes->changing)
+			if (!elements[i]->IsDisabled())
 			{
-				stop = false;
+				switch (elements[i]->Update(dt))
+				{
+				case UIElement::Output::NO_MODIFY:
+					break;
+				case UIElement::Output::LIST_MODIFY:
+					stop = false;
+					break;
+				case UIElement::Output::ERROR:
+					cout << "UIManager Update -> Bad Thing, Error in element " << i << endl;
+					return false;
+				}
+				counter++;
+
+				elements[i]->SetIdle();
+				if (IsFocused(elements[i]))
+					focused = elements[i];
+			}
+			elements[i]->Render();
+
+			if (!stop)
+				break;
+			if (game->scenes->ChangingScenes())
+			{
+				stop = true;
 				break;
 			}
 		}
+	}
+
+	if (focused)
+	{
+		if (game->input->GetButton(1) == keystate::DOWN)
+			focused->SetClicked();
+		else
+			focused->SetHover();
 	}
 
 	return true;
@@ -107,17 +93,6 @@ bool UIManager::CleanUp()
 	return true;
 }
 
-void UIManager::DestroyElement(UIElement* element)
-{
-	for (vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
-		if (element == *e)
-		{
-			delete *e;
-			elements.erase(e);
-			break;
-		}
-}
-
 void UIManager::EraseElement(UIElement* element)
 {
 	for (vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
@@ -126,4 +101,21 @@ void UIManager::EraseElement(UIElement* element)
 			elements.erase(e);
 			break;
 		}
+}
+
+bool UIManager::IsFocused(UIElement* element)
+{
+	if (element->type != UIElement::Type::BUTTON)
+		return false;
+
+	fpoint mousepos = game->input->GetMousePos(element->IsWorldPos());
+	ipoint camera = game->render->GetCameraPosition(element->IsWorldPos());
+
+	fpoint eposition = element->GetPosition();
+	ipoint esize = element->GetSize();
+	if (eposition.x < camera.x + mousepos.x && camera.x + mousepos.x < eposition.x + esize.x &&
+		eposition.y < camera.y + mousepos.y && camera.y + mousepos.y < eposition.y + esize.y)
+		return true;
+
+	return false;
 }

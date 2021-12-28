@@ -3,7 +3,9 @@
 
 #include "UIElement.h"
 
-class Texture;
+class Font;
+
+class Label;
 class Button;
 
 class ButtonArray : public UIElement
@@ -11,32 +13,39 @@ class ButtonArray : public UIElement
 public:
 
 	ButtonArray() = delete;
-	ButtonArray(string name, Font* font, fpoint position, ipoint size, Color buttoncolor, Font* subfont = nullptr, bool worldposition = false);
+	ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, Texture* texture = nullptr,
+		bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
-	elementstate Update(float dt);
-	bool CleanUp();
+	UIElement::Output Update(float dt) override;
+	void Render() override;
 
-	void UIEvent(UIElement*);
+	void UIEvent(UIElement*) override;
 
-	string GetArrayCurrent();
+	const string GetCurrent() const;
 
-	bool displaying;
-	int current;
+private:
 
-	Texture* maintext;
-	fpoint mainposition;
+	void ActiveChanged() override;
+	void PositionChanged() override;
+	void SizeChanged() override;
+	void WorldPosChanged() override;
 
-	fpoint currentposition;
-	ipoint currentsize;
+	void CreateButtons();
+	void DeleteButtons();
+	void PlaceButtons();
 
-	Font* subfont;
+private:
 
-	Button* mainbutton;
+	Label* text;
+	ipoint textsize; // size of the non-clickable part
 
-	int amount;
-	string* buttonsdata;
-	Button* buttons;
+	Button* current;
+
+	vector<string> options;
+	vector<Button*> buttons;
+
+	string change;
 };
 
 #endif

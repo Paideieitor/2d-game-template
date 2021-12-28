@@ -15,7 +15,7 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	ipoint GetSize() { return size; }
+	const ipoint GetSize() const { return size; }
 
 private:
 
@@ -52,7 +52,7 @@ public:
 
 	Texture* Load(const char* path);
 	Texture* LoadText(Font* font, const char* text, Color color);
-	void Unload(Texture*);
+	void Unload(Texture*&);
 
 	void ChangeTexture(Texture*& source, Texture*& destination);
 

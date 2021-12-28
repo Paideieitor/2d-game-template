@@ -59,8 +59,11 @@ public:
 
 	//FUNCTIONALITY
 	fpoint Center(ipoint objsize, fpoint position, ipoint size, fpoint objposition = { 0,0 }, bool horizontal = true, bool vertical = true);
+	ipoint ResizeIPoint(const ipoint& size, float multiplier);
+
 	int StringToInt(string);
 	string IntToString(int);
+	string FloatToString(float);
 
 private:
 

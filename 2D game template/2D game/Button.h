@@ -3,41 +3,62 @@
 
 #include "UIElement.h"
 
-class Texture;
+#define RECT_SIZE_MULTIPLIER 1.5f
 
-enum buttontype
-{
-	SINGLECLICK,
-	LOCKONCLICK,
-	REPEATPRESS
-};
+class Font;
 
-enum buttonstate
-{
-	NOTPRESSED,
-	PRESSED,
-	HOVER
-};
+class Label;
 
 class Button : public UIElement
 {
 public:
 
-	Button();
-	Button(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, Observer observer = Observer());
+	enum class Type
+	{
+		SINGLECLICK,
+		LOCKONCLICK,
+		REPEATPRESS
+	};
+
+	Button() = delete;
+	Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture = nullptr, 
+		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
-	void Set(string name, Font* font, fpoint position, ipoint size, Color maincolor, buttontype presstype = SINGLECLICK, bool worldposition = false, Observer observer = Observer());
+	UIElement::Output Update(float dt) override;
 
-	elementstate Update(float dt);
-	bool CleanUp();
+	void Render() override;
 
-	Texture* text;
-	fpoint textposition;
+	const bool IsLocked() const { return locked; }
+	void Lock(bool enable) { locked = enable; }
 
-	buttonstate state;
+	const string GetText() const;
+	Font* const GetFont() const;
+	const Color GetColor() const;
 
-	buttontype presstype;
+	void ChangeText(const string& text);
+
+public:
+
+	Button::Type presstype;
+
+private:
+
+	void ActiveChanged() override;
+	void PositionChanged() override;
+	void SizeChanged() override;
+	void WorldPosChanged() override;
+
+	void CenterLabel();
+
+private:
+
+	bool locked;
+	bool repeat;
+
+	Color color;
+
+	Label* label;
 };
 
 #endif

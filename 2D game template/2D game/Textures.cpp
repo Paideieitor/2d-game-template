@@ -87,6 +87,9 @@ Texture* Textures::Load(const char* path)
 
 Texture* Textures::LoadText(Font* font, const char* text, Color color)
 {
+	if (!font)
+		return nullptr;
+
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
 		if ((*t)->path == text && (*t)->font == font && (*t)->color == color)
@@ -122,7 +125,7 @@ Texture* Textures::LoadText(Font* font, const char* text, Color color)
 	return output;
 }
 
-void Textures::Unload(Texture* texture)
+void Textures::Unload(Texture*& texture)
 {
 	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
 	{
@@ -133,6 +136,8 @@ void Textures::Unload(Texture* texture)
 			{
 				delete texture;
 				textures.erase(t);
+
+				texture = nullptr;
 			}
 
 			break;

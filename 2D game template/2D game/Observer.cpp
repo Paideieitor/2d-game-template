@@ -1,7 +1,7 @@
 #include "Observer.h"
 
 #include "UIElement.h"
-#include "Scenes.h"
+#include "Scene.h"
 //#include "Entity.h"
 
 void Observer::Fill(UIElement* element)
@@ -33,7 +33,7 @@ const char* Observer::GetName()
 	switch (type)
 	{
 	case Type::ELEMENT:
-		return element->name.c_str();
+		return "ui element";
 	case Type::SCENE:
 		return scene->name.c_str();
 	case Type::ENTITY:

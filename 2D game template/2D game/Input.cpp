@@ -132,8 +132,7 @@ bool Input::GetTextInput(char& input)
 
 fpoint Input::GetMousePos(bool usescale) const
 {
-	fpoint output;
 	if (usescale)
-		return mouse / game->window->GetScale();
+		return  mouse / game->window->GetScale();
 	return mouse;
 }

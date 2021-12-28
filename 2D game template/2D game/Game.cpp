@@ -25,7 +25,7 @@ Game::Game()
 	textures = new Textures();
 	render = new Render();
 	audio = new Audio();
-	console = new Console();
+	//console = new Console();
 
 	AddModule(input);
 	//FIRST ^
@@ -35,7 +35,7 @@ Game::Game()
 	AddModule(audio);
 	AddModule(fonts);
 	AddModule(ui);
-	AddModule(console);
+	//AddModule(console);
 	AddModule(scenes);
 	//LAST  v
 	AddModule(render);
@@ -156,6 +156,15 @@ fpoint Game::Center(ipoint objsize, fpoint position, ipoint size, fpoint objposi
 	return output;
 }
 
+ipoint Game::ResizeIPoint(const ipoint& size, float multiplier)
+{
+	float x = (float)size.x, y = (float)size.y;
+	x *= multiplier;
+	y *= multiplier;
+
+	return ipoint((int)x, (int)y);
+}
+
 int Game::StringToInt(string number)
 {
 	int output;
@@ -168,6 +177,17 @@ int Game::StringToInt(string number)
 }
 
 string Game::IntToString(int number)
+{
+	string output;
+	stringstream stream;
+
+	stream << number;
+	stream >> output;
+
+	return output;
+}
+
+string Game::FloatToString(float number)
 {
 	string output;
 	stringstream stream;

@@ -50,14 +50,14 @@ bool Render::Update(float dt)
 	SDL_RenderClear(renderer);
 	//FIRST ^
 
-	//if (game->input->GetKey(SDL_SCANCODE_W) == REPEAT)
-	//	camera.y++;
-	//if (game->input->GetKey(SDL_SCANCODE_S) == REPEAT)
-	//	camera.y--;
-	//if (game->input->GetKey(SDL_SCANCODE_A) == REPEAT)
-	//	camera.x++;
-	//if (game->input->GetKey(SDL_SCANCODE_D) == REPEAT)
-	//	camera.x--;
+	if (game->input->GetKey(SDL_SCANCODE_W) == REPEAT)
+		camera.y++;
+	if (game->input->GetKey(SDL_SCANCODE_S) == REPEAT)
+		camera.y--;
+	if (game->input->GetKey(SDL_SCANCODE_A) == REPEAT)
+		camera.x++;
+	if (game->input->GetKey(SDL_SCANCODE_D) == REPEAT)
+		camera.x--;
 	//if (game->input->GetKey(SDL_SCANCODE_Q) == DOWN)
 	//	cout << "camera -> x: " << -camera.x << " y: " << -camera.y << endl;
 	//if (game->input->GetButton(1) == DOWN)
@@ -77,7 +77,7 @@ bool Render::CleanUp()
 	return true;
 }
 
-void Render::AddRectangleEvent(int layer, fpoint position, int width, int height, Color color, bool usescale, float speed, bool filled)
+void Render::RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale, float speed, bool filled)
 {
 	RenderEvent event;
 
@@ -98,7 +98,7 @@ void Render::AddRectangleEvent(int layer, fpoint position, int width, int height
 		eventlist.insert(make_pair(layer, event));
 }
 
-void Render::AddTextureEvent(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+void Render::RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
 	RenderEvent event;
 
@@ -152,6 +152,18 @@ void Render::PrintEvents()
 void Render::ClearEvents()
 {
 	eventlist.erase(eventlist.begin(), eventlist.end());
+}
+
+ipoint Render::GetCameraPosition(bool worldposition)
+{
+	ipoint output = { 0,0 };
+	if (worldposition)
+	{
+		output = { -camera.x, -camera.y };
+		output.x = (int)((float)output.x / game->window->GetScale());
+		output.y = (int)((float)output.y / game->window->GetScale());
+	}
+	return output;
 }
 
 bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)

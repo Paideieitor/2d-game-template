@@ -1,5 +1,7 @@
 #include "SceneManager.h"
-#include "Scenes.h"
+
+#include "MainMenu.h"
+#include "OptionsMenu.h"
 
 #include "Input.h"
 #include "UIManager.h"
@@ -29,7 +31,7 @@ bool SceneManager::Start()
 	menu = new MainMenu();
 	options = new OptionsMenu();
 
-	ChangeScene(menu);
+	ChangeScene(Scenes::MENU);
 
 	return true;
 }
@@ -37,9 +39,9 @@ bool SceneManager::Start()
 bool SceneManager::Update(float dt)
 {
 	if (game->input->GetKey(SDL_SCANCODE_F1) == DOWN)
-		ChangeScene(options);
+		ChangeScene(Scenes::OPTIONS);
 	if (game->input->GetKey(SDL_SCANCODE_F2) == DOWN)
-		ChangeScene(menu);
+		ChangeScene(Scenes::MENU);
 
 	if (nextscene != currentscene)
 	{
@@ -85,11 +87,23 @@ bool SceneManager::CleanUp()
 	return true;
 }
 
-void SceneManager::ChangeScene(Scene* scene)
+void SceneManager::ChangeScene(Scenes scene)
 {
-	if (scene != currentscene)
+	Scene* nextscene = nullptr;
+	switch (scene)
 	{
-		nextscene = scene;
+	case Scenes::NONE:
+		break;
+	case Scenes::MENU:
+		nextscene = menu;
+		break;
+	case Scenes::OPTIONS:
+		nextscene = options;
+		break;
+	}
+	if (nextscene != currentscene)
+	{
+		this->nextscene = nextscene;
 		changing = true;
 	}
 }

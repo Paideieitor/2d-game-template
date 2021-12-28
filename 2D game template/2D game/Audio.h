@@ -45,7 +45,7 @@ private:
 	void FreeSFX();
 	void FreeMusic();
 
-	float audioVolumeOffset = 1.28;
+	float audioVolumeOffset = 1.28f;
 
 	int musicvolume;
 	int sfxvolume;
