@@ -5,6 +5,7 @@
 #include "MIX/include/SDL_mixer.h"
 #pragma comment ( lib, "MIX/lib/SDL2_mixer.lib" )
 
+
 Audio::Audio()
 {
 	name = "audio";
@@ -45,7 +46,7 @@ bool Audio::SetUp(pugi::xml_node& node)
 	PlaySFX(0,-1);
 	
 	//Playing music number 1
-	PlayMusic(1);
+	PlayMusic(0);
 
 	SetMusicVolume(node.attribute("music").as_int());
 	SetSfxVolume(sfxvolume = node.attribute("sfx").as_int());

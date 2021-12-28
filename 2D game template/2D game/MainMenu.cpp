@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "BOX2D/Box2D/Box2D.h"
 #include "Render.h"
 #include "Window.h"
 #include "SceneManager.h"
@@ -10,6 +11,9 @@
 #include "Button.h"
 #include "InputBox.h"
 #include "Label.h"
+
+//TEST
+#include "Physics.h"
 
 MainMenu::MainMenu()
 {
@@ -47,10 +51,14 @@ bool MainMenu::Start()
 bool MainMenu::Update(float dt)
 {
 	game->render->RenderTexture(5, test, { 50,100 }, 0, 0, test->GetSize());
+
+	//Physics test
+	game->physics->PhysicsDebugDraw();
+
 	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
 
 	return true;
-}
+} 
 
 bool MainMenu::CleanUp()
 {

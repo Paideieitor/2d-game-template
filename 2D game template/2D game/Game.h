@@ -26,6 +26,7 @@ class AssetManager;
 class Textures;
 class Audio;
 class Console;
+class Physics;
 
 class Render;
 
@@ -52,6 +53,7 @@ public:
 	Textures* textures;
 	Audio* audio;
 	Console* console;
+	Physics* physics;
 
 	Render* render;
 

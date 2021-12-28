@@ -98,6 +98,20 @@ void Render::RenderRectangle(int layer, fpoint position, int width, int height, 
 		eventlist.insert(make_pair(layer, event));
 }
 
+void Render::AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color)
+{
+	RenderEvent event;
+
+	event.type = LINE;
+
+	event.position = firstPosition;
+	event.secondPosition = secondPosition;
+
+	event.color = color;
+
+	eventlist.insert(make_pair(layer, event));
+}
+
 void Render::RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
 	RenderEvent event;
@@ -137,8 +151,10 @@ void Render::PrintEvents()
 			DrawRect(event.position, event.width, event.height, event.color, event.usescale, event.filled);
 			break;
 		case LINE:
+			DrawLine(event.position, event.secondPosition, event.color);
 			break;
 		case CIRCLE:
+			DrawCircle(event.position, event.radius, event.color);
 			break;
 		case TEXTURE:
 			DrawTexture(event.texture, event.position, event.x, event.y, event.width, event.height, event.flip, event.color.a, event.usescale, event.speed, event.angle, event.pivot);
@@ -243,6 +259,54 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 	}
 
 	return true;
+}
+
+bool Render::DrawLine(fpoint firstPosition, fpoint secondPosition, Color color)
+{
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawLine(renderer, firstPosition.x, firstPosition.y, secondPosition.x, secondPosition.y);
+	return false;
+}
+
+bool Render::DrawCircle(fpoint position, int radius, Color color)
+{
+		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+		SDL_SetRenderDrawColor(renderer, 223, 223, 223, 255);
+		const int32_t diameter = (radius * 2);
+
+		int32_t x = (radius - 1);
+		int32_t y = 0;
+		int32_t tx = 1;
+		int32_t ty = 1;
+		int32_t error = (tx - diameter);
+
+		while (x >= y)
+		{
+			//  Each of the following renders an octant of the circle
+			SDL_RenderDrawPoint(renderer, position.x + x, position.y - y);
+			SDL_RenderDrawPoint(renderer, position.x + x, position.y + y);
+			SDL_RenderDrawPoint(renderer, position.x - x, position.y - y);
+			SDL_RenderDrawPoint(renderer, position.x - x, position.y + y);
+			SDL_RenderDrawPoint(renderer, position.x + y, position.y - x);
+			SDL_RenderDrawPoint(renderer, position.x + y, position.y + x);
+			SDL_RenderDrawPoint(renderer, position.x - y, position.y - x);
+			SDL_RenderDrawPoint(renderer, position.x - y, position.y + x);
+
+			if (error <= 0)
+			{
+				++y;
+				error += ty;
+				ty += 2;
+			}
+
+			if (error > 0)
+			{
+				--x;
+				tx += 2;
+				error += (tx - diameter);
+			}
+		}
+		return true;
 }
 
 bool Render::InCamera(int x, int y, int width, int height)

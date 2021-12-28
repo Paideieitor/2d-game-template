@@ -21,7 +21,9 @@ struct RenderEvent
 	SDL_Texture* texture;
 
 	fpoint position;
+	fpoint secondPosition;
 
+	int radius;
 	int x;
 	int y;
 	int width;
@@ -60,6 +62,8 @@ public:
 	void RenderCircle(int layer, fpoint center, int r, Color color, bool usescale = false, float speed = 1.0f, bool filled = true) {}
 	void RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
 
+	void AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color);
+
 	void ClearEvents();
 
 	ipoint GetCameraPosition(bool worldposition = false);
@@ -76,6 +80,8 @@ private:
 	void PrintEvents();
 
 	bool DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const;
+	bool DrawLine(fpoint firstPosition, fpoint secondPosition, Color color);
+	bool DrawCircle(fpoint position, int radius, Color color);
 	bool DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot);
 
 	bool InCamera(int x, int y, int width, int height);

@@ -11,6 +11,7 @@
 #include "Render.h"
 #include "Audio.h"
 #include "Console.h"
+#include "Physics.h"
 
 #include <sstream>
 
@@ -26,6 +27,7 @@ Game::Game()
 	render = new Render();
 	audio = new Audio();
 	//console = new Console();
+	physics = new Physics();
 
 	AddModule(input);
 	//FIRST ^
@@ -37,6 +39,7 @@ Game::Game()
 	AddModule(ui);
 	//AddModule(console);
 	AddModule(scenes);
+	AddModule(physics);
 	//LAST  v
 	AddModule(render);
 }
