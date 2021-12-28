@@ -4,7 +4,6 @@
 #include "Textures.h"
 
 #include "BOX2D/Box2D/Box2D.h"
-#pragma comment( lib, "BOX2D/libfiles/ReleaseBox2d/Box2D.lib" )
 
 PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float rotation, float density, float friction, float restitution, bool isSensor)
 {

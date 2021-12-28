@@ -1,8 +1,13 @@
 #include "Physics.h"
 #include "PhysicsComponent.h"
 #include "Input.h"
+
 #include "BOX2D/Box2D/Box2D.h"
+#ifdef NDEBUG
 #pragma comment( lib, "BOX2D/libfiles/ReleaseBox2d/Box2D.lib" )
+#else
+#pragma comment( lib, "BOX2D/libfiles/DebugBox2d/Box2D.lib" )
+#endif
 
 Physics::Physics()
 {
@@ -38,7 +43,7 @@ bool Physics::SetUp(pugi::xml_node&)
 bool Physics::Update(float dt)
 {
 	if (game->input->GetKey(SDL_SCANCODE_W) == REPEAT)
-	physicsObjects[0]->GetBody()->ApplyForce(b2Vec2((game->input->GetMousePos().x - physicsObjects[0]->GetBody()->GetPosition().x)*200, -(game->input->GetMousePos().y - physicsObjects[0]->GetBody()->GetPosition().y) * 100), physicsObjects[0]->GetBody()->GetWorldCenter(), true);
+		physicsObjects[0]->GetBody()->ApplyForce(b2Vec2((game->input->GetMousePos().x - physicsObjects[0]->GetBody()->GetPosition().x)*200, -(game->input->GetMousePos().y - physicsObjects[0]->GetBody()->GetPosition().y) * 100), physicsObjects[0]->GetBody()->GetWorldCenter(), true);
 	world->Step(0.0008f, 3, 3);
 	return true;
 }
