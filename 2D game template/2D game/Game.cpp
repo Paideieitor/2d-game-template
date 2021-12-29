@@ -101,7 +101,7 @@ bool Game::Update()
 	{
 		Module* module = *m;
 
-		output = module->Update(0.0f);
+		output = module->Update(0.0f); // D: GASP
 
 		if (!output)
 		{

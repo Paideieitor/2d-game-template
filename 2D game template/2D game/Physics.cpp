@@ -42,7 +42,7 @@ bool Physics::SetUp(pugi::xml_node&)
 
 bool Physics::Update(float dt)
 {
-	if (game->input->GetKey(SDL_SCANCODE_W) == REPEAT)
+	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
 		physicsObjects[0]->GetBody()->ApplyForce(b2Vec2((game->input->GetMousePos().x - physicsObjects[0]->GetBody()->GetPosition().x)*200, -(game->input->GetMousePos().y - physicsObjects[0]->GetBody()->GetPosition().y) * 100), physicsObjects[0]->GetBody()->GetWorldCenter(), true);
 	world->Step(0.0008f, 3, 3);
 	return true;

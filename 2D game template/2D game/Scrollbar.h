@@ -38,6 +38,8 @@ private:
 	void SizeChanged() override;
 	void WorldPosChanged() override;
 
+	void SetScrollPositionFromValue();
+
 private:
 
 	Scrollbar::Type datatype;

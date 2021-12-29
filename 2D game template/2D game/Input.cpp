@@ -15,9 +15,10 @@ Input::~Input()
 bool Input::SetUp(pugi::xml_node&)
 {
 	for (int i = 0; i < MAX_KEYS; i++)
-		keyboard[i] = IDLE;
+		keyboard[i] = State::IDLE;
 	for (int i = 0; i < MAX_BUTTONS; i++)
-		mousebuttons[i] = IDLE;
+		mousebuttons[i] = State::IDLE;
+	mousescroll = State::IDLE;
 	
 	return true;
 }
@@ -40,25 +41,27 @@ bool Input::Update(float dt)
 	for (int i = 0; i < MAX_KEYS; i++)
 		if (keys[i] == 1)
 		{
-			if (keyboard[i] == IDLE)
-				keyboard[i] = DOWN;
-			else if (keyboard[i] == DOWN)
-				keyboard[i] = REPEAT;
+			if (keyboard[i] == State::IDLE)
+				keyboard[i] = State::DOWN;
+			else if (keyboard[i] == State::DOWN)
+				keyboard[i] = State::REPEAT;
 		}
 		else
 		{
-			if (keyboard[i] == REPEAT 
-				|| keyboard[i] == DOWN)
-				keyboard[i] = UP;
-			else if (keyboard[i] == UP)
-				keyboard[i] = IDLE;
+			if (keyboard[i] == State::REPEAT
+				|| keyboard[i] == State::DOWN)
+				keyboard[i] = State::UP;
+			else if (keyboard[i] == State::UP)
+				keyboard[i] = State::IDLE;
 		}
 
 	for (int i = 0; i < MAX_BUTTONS; i++)
-		if (mousebuttons[i] == DOWN)
-			mousebuttons[i] = REPEAT;
-		else if (mousebuttons[i] == UP)
-			mousebuttons[i] = IDLE;
+		if (mousebuttons[i] == State::DOWN)
+			mousebuttons[i] = State::REPEAT;
+		else if (mousebuttons[i] == State::UP)
+			mousebuttons[i] = State::IDLE;
+
+	mousescroll = State::IDLE;
 
 	if (SDL_PollEvent(&event))
 		switch (event.type)
@@ -83,10 +86,16 @@ bool Input::Update(float dt)
 			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			mousebuttons[event.button.button - 1] = DOWN;
+			mousebuttons[event.button.button - 1] = State::DOWN;
 			break;
 		case SDL_MOUSEBUTTONUP:
-			mousebuttons[event.button.button - 1] = UP;
+			mousebuttons[event.button.button - 1] = State::UP;
+			break;
+		case SDL_MOUSEWHEEL:
+			if (event.wheel.y > 0)
+				mousescroll = State::UP;
+			else if (event.wheel.y < 0)
+				mousescroll = State::DOWN;
 			break;
 		case SDL_MOUSEMOTION:
 			mouse.x = (float)event.motion.x;
@@ -98,7 +107,6 @@ bool Input::Update(float dt)
 			break;
 		}
 
-
 	return true;
 }
 
@@ -109,14 +117,18 @@ bool Input::CleanUp()
 	return true;
 }
 
-keystate Input::GetKey(int key) const
+const Input::State Input::CheckState(Key key) const
 {
-	return keyboard[key];
-}
+	if ((int)key < (int)Key::MOUSE_LEFT)
+		return keyboard[(int)key];
 
-keystate Input::GetButton(int button) const
-{
-	return mousebuttons[button - 1];
+	if ((int)Key::MOUSE_LEFT <= (int)key && (int)key < (int)Key::MOUSE_10)
+		return mousebuttons[(int)key - (int)Key::MOUSE_LEFT];
+
+	if ((int)Key::MOUSE_SCROLL)
+		return mousescroll;
+
+	return State::IDLE;
 }
 
 bool Input::GetTextInput(char& input)

@@ -76,7 +76,7 @@ bool UIManager::Update(float dt)
 
 	if (focused)
 	{
-		if (game->input->GetButton(1) == keystate::DOWN)
+		if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN)
 			focused->SetClicked();
 		else
 			focused->SetHover();

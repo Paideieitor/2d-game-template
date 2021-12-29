@@ -1,12 +1,13 @@
 #include "InputBox.h"
 
 #include "Input.h"
-//#include "Textures.h"
-//#include "Render.h"
+#include "Textures.h"
+#include "Render.h"
 //#include "Window.h"
 //#include "Scene.h"
 //
-//#include "Button.h"
+#include "Label.h"
+#include "Button.h"
 //
 //InputBox::InputBox(string name, Font* font, fpoint position, ipoint size, Color maincolor, bool worldposition, Observer observer) : UIElement(observer)
 //{
@@ -120,3 +121,127 @@
 //
 //	return output;
 //}
+
+#define IBOX_DEFAULT_SIZE_X 700
+#define IBOX_DEFAULT_SIZE_Y 100
+
+InputBox::InputBox(Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
+{
+	frame = new Button("", font, fontcolor, position, texture, Button::Type::LOCKONCLICK, worldposition, this);
+	if (!texture)
+		frame->SetSize(ipoint(IBOX_DEFAULT_SIZE_X, IBOX_DEFAULT_SIZE_Y));
+
+	SetSize(frame->GetSize());
+
+	PositionChanged();
+}
+
+InputBox::~InputBox()
+{
+	if (texture)
+		game->textures->Unload(texture);
+
+	delete frame;
+}
+
+UIElement::Output InputBox::Update(float dt)
+{
+	if (frame->IsLocked())
+	{
+		char textinput;
+		if (game->input->GetTextInput(textinput))
+		{
+			string::iterator itr = content.begin() + current;
+			content.insert(itr, textinput);
+			current++;
+		}
+		else if (current != 0 && game->input->CheckState(Key::LEFT) == Input::State::DOWN)
+			current--;
+		else if (current != content.size() && game->input->CheckState(Key::RIGHT) == Input::State::DOWN)
+			current++;
+		else if (current != 0 && game->input->CheckState(Key::BACKSPACE) == Input::State::DOWN)
+		{
+			string::iterator itr = content.begin() + current - 1;
+			content.erase(itr);
+			current--;
+		}
+		else if (game->input->CheckState(Key::RETURN) == Input::State::DOWN || game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN)
+		{
+			if (content != "")
+				observer.UIEvent(this);
+			frame->Lock(false);
+		}
+	}
+
+	return UIElement::Output::NO_MODIFY;
+}
+
+void InputBox::Render()
+{
+	if (content.size() > 0)
+	{
+		string buffer = content;
+		if (frame->IsLocked())
+		{
+			string::iterator itr = buffer.begin() + current;
+			buffer.insert(itr, '|');
+		}
+
+		if (buffer.compare(lastrendered)) // if they are different
+		{
+			if (text)
+				game->textures->Unload(text);
+			text = game->textures->LoadText(frame->GetFont(), buffer.c_str(), frame->GetColor());
+			lastrendered = buffer;
+		}
+
+		ipoint textposition = { 0,0 };
+		ipoint textsize = text->GetSize();
+		ipoint size = ipoint(game->ResizeIPoint(GetSize(), 0.9f).x, GetSize().y);
+
+		if (textsize.x > size.x)
+		{
+			textsize.x = size.x;
+			if (frame->IsLocked())
+				textposition.x = text->GetSize().x - size.x;
+		}
+
+		fpoint renderposition = game->Center(text->GetSize(), GetPosition(), GetSize(), GetPosition(), false, true);
+		renderposition.x += (float)GetSize().x * 0.05f;
+		game->render->RenderTexture(21, text, renderposition, textposition.x, textposition.y, textsize, false, 255, IsWorldPos());
+	}
+}
+
+void InputBox::UIEvent(UIElement*)
+{
+}
+
+const string InputBox::GetContent(bool dispose)
+{
+	const string output = content;
+	if (dispose)
+	{
+		content.clear();
+		current = 0;
+	}
+	return output;
+}
+
+void InputBox::ActiveChanged()
+{
+	frame->SetActive(IsActive());
+}
+
+void InputBox::PositionChanged()
+{
+	frame->SetPosition(GetPosition());
+}
+
+void InputBox::SizeChanged()
+{
+}
+
+void InputBox::WorldPosChanged()
+{
+}

@@ -50,13 +50,13 @@ bool Render::Update(float dt)
 	SDL_RenderClear(renderer);
 	//FIRST ^
 
-	if (game->input->GetKey(SDL_SCANCODE_W) == REPEAT)
+	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
 		camera.y++;
-	if (game->input->GetKey(SDL_SCANCODE_S) == REPEAT)
+	if (game->input->CheckState(Key::S) == Input::State::REPEAT)
 		camera.y--;
-	if (game->input->GetKey(SDL_SCANCODE_A) == REPEAT)
+	if (game->input->CheckState(Key::A) == Input::State::REPEAT)
 		camera.x++;
-	if (game->input->GetKey(SDL_SCANCODE_D) == REPEAT)
+	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 		camera.x--;
 	//if (game->input->GetKey(SDL_SCANCODE_Q) == DOWN)
 	//	cout << "camera -> x: " << -camera.x << " y: " << -camera.y << endl;

@@ -41,7 +41,8 @@ bool MainMenu::Start()
 
 	test = game->textures->Load("images/Chadkino.png");
 
-	//box = new InputBox("", buttonfont, { 0,0 }, { 300,100 }, { 100,100,100 });
+	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
+
 	label = new Label("Test Label", buttonfont, Color::red, { 300,100 });
 	
 	return true;
@@ -76,6 +77,6 @@ void MainMenu::UIEvent(UIElement* element)
 		game->scenes->ChangeScene(Scenes::OPTIONS);
 	else if (element == exit)
 		game->window->SetState(windowstate::QUIT);
-	//else if (element == box)
-	//	game->window->SetTitle(box->GetContent().c_str());
+	else if (element == box)
+		game->window->SetTitle(box->GetContent().c_str());
 }

@@ -7,8 +7,8 @@
 #include "Label.h"
 #include "Button.h"
 
-#define DEFAULT_SIZE_X 500
-#define DEFAULT_SIZE_Y 20
+#define SBAR_DEFAULT_SIZE_X 500
+#define SBAR_DEFAULT_SIZE_Y 20
 
 Scrollbar::Scrollbar(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::SCROLLBAR, position, texture, worldposition, observer), datatype(datatype), value(0.0f)
@@ -20,9 +20,9 @@ Scrollbar::Scrollbar(const string& text, Font* font, const Color& fontcolor, con
 	valuetext = new Label("0", font, fontcolor, position, worldposition);
 
 	if (!texture)
-		bar->SetSize(ipoint(DEFAULT_SIZE_X, (int)((float)DEFAULT_SIZE_Y * 0.75f)));
+		bar->SetSize(ipoint(SBAR_DEFAULT_SIZE_X, (int)((float)SBAR_DEFAULT_SIZE_Y * 0.75f)));
 	if (!texture)
-		scroll->SetSize(ipoint((int)((float)DEFAULT_SIZE_X * 0.05f), DEFAULT_SIZE_Y));
+		scroll->SetSize(ipoint((int)((float)SBAR_DEFAULT_SIZE_X * 0.05f), SBAR_DEFAULT_SIZE_Y));
 	SetSize(bar->GetSize().x, scroll->GetSize().y);
 
 	PositionChanged();
@@ -39,6 +39,30 @@ Scrollbar::~Scrollbar()
 
 UIElement::Output Scrollbar::Update(float dt)
 {
+	if (bar->IsHovered() || scroll->IsHovered())
+		if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::UP)
+		{
+			++value;
+			if (value > 100.0f)
+				value = 100.0f;
+			SetValue(value);
+
+			SetScrollPositionFromValue();
+
+			observer.UIEvent(this);
+		}
+		else if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::DOWN)
+		{
+			--value;
+			if (value < 0.0f)
+				value = 0.0f;
+			SetValue(value);
+
+			SetScrollPositionFromValue();
+
+			observer.UIEvent(this);
+		}
+
 	return UIElement::Output::NO_MODIFY;
 }
 
@@ -108,4 +132,10 @@ void Scrollbar::WorldPosChanged()
 
 	text->EnableWorldPos(IsWorldPos());
 	valuetext->EnableWorldPos(IsWorldPos());
+}
+
+void Scrollbar::SetScrollPositionFromValue()
+{
+	float positionx = GetPosition().x + ((float)GetSize().x * 0.01f * value) - scroll->GetSize().x * 0.5f;
+	scroll->SetPosition(positionx, scroll->GetPosition().y);
 }

@@ -38,9 +38,9 @@ bool SceneManager::Start()
 
 bool SceneManager::Update(float dt)
 {
-	if (game->input->GetKey(SDL_SCANCODE_F1) == DOWN)
+	if (game->input->CheckState(Key::F1) == Input::State::DOWN)
 		ChangeScene(Scenes::OPTIONS);
-	if (game->input->GetKey(SDL_SCANCODE_F2) == DOWN)
+	if (game->input->CheckState(Key::F2) == Input::State::DOWN)
 		ChangeScene(Scenes::MENU);
 
 	if (nextscene != currentscene)

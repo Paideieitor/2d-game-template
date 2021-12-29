@@ -9,12 +9,9 @@ Button::Button(const string& text, Font* font, const Color& fontcolor, const fpo
 	bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false)
 {
-	if (text.size() > 0 && font)
-	{
-		label = new Label(text, font, fontcolor, position, worldposition);
-		if (!texture)
-			SetSize(game->ResizeIPoint(label->GetSize(), RECT_SIZE_MULTIPLIER));
-	}
+	label = new Label(text, font, fontcolor, position, worldposition);
+	if (!texture && label)
+		SetSize(game->ResizeIPoint(label->GetSize(), RECT_SIZE_MULTIPLIER));
 
 	CenterLabel();
 }
@@ -30,7 +27,7 @@ UIElement::Output Button::Update(float dt)
 	color = Color::red;
 
 	if (repeat)
-		if (game->input->GetButton(1) == keystate::UP)
+		if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::UP)
 			repeat = false;
 		else
 			SetClicked();
