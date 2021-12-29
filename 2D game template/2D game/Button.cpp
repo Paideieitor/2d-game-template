@@ -5,12 +5,17 @@
 
 #include "Label.h"
 
-Button::Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, Button::Type presstype,
-	bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false)
+Button::Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures, 
+	Button::Type presstype, bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false), 
+	idle(textures.GetTexture(UIElement::State::IDLE)), hover(textures.GetTexture(UIElement::State::HOVER)), 
+	click(textures.GetTexture(UIElement::State::CLICK)), disabled(textures.GetTexture(UIElement::State::DISABLED)), 
+	current(idle)
 {
 	label = new Label(text, font, fontcolor, position, worldposition);
-	if (!texture && label)
+	if (current)
+		SetSize(current->GetSize());
+	else if (label)
 		SetSize(game->ResizeIPoint(label->GetSize(), RECT_SIZE_MULTIPLIER));
 
 	CenterLabel();
@@ -24,23 +29,25 @@ Button::~Button()
 
 UIElement::Output Button::Update(float dt)
 {
-	color = Color::red;
-
 	if (repeat)
 		if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::UP)
 			repeat = false;
 		else
 			SetClicked();
 
+	color = Color::red;
 	switch (state)
 	{
 	case UIElement::State::IDLE:
+		current = idle;
 		break;
 	case UIElement::State::HOVER:
 		color.r -= 100;
+		current = hover;
 		break;
 	case UIElement::State::CLICK:
 		color.b += 100;
+		current = click;
 		switch (presstype)
 		{
 		case Button::Type::LOCKONCLICK:
@@ -53,19 +60,23 @@ UIElement::Output Button::Update(float dt)
 		observer.UIEvent(this);
 		break;
 	case UIElement::State::DISABLED:
+		current = disabled;
 		break;
 	}
 
 	if (locked)
-		color = Color::blue;// color.a -= 100;
+	{
+		color = Color::blue;
+		current = hover;
+	}
 
 	return UIElement::Output::NO_MODIFY;
 }
 
 void Button::Render()
 {
-	if (texture)
-		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, GetSize(), false, color.a);
+	if (current)
+		game->render->RenderTexture(UI_RENDER_LAYER, current, GetPosition(), 0, 0, current->GetSize());
 	else
 		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
 }

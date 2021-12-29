@@ -3,6 +3,16 @@
 #include "AssetManager.h"
 #include "Textures.h"
 
+#include "SDL.h"
+#include "TTF/include/SDL_ttf.h"
+#pragma comment( lib, "TTF/lib/SDL2_ttf.lib" )
+
+Font::~Font()
+{
+	delete buffer;
+	TTF_CloseFont(font);
+}
+
 Fonts::Fonts()
 {
 	name = "fonts";
@@ -58,7 +68,19 @@ Font* Fonts::Load(const char* path, int size)
 	return output;
 }
 
-SDL_Surface* Fonts::TextToSurface(TTF_Font* font, const char* text, Color color)
+void Fonts::Unload(Font*& font)
+{
+	for (size_t i = 0; i < fonts.size(); ++i)
+		if (font == fonts[i])
+		{
+			delete font;
+			font = nullptr;
+			fonts.erase(fonts.begin() + i);
+			break;
+		}
+}
+
+Surface* Fonts::TextToSurface(FontData* font, const char* text, Color color)
 {
 	return TTF_RenderText_Solid(font, text, color.ToSDL());
 }

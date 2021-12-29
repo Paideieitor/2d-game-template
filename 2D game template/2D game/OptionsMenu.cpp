@@ -24,13 +24,13 @@ OptionsMenu::~OptionsMenu()
 
 bool OptionsMenu::Start()
 {
-	background = new Color(150,150,200,255);
+	background = Color(150,150,200,255);
 
 	game->window->SetGrabbed(false);
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Button::Type::LOCKONCLICK);
+	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), Button::Type::LOCKONCLICK);
 	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->resolution, { 0,100 }, true, false));
 	fullscreen->Lock(game->window->IsFullscreen());
 
@@ -45,12 +45,13 @@ bool OptionsMenu::Start()
 		resolutuonoptions.push_back(button.attribute("name").as_string());
 	resolution = new ButtonArray("Resolution", buttonfont, Color::black, resolutuonoptions, fpoint(0, 0));
 	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->resolution, { 0,400 }, true, false));
+	resolution->SetCurrent(current);
 
-	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Scrollbar::Type::INT);
+	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), UIStateTextures(), Scrollbar::Type::INT);
 	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->resolution, { 0,550 }, true, false));
 	music->SetValue((float)game->audio->GetMusicVolume());
 
-	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, nullptr, Scrollbar::Type::INT);
+	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), UIStateTextures(), Scrollbar::Type::INT);
 	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->resolution, { 0,700 }, true, false));
 	sfx->SetValue((float)game->audio->GetSfxVolume());
 
@@ -62,16 +63,21 @@ bool OptionsMenu::Start()
 
 bool OptionsMenu::Update(float dt)
 {
-	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
+	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, background);
 
 	return true;
 }
 
 bool OptionsMenu::CleanUp()
 {
-	delete background;
+	game->fonts->Unload(buttonfont);
 
-	buttonfont = nullptr;
+	delete fullscreen;
+	delete borderless;
+	delete resolution;
+	delete music;
+	delete sfx;
+	delete tomenu;
 
 	return true;
 }

@@ -13,7 +13,8 @@ class ButtonArray : public UIElement
 public:
 
 	ButtonArray() = delete;
-	ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, Texture* texture = nullptr,
+	ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, Texture* texture = nullptr, 
+		const UIStateTextures& maintextures = UIStateTextures(), const UIStateTextures& unfoldtextures = UIStateTextures(),
 		bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
@@ -23,6 +24,8 @@ public:
 	void UIEvent(UIElement*) override;
 
 	const string GetCurrent() const;
+	void SetCurrent(unsigned int index);
+	void SetCurrent(const string& str);
 
 private:
 
@@ -36,6 +39,9 @@ private:
 	void PlaceButtons();
 
 private:
+
+	Texture* texture;
+	UIStateTextures unfoldtextures;
 
 	Label* text;
 	ipoint textsize; // size of the non-clickable part

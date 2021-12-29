@@ -10,18 +10,19 @@
 #define SBAR_DEFAULT_SIZE_X 500
 #define SBAR_DEFAULT_SIZE_Y 20
 
-Scrollbar::Scrollbar(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::SCROLLBAR, position, texture, worldposition, observer), datatype(datatype), value(0.0f)
+Scrollbar::Scrollbar(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures,
+	const UIStateTextures& bartextures, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
 {
-	bar = new Button("", nullptr, Color::black, position, texture, Button::Type::REPEATPRESS, worldposition, this);
-	scroll = new Button("", nullptr, Color::black, position, texture, Button::Type::REPEATPRESS, worldposition, this);
+	bar = new Button("", nullptr, Color::black, position, bartextures, Button::Type::REPEATPRESS, worldposition, this);
+	scroll = new Button("", nullptr, Color::black, position, scrolltextures, Button::Type::REPEATPRESS, worldposition, this);
 
 	this->text = new Label(text, font, fontcolor, position, worldposition);
 	valuetext = new Label("0", font, fontcolor, position, worldposition);
 
-	if (!texture)
+	if (!bartextures.GetTexture(UIElement::State::IDLE))
 		bar->SetSize(ipoint(SBAR_DEFAULT_SIZE_X, (int)((float)SBAR_DEFAULT_SIZE_Y * 0.75f)));
-	if (!texture)
+	if (!scrolltextures.GetTexture(UIElement::State::IDLE))
 		scroll->SetSize(ipoint((int)((float)SBAR_DEFAULT_SIZE_X * 0.05f), SBAR_DEFAULT_SIZE_Y));
 	SetSize(bar->GetSize().x, scroll->GetSize().y);
 
@@ -78,8 +79,6 @@ void Scrollbar::UIEvent(UIElement* element)
 	else if (mouseposx > GetPosition().x + (float)GetSize().x)
 		mouseposx = GetPosition().x + (float)GetSize().x;
 
-	scroll->SetPosition(mouseposx - scroll->GetSize().x * 0.5f, scroll->GetPosition().y);
-
 	float newvalue = ((mouseposx - GetPosition().x) / (float)GetSize().x) * 100.0f;
 	if (newvalue != value)
 	{
@@ -94,6 +93,8 @@ void Scrollbar::SetValue(float value)
 		value = (float)(int)value;
 
 	this->value = value;
+	SetScrollPositionFromValue();
+
 	valuetext->ChangeText(game->FloatToString(value));
 }
 

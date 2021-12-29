@@ -4,28 +4,24 @@
 #include "Module.h"
 #include "Fonts.h"
 
+typedef struct SDL_Texture TextureData;
+
 class Texture
 {
 public:
 	Texture() = delete;
 	Texture(const Texture& newTexture) = delete;
 
-	~Texture()
-	{
-		SDL_DestroyTexture(texture);
-	}
+	~Texture();
 
 	const ipoint GetSize() const { return size; }
 
 private:
 
-	Texture(string path, SDL_Texture* texture) : path(path), texture(texture), instances(0), font(nullptr), color()
-	{
-		SDL_QueryTexture(texture, NULL, NULL, &size.x, &size.y);
-	}
+	Texture(const string& path, TextureData* texture);
 
 	string path;
-	SDL_Texture* texture;
+	TextureData* texture;
 	ipoint size;
 
 	int instances;
@@ -58,7 +54,7 @@ public:
 
 private:
 
-	SDL_Texture* SurfaceToTexture(SDL_Surface*);
+	TextureData* SurfaceToTexture(Surface*);
 
 	vector<Texture*> textures; 
 };

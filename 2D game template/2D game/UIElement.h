@@ -29,8 +29,6 @@ public:
 		ERROR
 	};
 
-protected:
-
 	enum class State
 	{
 		IDLE,
@@ -41,7 +39,7 @@ protected:
 
 public:
 
-	UIElement(const Type& type, const fpoint& position, Texture* texture, bool worldposition, const Observer& observer);
+	UIElement(const Type& type, const fpoint& position, bool worldposition, const Observer& observer);
 	virtual ~UIElement();
 
 	virtual Output Update(float dt) = 0;
@@ -106,8 +104,6 @@ protected:
 
 	State state;
 
-	Texture* texture;
-
 	Observer observer;
 
 private:
@@ -117,6 +113,44 @@ private:
 	fpoint position;
 	ipoint size;
 	bool worldposition;
+};
+
+struct UIStateTextures
+{
+public:
+
+	UIStateTextures() : idle(nullptr), hover(nullptr), click(nullptr), disabled(nullptr) {}
+	UIStateTextures(Texture* idle, Texture* hover = nullptr, Texture* click = nullptr, Texture* disabled = nullptr)
+		: idle(idle), hover(hover), click(click), disabled(disabled) {}
+
+	// Not called on destructor
+	void UnloadTextures();
+
+	Texture* const GetTexture(UIElement::State state) const
+	{
+		switch (state)
+		{
+		case UIElement::State::IDLE:
+			return idle;
+			break;
+		case UIElement::State::HOVER:
+			return hover ? hover : idle;
+			break;
+		case UIElement::State::CLICK:
+			return click ? click : idle;
+			break;
+		case UIElement::State::DISABLED:
+			return disabled ? disabled : idle;
+			break;
+		}
+	}
+
+private:
+
+	Texture* idle;
+	Texture* hover;
+	Texture* click;
+	Texture* disabled;
 };
 
 #endif

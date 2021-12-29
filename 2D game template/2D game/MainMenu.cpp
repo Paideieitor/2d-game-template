@@ -26,7 +26,11 @@ MainMenu::~MainMenu()
 
 bool MainMenu::Start()
 {
-	background = new Color(255,255,0,255);
+	background = Color(255,255,0,255);
+
+	game->window->SetGrabbed(true);
+
+	test = game->textures->Load("images/Chadkino.png");
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
@@ -38,8 +42,6 @@ bool MainMenu::Start()
 
 	exit = new Button("Exit", buttonfont, Color::black, {0.0f, 0.0f});
 	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->resolution, { 0,400 }, true, false));
-
-	test = game->textures->Load("images/Chadkino.png");
 
 	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
@@ -55,16 +57,22 @@ bool MainMenu::Update(float dt)
 	//Physics test
 	game->physics->PhysicsDebugDraw();
 
-	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, *background);
+	game->render->RenderRectangle(0, { 0,0 }, game->render->resolution.x, game->render->resolution.y, background);
 
 	return true;
 } 
 
 bool MainMenu::CleanUp()
 {
-	delete background;
+	game->textures->Unload(test);
 
-	buttonfont = nullptr;
+	game->fonts->Unload(buttonfont);
+
+	delete play;
+	delete tooptions;
+	delete exit;
+	delete box;
+	delete label;
 
 	return true;
 }

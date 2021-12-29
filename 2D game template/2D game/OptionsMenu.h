@@ -23,7 +23,7 @@ public:
 
 	void UIEvent(UIElement*) override;
 
-	Color* background;
+	Color background;
 
 private:
 

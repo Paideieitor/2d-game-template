@@ -1,10 +1,21 @@
 #include "Textures.h"
 
+#include "AssetManager.h"
+#include "Render.h"
+
+#include "SDL.h"
 #include "IMG/include/SDL_image.h"
 #pragma comment( lib, "IMG/lib/SDL2_image.lib" )
 
-#include "AssetManager.h"
-#include "Render.h"
+Texture::Texture(const string& path, TextureData* texture) : path(path), texture(texture), instances(0), font(nullptr), color()
+{
+	SDL_QueryTexture(texture, NULL, NULL, &size.x, &size.y);
+}
+
+Texture::~Texture()
+{
+	SDL_DestroyTexture(texture);
+}
 
 Textures::Textures()
 {
@@ -145,7 +156,7 @@ void Textures::Unload(Texture*& texture)
 	}
 }
 
-SDL_Texture* Textures::SurfaceToTexture(SDL_Surface* surface)
+TextureData* Textures::SurfaceToTexture(Surface* surface)
 {
 	SDL_Texture* output = SDL_CreateTextureFromSurface(game->render->renderer, surface);
 	if (output == NULL)

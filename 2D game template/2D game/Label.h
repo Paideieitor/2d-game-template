@@ -36,6 +36,7 @@ private:
 
 	string text;
 
+	Texture* texture;
 	Font* font;
 	Color color;
 };

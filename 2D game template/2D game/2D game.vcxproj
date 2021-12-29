@@ -193,6 +193,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scrollbar.h" />
+    <ClInclude Include="SDL.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIElement.h" />

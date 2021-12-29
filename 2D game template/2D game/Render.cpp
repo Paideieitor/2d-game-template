@@ -5,6 +5,8 @@
 #include "SceneManager.h"
 #include "Textures.h"
 
+#include "SDL.h"
+
 Render::Render()
 {
 	name = "render";
@@ -31,7 +33,7 @@ bool Render::SetUp(pugi::xml_node& node)
 	}
 	else
 	{
-		camera = { 0,0, resolution.x, resolution.y };
+		camera = new SDL_Rect{ 0,0, resolution.x, resolution.y };
 		SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
 	}
 
@@ -40,7 +42,7 @@ bool Render::SetUp(pugi::xml_node& node)
 
 bool Render::Start()
 {
-	SDL_RenderGetViewport(renderer, &viewport);
+	SDL_RenderGetViewport(renderer, viewport);
 
 	return true;
 }
@@ -51,13 +53,13 @@ bool Render::Update(float dt)
 	//FIRST ^
 
 	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
-		camera.y++;
+		(*camera).y++;
 	if (game->input->CheckState(Key::S) == Input::State::REPEAT)
-		camera.y--;
+		(*camera).y--;
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT)
-		camera.x++;
+		(*camera).x++;
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
-		camera.x--;
+		(*camera).x--;
 	//if (game->input->GetKey(SDL_SCANCODE_Q) == DOWN)
 	//	cout << "camera -> x: " << -camera.x << " y: " << -camera.y << endl;
 	//if (game->input->GetButton(1) == DOWN)
@@ -74,6 +76,8 @@ bool Render::Update(float dt)
 
 bool Render::CleanUp()
 {
+	delete camera;
+	delete viewport;
 	return true;
 }
 
@@ -175,7 +179,7 @@ ipoint Render::GetCameraPosition(bool worldposition)
 	ipoint output = { 0,0 };
 	if (worldposition)
 	{
-		output = { -camera.x, -camera.y };
+		output = { -(*camera).x, -(*camera).y };
 		output.x = (int)((float)output.x / game->window->GetScale());
 		output.y = (int)((float)output.y / game->window->GetScale());
 	}
@@ -195,8 +199,8 @@ bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, in
 
 	if (usescale)
 	{
-		rect.x = (int)(camera.x * speed + position.x * scale);
-		rect.y = (int)(camera.y * speed + position.y * scale);
+		rect.x = (int)((*camera).x * speed + position.x * scale);
+		rect.y = (int)((*camera).y * speed + position.y * scale);
 		rect.w = (int)(rect.w * scale);
 		rect.h = (int)(rect.h * scale);
 	}
@@ -238,8 +242,8 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 
 	if (usescale)
 	{
-		x = (int)(camera.x + x * scale);
-		y = (int)(camera.y + y * scale);
+		x = (int)((*camera).x + x * scale);
+		y = (int)((*camera).y + y * scale);
 		width = (int)(width * scale);
 		height = (int)(height * scale);
 	}
@@ -313,7 +317,7 @@ bool Render::InCamera(int x, int y, int width, int height)
 {
 	const float scale = game->window->GetScale();
 
-	SDL_Rect cull = camera;
+	SDL_Rect cull = (*camera);
 	cull.x = (int)(cull.x / -scale);
 	cull.y = (int)(cull.y / -scale);
 	cull.w = (int)(cull.w / scale);

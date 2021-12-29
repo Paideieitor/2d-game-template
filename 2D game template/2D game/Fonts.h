@@ -3,23 +3,19 @@
 
 #include "Module.h"
 
-#include "TTF/include/SDL_ttf.h"
-#pragma comment( lib, "TTF/lib/SDL2_ttf.lib" )
+typedef struct _TTF_Font FontData;
+typedef struct SDL_Surface Surface;
 
 class Font
 {
 public:
-	Font(char* buffer, TTF_Font* font) : buffer(buffer), font(font) {}
+	Font(char* buffer, FontData* font) : buffer(buffer), font(font) {}
 
-	~Font()
-	{
-		delete buffer;
-		TTF_CloseFont(font);
-	}
+	~Font();
 
 private:
 	char* buffer;
-	TTF_Font* font;
+	FontData* font;
 
 	friend class Fonts;
 	friend class Textures;
@@ -39,10 +35,11 @@ public:
 	bool CleanUp();
 
 	Font* Load(const char* path, int size);
+	void Unload(Font*&);
 
 private:
 
-	SDL_Surface* TextToSurface(TTF_Font* font, const char* text, Color color);
+	Surface* TextToSurface(FontData* font, const char* text, Color color);
 	vector<Font*> fonts;
 
 	friend class Textures;

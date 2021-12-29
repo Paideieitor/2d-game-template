@@ -6,6 +6,9 @@
 
 class Texture;
 
+typedef struct SDL_Renderer Renderer;
+typedef struct SDL_Rect Rect;
+
 enum rendertype
 {
 	RECTANGLE,
@@ -68,10 +71,10 @@ public:
 
 	ipoint GetCameraPosition(bool worldposition = false);
 
-	SDL_Renderer* renderer;
+	Renderer* renderer;
 
-	SDL_Rect camera;
-	SDL_Rect viewport;
+	Rect* camera;
+	Rect* viewport;
 
 	ipoint resolution;
 

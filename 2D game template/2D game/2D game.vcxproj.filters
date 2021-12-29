@@ -159,6 +159,9 @@
     <ClInclude Include="Fonts.h">
       <Filter>Modules\Image &amp; Audio</Filter>
     </ClInclude>
+    <ClInclude Include="SDL.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

@@ -13,7 +13,7 @@ class InputBox : public UIElement
 public:
 
 	InputBox() = delete;
-	InputBox(Font* font, const Color& fontcolor, const fpoint& position, Texture* texture = nullptr, 
+	InputBox(Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 

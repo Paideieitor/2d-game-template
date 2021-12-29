@@ -134,15 +134,17 @@
 //	return mainbutton->name;
 //}
 
-ButtonArray::ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, Texture* texture, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), options(options), change("")
+ButtonArray::ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, 
+	Texture* texture, const UIStateTextures& maintextures, const UIStateTextures& unfoldtextures, bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), texture(texture), unfoldtextures(unfoldtextures), 
+	options(options), change("")
 {
 	if (options.size() <= 0)
 		delete this;
 
 	if (text.size() > 0)
 		this->text = new Label(text, font, fontcolor, position, worldposition);
-	current = new Button(options[0], font, fontcolor, position, texture, Button::Type::LOCKONCLICK, worldposition, this);
+	current = new Button(options[0], font, fontcolor, position, maintextures, Button::Type::LOCKONCLICK, worldposition, this);
 
 	if (texture)
 		textsize = texture->GetSize();
@@ -205,6 +207,17 @@ const string ButtonArray::GetCurrent() const
 	return current->GetText();
 }
 
+void ButtonArray::SetCurrent(unsigned int index)
+{
+	if (index < options.size())
+		current->ChangeText(options[index]);
+}
+
+void ButtonArray::SetCurrent(const string& str)
+{
+	current->ChangeText(str);
+}
+
 void ButtonArray::ActiveChanged()
 {
 	text->SetActive(IsActive());
@@ -240,7 +253,7 @@ void ButtonArray::WorldPosChanged()
 void ButtonArray::CreateButtons()
 {
 	for (size_t i = 0; i < options.size(); ++i)
-		buttons.push_back(new Button(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), texture, 
+		buttons.push_back(new Button(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), unfoldtextures, 
 			Button::Type::SINGLECLICK, IsWorldPos(), this));
 	PlaceButtons();
 }

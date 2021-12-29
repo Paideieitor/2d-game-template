@@ -125,11 +125,11 @@
 #define IBOX_DEFAULT_SIZE_X 700
 #define IBOX_DEFAULT_SIZE_Y 100
 
-InputBox::InputBox(Font* font, const Color& fontcolor, const fpoint& position, Texture* texture, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, texture, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
+InputBox::InputBox(Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures, bool worldposition, const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
 {
-	frame = new Button("", font, fontcolor, position, texture, Button::Type::LOCKONCLICK, worldposition, this);
-	if (!texture)
+	frame = new Button("", font, fontcolor, position, textures, Button::Type::LOCKONCLICK, worldposition, this);
+	if (!textures.GetTexture(UIElement::State::IDLE))
 		frame->SetSize(ipoint(IBOX_DEFAULT_SIZE_X, IBOX_DEFAULT_SIZE_Y));
 
 	SetSize(frame->GetSize());
@@ -139,10 +139,10 @@ InputBox::InputBox(Font* font, const Color& fontcolor, const fpoint& position, T
 
 InputBox::~InputBox()
 {
-	if (texture)
-		game->textures->Unload(texture);
-
 	delete frame;
+
+	if (text)
+		game->textures->Unload(text);
 }
 
 UIElement::Output InputBox::Update(float dt)

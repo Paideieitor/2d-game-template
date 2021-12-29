@@ -21,7 +21,17 @@ public:
 	};
 
 	Button() = delete;
-	Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, Texture* texture = nullptr, 
+	// -- Creates a button and adds it to the UI manager --
+	// --- Parameters: ---
+	// text -> text showcased at the center of the button
+	// font -> font of the text
+	// font color -> color of the text
+	// position -> top left position of the button
+	// textures -> textures to be used
+	// press type -> defines the buttons behavior
+	// world position -> defines if the button will be rendered on world coordinates or screen coordinates
+	// observer -> structure that will receive the UIEvent call
+	Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(), 
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
@@ -30,6 +40,7 @@ public:
 	void Render() override;
 
 	const bool IsLocked() const { return locked; }
+	// This function does not trigger a UIEvent
 	void Lock(bool enable) { locked = enable; }
 
 	const string GetText() const;
@@ -56,9 +67,15 @@ private:
 	bool locked;
 	bool repeat;
 
-	Color color;
-
 	Label* label;
+
+	Texture* idle;
+	Texture* hover;
+	Texture* click;
+	Texture* disabled;
+	Texture* current;
+
+	Color color; // for when no texture
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include "Render.h"
 
 Label::Label(const string& text, Font* font, const Color& color, const fpoint& position, bool worldposition)
-	: UIElement(UIElement::Type::LABEL, position, nullptr, worldposition, Observer()), text(text), font(font), color(color)
+	: UIElement(UIElement::Type::LABEL, position, worldposition, Observer()), text(text), font(font), color(color)
 {
 	ChangeText(text, font, color);
 	if (texture)

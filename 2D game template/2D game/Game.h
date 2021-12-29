@@ -8,10 +8,6 @@
 #include "Point.h"
 #include "Color.h"
 
-#include "SDL/include/SDL.h"
-#pragma comment( lib, "SDL/lib/SDL2.lib" )
-#pragma comment( lib, "SDL/lib/SDL2main.lib" )
-
 using namespace std;
 
 class Module;
