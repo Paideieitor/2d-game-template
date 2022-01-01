@@ -10,7 +10,9 @@
 Render::Render()
 {
 	name = "render";
+	background = Color::black;
 }
+
 Render::~Render()
 {
 
@@ -21,23 +23,11 @@ bool Render::SetUp(pugi::xml_node& node)
 	resolution.x = node.attribute("width").as_int();
 	resolution.y = node.attribute("height").as_int();
 
-	Uint32 flags = SDL_RENDERER_ACCELERATED;
-	if (node.child("vsync").attribute("value").as_bool() == true)
-		flags |= SDL_RENDERER_PRESENTVSYNC;
+	vsync = node.child("vsync").attribute("value").as_bool();
 
-	renderer = SDL_CreateRenderer(game->window->window, -1, flags);
-	if (renderer == NULL)
-	{
-		game->Log("Renderer -> Bad Thing, Error: " + std::string(SDL_GetError()));
-		return false;
-	}
-	else
-	{
-		camera = new SDL_Rect{ 0,0, resolution.x, resolution.y };
-		SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
-	}
+	this->node = node;
 
-	return true;
+	return CreateRenderer();
 }
 
 bool Render::Start()
@@ -60,15 +50,11 @@ bool Render::Update(float dt)
 		(*camera).x++;
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 		(*camera).x--;
-	//if (game->input->GetKey(SDL_SCANCODE_Q) == DOWN)
-	//	cout << "camera -> x: " << -camera.x << " y: " << -camera.y << endl;
-	//if (game->input->GetButton(1) == DOWN)
-	//	cout << "mouse -> x: " << -camera.x + game->input->GetMousePos().x << " y: " << -camera.y + game->input->GetMousePos().y << endl;
 
 	PrintEvents();
 
 	//LAST v
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 
 	return true;
@@ -76,12 +62,14 @@ bool Render::Update(float dt)
 
 bool Render::CleanUp()
 {
+	SDL_DestroyRenderer(renderer);
+
 	delete camera;
 	delete viewport;
 	return true;
 }
 
-void Render::RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale, float speed, bool filled)
+void Render::RenderRectangle(int layer, const fpoint& position, int width, int height, const Color& color, bool usescale, float speed, bool filled)
 {
 	Render::Event event;
 
@@ -102,21 +90,7 @@ void Render::RenderRectangle(int layer, fpoint position, int width, int height, 
 		eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color)
-{
-	Render::Event event;
-
-	event.type = Type::LINE;
-
-	event.position = firstPosition;
-	event.secondPosition = secondPosition;
-
-	event.color = color;
-
-	eventlist.insert(std::make_pair(layer, event));
-}
-
-void Render::RenderTexture(int layer, TexturePtr texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+void Render::RenderTexture(int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip, int alpha, bool usescale, float speed, double angle, const fpoint& pivot)
 {
 	Render::Event event;
 
@@ -144,6 +118,81 @@ void Render::RenderTexture(int layer, TexturePtr texture, fpoint position, int x
 		eventlist.insert(std::make_pair(layer, event));
 }
 
+void Render::RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale, float speed)
+{
+	Render::Event event;
+
+	event.type = Type::CIRCLE;
+
+	event.position = center;
+	event.radius = radius;
+
+	event.color = color;
+
+	event.speed = speed;
+	event.usescale = usescale;
+
+	eventlist.insert(std::make_pair(layer, event));
+}
+
+void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color)
+{
+	Render::Event event;
+
+	event.type = Type::LINE;
+
+	event.position = startpoint;
+	event.endpoint = endpoint;
+
+	event.color = color;
+
+	eventlist.insert(std::make_pair(layer, event));
+}
+
+const ipoint Render::GetCameraPosition(bool worldposition)
+{
+	ipoint output = { 0,0 };
+	if (worldposition)
+	{
+		output = { -(*camera).x, -(*camera).y };
+		output.x = (int)((float)output.x / game->window->GetScale());
+		output.y = (int)((float)output.y / game->window->GetScale());
+	}
+	return output;
+}
+
+void Render::SetVsync(bool enable)
+{
+	if (vsync == enable)
+		return;
+	SDL_DestroyRenderer(renderer);
+
+	vsync = enable;
+	CreateRenderer();
+
+	node.child("vsync").attribute("value").set_value(vsync);
+	game->document.save_file("config.xml");
+}
+
+bool Render::CreateRenderer()
+{
+	Uint32 flags = SDL_RENDERER_ACCELERATED;
+	if (vsync == true)
+		flags |= SDL_RENDERER_PRESENTVSYNC;
+
+	renderer = SDL_CreateRenderer(game->window->window, -1, flags);
+	if (renderer == NULL)
+	{
+		game->Log("Renderer -> Bad Thing, Error: " + std::string(SDL_GetError()));
+		return false;
+	}
+
+	camera = new SDL_Rect{ 0,0, resolution.x, resolution.y };
+	SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
+
+	return true;
+}
+
 void Render::PrintEvents()
 {
 	for (std::map<int, Render::Event>::iterator e = eventlist.begin(); e != eventlist.end(); e++)
@@ -155,7 +204,7 @@ void Render::PrintEvents()
 			DrawRect(event.position, event.width, event.height, event.color, event.usescale, event.filled);
 			break;
 		case Type::LINE:
-			DrawLine(event.position, event.secondPosition, event.color);
+			DrawLine(event.position, event.endpoint, event.color);
 			break;
 		case Type::CIRCLE:
 			DrawCircle(event.position, event.radius, event.color);
@@ -174,19 +223,7 @@ void Render::ClearEvents()
 	eventlist.erase(eventlist.begin(), eventlist.end());
 }
 
-ipoint Render::GetCameraPosition(bool worldposition)
-{
-	ipoint output = { 0,0 };
-	if (worldposition)
-	{
-		output = { -(*camera).x, -(*camera).y };
-		output.x = (int)((float)output.x / game->window->GetScale());
-		output.y = (int)((float)output.y / game->window->GetScale());
-	}
-	return output;
-}
-
-bool Render::DrawTexture(TexturePtr texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+bool Render::DrawTexture(TexturePtr texture, const fpoint& position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, const fpoint& pivot)
 {
 	const float scale = game->window->GetScale();
 
@@ -230,7 +267,7 @@ bool Render::DrawTexture(TexturePtr texture, fpoint position, int x, int y, int 
 	return true;
 }
 
-bool Render::DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const
+bool Render::DrawRect(const fpoint& position, int width, int height, const Color& color, bool usescale, bool filled) const
 {
 	const float scale = game->window->GetScale();
 
@@ -265,52 +302,52 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 	return true;
 }
 
-bool Render::DrawLine(fpoint firstPosition, fpoint secondPosition, Color color)
+bool Render::DrawCircle(const fpoint& position, int radius, const Color& color)
+{
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+
+	const int diameter = (radius * 2);
+
+	int x = (radius - 1);
+	int y = 0;
+	int tx = 1;
+	int ty = 1;
+	int error = (tx - diameter);
+
+	while (x >= y)
+	{
+		//  Each of the following renders an octant of the circle
+		SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y - y);
+		SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y + y);
+		SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y - y);
+		SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y + y);
+		SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y - x);
+		SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y + x);
+		SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y - x);
+		SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y + x);
+
+		if (error <= 0)
+		{
+			++y;
+			error += ty;
+			ty += 2;
+		}
+
+		if (error > 0)
+		{
+			--x;
+			tx += 2;
+			error += (tx - diameter);
+		}
+	}
+	return true;
+}
+
+bool Render::DrawLine(const fpoint& firstPosition, const fpoint& secondPosition, const Color& color)
 {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderDrawLine(renderer, (int)firstPosition.x, (int)firstPosition.y, (int)secondPosition.x, (int)secondPosition.y);
 	return false;
-}
-
-bool Render::DrawCircle(fpoint position, int radius, Color color)
-{
-		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-		SDL_SetRenderDrawColor(renderer, 223, 223, 223, 255);
-		const int32_t diameter = (radius * 2);
-
-		int32_t x = (radius - 1);
-		int32_t y = 0;
-		int32_t tx = 1;
-		int32_t ty = 1;
-		int32_t error = (tx - diameter);
-
-		while (x >= y)
-		{
-			//  Each of the following renders an octant of the circle
-			SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y - y);
-			SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y + y);
-			SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y - y);
-			SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y + y);
-			SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y - x);
-			SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y + x);
-			SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y - x);
-			SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y + x);
-
-			if (error <= 0)
-			{
-				++y;
-				error += ty;
-				ty += 2;
-			}
-
-			if (error > 0)
-			{
-				--x;
-				tx += 2;
-				error += (tx - diameter);
-			}
-		}
-		return true;
 }
 
 bool Render::InCamera(int x, int y, int width, int height)

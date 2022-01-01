@@ -30,7 +30,7 @@ private:
 		TexturePtr texture;
 
 		fpoint position;
-		fpoint secondPosition;
+		fpoint endpoint;
 
 		int radius;
 		int x;
@@ -61,19 +61,46 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	void RenderRectangle(int layer, fpoint position, ipoint size, Color color, bool usescale = true, float speed = 1.0f, bool filled = true)
+	void RenderRectangle(int layer, const fpoint& position, const ipoint& size, const Color& color, bool usescale = true, 
+		float speed = 1.0f, bool filled = true)
 	{
 		RenderRectangle(layer, position, size.x, size.y, color, usescale, speed, filled);
 	}
-	void RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale = true, float speed = 1.0f, bool filled = true);
-	void RenderCircle(int layer, fpoint center, int r, Color color, bool usescale = false, float speed = 1.0f, bool filled = true) {}
-	void RenderTexture(int layer, TexturePtr texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
+	void RenderRectangle(int layer, const fpoint& position, int width, int height, const Color& color, bool usescale = true, 
+		float speed = 1.0f, bool filled = true);
+	void RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale = false, float speed = 1.0f);
+	void RenderTexture(int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip = false, int alpha = 255,
+		bool usescale = true, float speed = 1.0f, double angle = 0, const fpoint& pivot = {0,0});
+	void RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color);
 
-	void AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color);
+	const ipoint GetCameraPosition(bool worldposition = false);
+	const ipoint GetResolution() { return resolution; }
 
+	const bool UsingVsync() { return vsync; }
+	void SetVsync(bool enable);
+
+public:
+
+	Color background;
+
+private:
+
+	bool CreateRenderer();
+
+	void PrintEvents();
 	void ClearEvents();
 
-	ipoint GetCameraPosition(bool worldposition = false);
+	bool DrawRect(const fpoint& position, int width, int height, const Color& color, bool usescale, bool filled) const;
+	bool DrawTexture(TexturePtr texture, const fpoint& position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, 
+		float speed, double angle, const fpoint& pivot);
+	bool DrawCircle(const fpoint& position, int radius, const Color& color);
+	bool DrawLine(const fpoint& firstPosition, const fpoint& secondPosition, const Color& color);
+	
+	bool InCamera(int x, int y, int width, int height);
+
+private:
+
+	bool vsync;
 
 	Renderer* renderer;
 
@@ -82,18 +109,11 @@ public:
 
 	ipoint resolution;
 
-private:
-
-	void PrintEvents();
-
-	bool DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const;
-	bool DrawLine(fpoint firstPosition, fpoint secondPosition, Color color);
-	bool DrawCircle(fpoint position, int radius, Color color);
-	bool DrawTexture(TexturePtr texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot);
-
-	bool InCamera(int x, int y, int width, int height);
-
 	std::multimap<int, Render::Event> eventlist;
+
+	pugi::xml_node node;
+
+	friend class Textures;
 };
 
 #endif

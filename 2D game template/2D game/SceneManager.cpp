@@ -49,7 +49,6 @@ bool SceneManager::Update(float dt)
 		{
 			currentscene->CleanUp();
 			game->ui->CleanUp();
-			game->render->ClearEvents();
 		}
 
 		currentscene = nextscene;

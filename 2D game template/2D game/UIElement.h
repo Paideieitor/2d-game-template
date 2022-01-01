@@ -122,6 +122,16 @@ struct UIStateTextures
 {
 public:
 
+	enum class Type
+	{
+		NONE,
+		MULTI_TEXTURES,
+		SINGLE_TEXTURE_SINGLE_ANIMATION,
+		SINGLE_TEXTURE_MULTI_ANIMATIONS
+	};
+
+public:
+
 	UIStateTextures() : idle(nullptr), hover(nullptr), click(nullptr), disabled(nullptr) {}
 	UIStateTextures(TexturePtr idle, TexturePtr hover = nullptr, TexturePtr click = nullptr, TexturePtr disabled = nullptr)
 		: idle(idle), hover(hover), click(click), disabled(disabled) {}

@@ -37,7 +37,8 @@ public:
 	const bool IsGrabbed() const { return grabbed; }
 	void SetGrabbed(bool enable);
 
-	void SetWindowSize(ipoint size);
+	const ipoint GetWindowSize() { return size; }
+	void SetWindowSize(const ipoint& size);
 
 	void CenterWindowPosition();
 
@@ -50,8 +51,7 @@ private:
 
 	Window::State state;
 
-	int width;
-	int height;
+	ipoint size;
 	float scale;
 
 	bool fullscreen;

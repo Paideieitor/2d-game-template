@@ -20,8 +20,6 @@ public:
 
 	void UIEvent(UIElement*) override;
 
-	Color background;
-
 private:
 
 	TexturePtr test;

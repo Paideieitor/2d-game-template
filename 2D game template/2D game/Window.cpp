@@ -15,14 +15,14 @@ Window::~Window()
 bool Window::SetUp(pugi::xml_node& node)
 {
     this->node = node;
-    width = node.attribute("width").as_int();
-    height = node.attribute("height").as_int();
+    size.x = node.attribute("width").as_int();
+    size.y = node.attribute("height").as_int();
     scale = node.attribute("scale").as_float();
     
-    Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_INPUT_GRABBED;
+    Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
     fullscreen = false;
     borderless = false;
-    grabbed = true;
+    grabbed = false;
 
     if (node.child("fullscreen").attribute("value").as_bool() == true)
     {
@@ -34,8 +34,13 @@ bool Window::SetUp(pugi::xml_node& node)
         flags |= SDL_WINDOW_BORDERLESS;
         borderless = true;
     }
+    if (node.child("grabbed").attribute("value").as_bool() == true)
+    {
+        flags |= SDL_WINDOW_INPUT_GRABBED;
+        grabbed = true;
+    }
 
-    window = SDL_CreateWindow("Archipielago", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+    window = SDL_CreateWindow("Archipielago", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, size.x, size.y, flags);
 
     if (window == NULL)
     {
@@ -99,12 +104,19 @@ void Window::SetBorderless(bool enable)
 void Window::SetGrabbed(bool enable)
 {
     SDL_SetWindowGrab(window, (SDL_bool)enable);
+
     grabbed = enable;
+    node.child("grabbed").attribute("value").set_value(borderless);
+    game->document.save_file("config.xml");
 }
 
-void Window::SetWindowSize(ipoint size)
+void Window::SetWindowSize(const ipoint& size)
 {
+    if (size.x <= 0 && size.y <= 0)
+        return;
+
     SDL_SetWindowSize(window, size.x, size.y);
+    this->size = size;
 
     node.attribute("width").set_value(size.x);
     node.attribute("height").set_value(size.y);

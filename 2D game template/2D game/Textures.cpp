@@ -68,19 +68,16 @@ TexturePtr Textures::Load(const std::string& path)
 	delete buffer;
 
 	SDL_Texture* texture = nullptr;
-	if (surface != NULL)
-	{
-		texture = SurfaceToTexture(surface);
-		SDL_FreeSurface(surface);
-
-		if (texture == nullptr)
-			return nullptr;
-	}
-	else
+	if (surface == NULL)
 	{
 		game->Log("Texture surface loading -> Bad Thing, Error in " + path + " -> " + std::string(SDL_GetError()));
 		return nullptr;
 	}
+
+	texture = SurfaceToTexture(surface);
+	SDL_FreeSurface(surface);
+	if (texture == nullptr)
+		return nullptr;
 
 	TexturePtr output = std::make_shared<Texture>(path, texture);
 	textures.push_back(output);
@@ -100,17 +97,15 @@ TexturePtr Textures::LoadText(FontPtr font, const std::string& text, Color color
 	SDL_Surface* surface = game->fonts->TextToSurface(font->font, text, color);
 	
 	SDL_Texture* texture = nullptr;
-	if (surface != NULL)
+	if (surface == NULL)
 	{
-		texture = game->textures->SurfaceToTexture(surface);
-		SDL_FreeSurface(surface);
+		game->Log("Texture font surface -> Bad Thing, Error in " + text + " -> " + std::string(SDL_GetError()));
+		return nullptr;
+
 	}
-	else
-	{
-		 game->Log("Texture font surface -> Bad Thing, Error in " + text + " -> " + std::string(SDL_GetError()));
-		 return nullptr;
-	}
-	
+
+	texture = game->textures->SurfaceToTexture(surface);
+	SDL_FreeSurface(surface);
 	if (!texture)
 		return nullptr;
 
