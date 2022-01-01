@@ -3,15 +3,19 @@
 
 #include "Module.h"
 
-enum class windowstate
-{
-	QUIT,
-	HIDE,
-	SHOW
-};
+typedef struct SDL_Window WindowData;
 
 class Window : public Module
 {
+public:
+
+	enum class State
+	{
+		QUIT,
+		HIDE,
+		SHOW
+	};
+
 public:
 
 	Window();
@@ -24,7 +28,7 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
-	void SetState(windowstate state);
+	void SetState(Window::State state);
 
 	const bool IsFullscreen() const { return fullscreen; }
 	void SetFullscreen(bool enable);
@@ -41,9 +45,10 @@ public:
 	void SetScale(float scale) { this->scale = scale; }
 
 private:
-	SDL_Window* window;
 
-	windowstate state;
+	WindowData* window;
+
+	Window::State state;
 
 	int width;
 	int height;

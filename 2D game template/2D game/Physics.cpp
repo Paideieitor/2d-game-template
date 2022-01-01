@@ -71,7 +71,7 @@ void Physics::AddPhysicsObject(PhysicsComponent* object)
 
 void Physics::DestroyPhysicsObject(PhysicsComponent* object)
 {
-	for (int i = 0; i < physicsObjects.size(); i++)
+	for (size_t i = 0; i < physicsObjects.size(); ++i)
 	{
 		if(physicsObjects[i] == object)
 		{
@@ -83,7 +83,7 @@ void Physics::DestroyPhysicsObject(PhysicsComponent* object)
 
 void Physics::PhysicsDebugDraw()
 {
-	for(int i = 0; i < physicsObjects.size(); i++)
+	for(size_t i = 0; i < physicsObjects.size(); ++i)
 	{
 		physicsObjects[i]->DebugDraw();
 	}

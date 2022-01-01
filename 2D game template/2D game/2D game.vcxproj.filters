@@ -126,9 +126,6 @@
     <ClInclude Include="Scrollbar.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -158,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="Fonts.h">
       <Filter>Modules\Image &amp; Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="SDL.h">
-      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

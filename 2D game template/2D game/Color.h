@@ -1,19 +1,14 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "SDL/include/SDL.h"
+struct SDL_Color;
 
 struct Color
 {
-	Color() : r(SDL_MAX_UINT32), g(SDL_MAX_UINT32), b(SDL_MAX_UINT32), a(SDL_MAX_UINT32) {}
+	Color() : r(-1), g(-1), b(-1), a(-1) {}
 	Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a = 255u) : r(r), g(g), b(b), a(a) {}
 
-	SDL_Color ToSDL() const
-	{
-		SDL_Color output = { (Uint8)r, (Uint8)g, (Uint8)b, (Uint8)a };
-
-		return output;
-	}
+	SDL_Color ToSDL() const;
 
 	void Set(unsigned int r, unsigned int g, unsigned int b, unsigned int a = 255u)
 	{

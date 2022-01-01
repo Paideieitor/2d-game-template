@@ -106,7 +106,7 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 void PhysicsComponent::DebugDraw()
 {
 	test = game->textures->Load("images/test.png");
-		game->render->RenderTexture(5, test, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, -(this->GetBody()->GetAngle() * 57.2958f), fpoint(this->GetDimentions().x, this->GetDimentions().y));
+	game->render->RenderTexture(5, test, { this->GetBody()->GetPosition().x - this->GetDimentions().x,-this->GetBody()->GetPosition().y - this->GetDimentions().y/2 }, 0, 0, { (int)this->GetDimentions().x * 2, (int)this->GetDimentions().y * 2 }, false, 255, true, 1.0f, -(this->GetBody()->GetAngle() * 57.2958f), fpoint(this->GetDimentions().x, this->GetDimentions().y));
 		
 		//fpoint* point1 = new fpoint(this->GetBody()->GetPosition().x - (this->GetDimentions().x / 2),-this->GetBody()->GetPosition().y - (this->GetDimentions().y / 2));
 		//fpoint* point2 = new fpoint(this->GetBody()->GetPosition().x + (this->GetDimentions().x / 2), -this->GetBody()->GetPosition().y + (this->GetDimentions().y / 2));
@@ -122,7 +122,7 @@ void PhysicsComponent::DebugDraw()
 		//delete point2;
 		//delete pointP;
 		//delete pointK;
-}		//
+}
 
 void PhysicsComponent::DrawRectangle()
 {

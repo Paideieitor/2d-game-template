@@ -11,6 +11,7 @@ class Texture
 public:
 	Texture() = delete;
 	Texture(const Texture& newTexture) = delete;
+	Texture(const std::string& path, TextureData* texture);
 
 	~Texture();
 
@@ -18,20 +19,18 @@ public:
 
 private:
 
-	Texture(const string& path, TextureData* texture);
-
-	string path;
+	std::string path;
 	TextureData* texture;
 	ipoint size;
 
-	int instances;
-
-	Font* font;
+	FontPtr font;
 	Color color;
 
 	friend class Textures;
 	friend class Render;
 };
+
+typedef std::shared_ptr<Texture> TexturePtr;
 
 class Textures : public Module
 {
@@ -46,17 +45,14 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	Texture* Load(const char* path);
-	Texture* LoadText(Font* font, const char* text, Color color);
-	void Unload(Texture*&);
-
-	void ChangeTexture(Texture*& source, Texture*& destination);
+	TexturePtr Load(const std::string& path);
+	TexturePtr LoadText(FontPtr font, const std::string& text, Color color);
 
 private:
 
 	TextureData* SurfaceToTexture(Surface*);
 
-	vector<Texture*> textures; 
+	std::vector<TexturePtr> textures;
 };
 
 #endif

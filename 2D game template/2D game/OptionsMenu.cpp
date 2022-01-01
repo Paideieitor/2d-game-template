@@ -26,8 +26,6 @@ bool OptionsMenu::Start()
 {
 	background = Color(150,150,200,255);
 
-	game->window->SetGrabbed(false);
-
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), Button::Type::LOCKONCLICK);
@@ -37,7 +35,7 @@ bool OptionsMenu::Start()
 	borderless = new Button("Borderless", buttonfont, Color::black, { 0.0f, 0.0f });
 	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->resolution, { 0,250 }, true, false));
 
-	vector<string> resolutuonoptions;
+	std::vector<std::string> resolutuonoptions;
 	pugi::xml_node arraynode = game->scenes->mainnode.child(name.c_str()).child("resolution");
 	int current = arraynode.attribute("current").as_int();
 	pugi::xml_node button = arraynode.first_child();
@@ -70,7 +68,7 @@ bool OptionsMenu::Update(float dt)
 
 bool OptionsMenu::CleanUp()
 {
-	game->fonts->Unload(buttonfont);
+	buttonfont = nullptr;
 
 	delete fullscreen;
 	delete borderless;
@@ -90,7 +88,7 @@ void OptionsMenu::UIEvent(UIElement* element)
 		game->window->SetBorderless(!game->window->IsBorderless());
 	else if (element == resolution)
 	{
-		string current = resolution->GetCurrent();
+		std::string current = resolution->GetCurrent();
 		int cut = current.find_first_of('x');
 		ipoint res;
 		res.x = game->StringToInt(current.substr(0, cut));

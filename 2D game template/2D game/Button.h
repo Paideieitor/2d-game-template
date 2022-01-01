@@ -5,8 +5,6 @@
 
 #define RECT_SIZE_MULTIPLIER 1.5f
 
-class Font;
-
 class Label;
 
 class Button : public UIElement
@@ -21,17 +19,7 @@ public:
 	};
 
 	Button() = delete;
-	// -- Creates a button and adds it to the UI manager --
-	// --- Parameters: ---
-	// text -> text showcased at the center of the button
-	// font -> font of the text
-	// font color -> color of the text
-	// position -> top left position of the button
-	// textures -> textures to be used
-	// press type -> defines the buttons behavior
-	// world position -> defines if the button will be rendered on world coordinates or screen coordinates
-	// observer -> structure that will receive the UIEvent call
-	Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(), 
+	Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
@@ -43,11 +31,11 @@ public:
 	// This function does not trigger a UIEvent
 	void Lock(bool enable) { locked = enable; }
 
-	const string GetText() const;
-	Font* const GetFont() const;
+	const std::string GetText() const;
+	FontPtr const GetFont() const;
 	const Color GetColor() const;
 
-	void ChangeText(const string& text);
+	void ChangeText(const std::string& text);
 
 public:
 
@@ -69,11 +57,11 @@ private:
 
 	Label* label;
 
-	Texture* idle;
-	Texture* hover;
-	Texture* click;
-	Texture* disabled;
-	Texture* current;
+	TexturePtr idle;
+	TexturePtr hover;
+	TexturePtr click;
+	TexturePtr disabled;
+	TexturePtr current;
 
 	Color color; // for when no texture
 };

@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 
+#include "SDL/include/SDL_rwops.h"
 #include "PFS/include/physfs.h"
 #pragma comment( lib, "PFS/lib/physfs.lib" )
 
@@ -17,31 +18,31 @@ AssetManager::~AssetManager()
 
 bool AssetManager::SetUp(pugi::xml_node& node)
 {
-	CreatePath("Assets.zip");
+	CreatePath("Assets");
 
 	return true;
 }
 
-bool AssetManager::CreatePath(const char* newDir, const char* mount_point)
+bool AssetManager::CreatePath(const char* newDir)
 {
 	if (PHYSFS_addToSearchPath(newDir, 1) == 0)
-		cout << "Asset Manager path creation -> Bad Thing, Error in " << newDir << " -> " << PHYSFS_getLastError() << endl;
+		game->Log("Asset Manager path creation -> Bad Thing, Error in " + std::string(newDir) + " -> " + std::string(PHYSFS_getLastError()));
 	else
 		return false;
 
 	return true;
 }
 
-bool AssetManager::Exists(const char* file) const
+bool AssetManager::Exists(const std::string& file) const
 {
-	return PHYSFS_exists(file);
+	return PHYSFS_exists(file.c_str());
 }
 
-unsigned int AssetManager::LoadData(const char* file, char** buffer) const
+unsigned int AssetManager::LoadData(const std::string& file, char** buffer) const
 {
 	unsigned int output = 0;
 
-	PHYSFS_file* data_file = PHYSFS_openRead(file);									
+	PHYSFS_file* data_file = PHYSFS_openRead(file.c_str());									
 
 	if (data_file != nullptr)
 	{
@@ -50,7 +51,7 @@ unsigned int AssetManager::LoadData(const char* file, char** buffer) const
 		PHYSFS_sint64 readed = PHYSFS_read(data_file, *buffer, 1, (PHYSFS_uint32)file_lenght);
 		if (readed != file_lenght)													
 		{	
-			cout << "Asset Manager data loading -> Bad Thing, Error in " << file << " -> " << PHYSFS_getLastError() << endl;
+			game->Log("Asset Manager data loading -> Bad Thing, Error in " + file + " -> " + std::string(PHYSFS_getLastError()));
 			delete buffer;														
 		}
 		else
@@ -59,12 +60,12 @@ unsigned int AssetManager::LoadData(const char* file, char** buffer) const
 		PHYSFS_close(data_file);													
 	}
 	else
-		cout << "Asset Manager file opening -> Bad Thing, Error in " << file << " -> " << PHYSFS_getLastError() << endl;
+		game->Log("Asset Manager file opening -> Bad Thing, Error in " + file + " -> " + std::string(PHYSFS_getLastError()));
 
 	return output;
 }
 
-SDL_RWops* AssetManager::Load(const char* file, char** buffer) const
+SDL_RWops* AssetManager::Load(const std::string& file, char** buffer) const
 {
 	int size = LoadData(file, buffer);
 
@@ -78,7 +79,7 @@ SDL_RWops* AssetManager::Load(const char* file, char** buffer) const
 		return nullptr;
 }
 
-pugi::xml_parse_result AssetManager::LoadXML(pugi::xml_document &data_file, const char* path)
+pugi::xml_parse_result AssetManager::LoadXML(pugi::xml_document &data_file, const std::string& path)
 {
 	char* buffer;
 	unsigned int file_size = LoadData(path, &buffer);

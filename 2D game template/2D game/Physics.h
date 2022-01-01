@@ -31,7 +31,7 @@ public:
 
 
 private:
-	vector<PhysicsComponent*> physicsObjects;
+	std::vector<PhysicsComponent*> physicsObjects;
 	b2World* world;
 	float gravity = -9.8f;
 

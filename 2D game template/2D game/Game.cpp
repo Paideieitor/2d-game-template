@@ -33,12 +33,14 @@ Game::Game()
 	//FIRST ^
 	AddModule(window);
 	AddModule(assets);
-	AddModule(textures);
+
 	AddModule(audio);
 	AddModule(fonts);
+	AddModule(textures);
+
 	AddModule(ui);
-	//AddModule(console);
 	AddModule(scenes);
+
 	AddModule(physics);
 	//LAST  v
 	AddModule(render);
@@ -56,7 +58,7 @@ bool Game::SetUp()
 
 	pugi::xml_parse_result result = document.load_file("config.xml");
 
-	for (vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		Module* module = *m;
 
@@ -65,7 +67,7 @@ bool Game::SetUp()
 
 		if (!output)
 		{
-			cout << "Set Up -> Bad Thing, Error in " << module->name << endl;
+			Log("Set Up -> Bad Thing, Error in " + module->name);
 			break;
 		}
 	}
@@ -77,7 +79,7 @@ bool Game::Start()
 {
 	bool output = true;
 
-	for (vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		Module* module = *m;
 
@@ -85,7 +87,7 @@ bool Game::Start()
 
 		if (!output)
 		{
-			cout << "Start -> Bad Thing, Error in " << module->name << endl;
+			Log("Start -> Bad Thing, Error in " + module->name);
 			break;
 		}
 	}
@@ -97,7 +99,7 @@ bool Game::Update()
 {
 	bool output = true;
 
-	for (vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
+	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		Module* module = *m;
 
@@ -105,7 +107,7 @@ bool Game::Update()
 
 		if (!output)
 		{
-			cout << "Update -> Bad Thing, Error in " << module->name << endl;
+			Log("Update -> Bad Thing, Error in " + module->name);
 			break;
 		}
 	}
@@ -117,7 +119,7 @@ bool Game::CleanUp()
 {
 	bool output = true;
 
-	for (vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
+	for (std::vector<Module*>::iterator m = modules.end() - 1; m != modules.begin(); m--)
 	{
 		Module* module = *m;
 
@@ -126,7 +128,7 @@ bool Game::CleanUp()
 
 		if (!output)
 		{
-			cout << "Clean Up -> Bad Thing, Error in " << module->name << endl;
+			Log("Clean Up -> Bad Thing, Error in " + module->name);
 			break;
 		}
 	}
@@ -168,10 +170,10 @@ ipoint Game::ResizeIPoint(const ipoint& size, float multiplier)
 	return ipoint((int)x, (int)y);
 }
 
-int Game::StringToInt(string number)
+int Game::StringToInt(std::string number)
 {
 	int output;
-	stringstream stream;
+	std::stringstream stream;
 
 	stream << number;
 	stream >> output;
@@ -179,10 +181,10 @@ int Game::StringToInt(string number)
 	return output;
 }
 
-string Game::IntToString(int number)
+std::string Game::IntToString(int number)
 {
-	string output;
-	stringstream stream;
+	std::string output;
+	std::stringstream stream;
 
 	stream << number;
 	stream >> output;
@@ -190,10 +192,10 @@ string Game::IntToString(int number)
 	return output;
 }
 
-string Game::FloatToString(float number)
+std::string Game::FloatToString(float number)
 {
-	string output;
-	stringstream stream;
+	std::string output;
+	std::stringstream stream;
 
 	stream << number;
 	stream >> output;

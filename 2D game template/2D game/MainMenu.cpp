@@ -14,7 +14,7 @@
 //TEST
 #include "Physics.h"
 
-MainMenu::MainMenu()
+MainMenu::MainMenu() : test(nullptr)
 {
 	name = "menu";
 }
@@ -27,8 +27,6 @@ MainMenu::~MainMenu()
 bool MainMenu::Start()
 {
 	background = Color(255,255,0,255);
-
-	game->window->SetGrabbed(true);
 
 	test = game->textures->Load("images/Chadkino.png");
 
@@ -44,8 +42,6 @@ bool MainMenu::Start()
 	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->resolution, { 0,400 }, true, false));
 
 	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
-
-	label = new Label("Test Label", buttonfont, Color::red, { 300,100 });
 	
 	return true;
 }
@@ -64,15 +60,14 @@ bool MainMenu::Update(float dt)
 
 bool MainMenu::CleanUp()
 {
-	game->textures->Unload(test);
+	test = nullptr;
 
-	game->fonts->Unload(buttonfont);
+	buttonfont = nullptr;
 
 	delete play;
 	delete tooptions;
 	delete exit;
 	delete box;
-	delete label;
 
 	return true;
 }
@@ -80,11 +75,11 @@ bool MainMenu::CleanUp()
 void MainMenu::UIEvent(UIElement* element)
 {
 	if (element == play)
-		cout << "Straight up NO GAME" << endl;
+		game->Log("Straight up NO GAME");
 	else if (element == tooptions)
 		game->scenes->ChangeScene(Scenes::OPTIONS);
 	else if (element == exit)
-		game->window->SetState(windowstate::QUIT);
+		game->window->SetState(Window::State::QUIT);
 	else if (element == box)
 		game->window->SetTitle(box->GetContent().c_str());
 }

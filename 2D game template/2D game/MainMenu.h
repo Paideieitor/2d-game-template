@@ -3,9 +3,6 @@
 
 #include "Scene.h"
 
-class Texture;
-class Font;
-
 class Button;
 class InputBox;
 class Label;
@@ -27,11 +24,9 @@ public:
 
 private:
 
-	Texture* test;
+	TexturePtr test;
 
-	Label* label;
-
-	Font* buttonfont;
+	FontPtr buttonfont;
 
 	Button* play;
 	Button* tooptions;

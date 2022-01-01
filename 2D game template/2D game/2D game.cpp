@@ -1,6 +1,8 @@
 #include "Game.h"
 
-using namespace std;
+#include "SDL/include/SDL.h"
+#pragma comment( lib, "SDL/lib/SDL2.lib" )
+#pragma comment( lib, "SDL/lib/SDL2main.lib" )
 
 enum gamestate
 {
@@ -16,7 +18,7 @@ Game* game = NULL;
 int main(int argc, char* argv[])
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        cout << "Init -> Bad Thing, Error: " << SDL_GetError() << endl;
+        std::cout << "Init -> Bad Thing, Error: " << SDL_GetError() << std::endl;
 
     gamestate state = SETUP;
 

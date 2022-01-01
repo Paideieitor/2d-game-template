@@ -41,7 +41,7 @@ private:
 
 	Scene* nextscene;
 
-	vector<Scene*> scenes;
+	std::vector<Scene*> scenes;
 
 	bool changing;
 };

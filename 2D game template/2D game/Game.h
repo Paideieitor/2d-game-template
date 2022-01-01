@@ -3,12 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include <iostream>
 #include "pugixml.hpp"
 #include "Point.h"
 #include "Color.h"
-
-using namespace std;
 
 class Module;
 
@@ -59,14 +58,16 @@ public:
 	fpoint Center(ipoint objsize, fpoint position, ipoint size, fpoint objposition = { 0,0 }, bool horizontal = true, bool vertical = true);
 	ipoint ResizeIPoint(const ipoint& size, float multiplier);
 
-	int StringToInt(string);
-	string IntToString(int);
-	string FloatToString(float);
+	int StringToInt(std::string);
+	std::string IntToString(int);
+	std::string FloatToString(float);
+
+	void Log(const std::string& log) const { std::cout << log << "\n"; }
 
 private:
 
 	void AddModule(Module* module, bool active = true);
-	vector<Module*> modules;
+	std::vector<Module*> modules;
 };
 
 extern Game* game;

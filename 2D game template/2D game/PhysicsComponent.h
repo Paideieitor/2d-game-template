@@ -1,8 +1,11 @@
 #include "Point.h"
 
+#include <memory> // for the shared pointer, erase when no texture
+class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
+
 class b2Body;
 class b2Fixture;
-class Texture;
 enum  b2BodyType;
 
 enum ColliderType
@@ -40,7 +43,7 @@ private:
 	float rotationAngle;
 	ColliderType colliderType = ColliderType::NONE;
 
-	Texture* test;
+	TexturePtr test;
 
 	b2Fixture* fixture = nullptr;
 };

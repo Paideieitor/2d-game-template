@@ -2,6 +2,7 @@
 
 #include "AssetManager.h"
 
+#include "SDL/include/SDL.h"
 #include "MIX/include/SDL_mixer.h"
 #pragma comment ( lib, "MIX/lib/SDL2_mixer.lib" )
 
@@ -102,7 +103,7 @@ void Audio::LoadSFX(const char* path)
 
 void Audio::PlaySFX(int soundEffect, int repetition)
 {
-	if(soundEffect > soundList.size() - 1)
+	if(soundEffect > (int)soundList.size() - 1)
 	{
 		printf("Bad thing -> Sound effect is out of range");
 	}
@@ -115,7 +116,7 @@ void Audio::PlaySFX(int soundEffect, int repetition)
 
 void Audio::PlayMusic(int music)
 {
-	if(music > musicList.size() - 1)
+	if(music > (int)musicList.size() - 1)
 	{
 		printf("Bad thing -> Music is out of range");
 	}
@@ -133,7 +134,7 @@ void Audio::SetMusicVolume(int volume)
 	node.attribute("music").set_value(musicvolume);
 	game->document.save_file("config.xml");
 
-	Mix_VolumeMusic(musicvolume * audioVolumeOffset);
+	Mix_VolumeMusic((int)(musicvolume * audioVolumeOffset));
 }
 
 void Audio::SetSfxVolume(int volume)
@@ -143,15 +144,15 @@ void Audio::SetSfxVolume(int volume)
 	node.attribute("sfx").set_value(sfxvolume);
 	game->document.save_file("config.xml");
 
-	for (int k = 0; k < soundList.size(); k++)
+	for (size_t k = 0; k < soundList.size(); k++)
 	{
-		Mix_VolumeChunk(soundList[k]->sfx, sfxvolume * audioVolumeOffset);
+		Mix_VolumeChunk(soundList[k]->sfx, (int)(sfxvolume * audioVolumeOffset));
 	}
 }
 
 void Audio::FreeSFX()
 {
-	for(int i = 0; i < soundList.size(); i++)
+	for(size_t i = 0; i < soundList.size(); i++)
 	{
 		Mix_FreeChunk(soundList[i]->sfx);
 		delete soundList[i]->buffer;
@@ -160,7 +161,7 @@ void Audio::FreeSFX()
 
 void Audio::FreeMusic()
 {
-	for (int i = 0; i < musicList.size(); i++)
+	for (size_t i = 0; i < musicList.size(); i++)
 	{
 		Mix_FreeMusic(musicList[i]->song);
 		delete musicList[i]->buffer;

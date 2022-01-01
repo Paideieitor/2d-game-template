@@ -1,7 +1,6 @@
 #include "Window.h"
-#include <iostream>
 
-using namespace std;
+#include "SDL/include/SDL_video.h"
 
 Window::Window()
 {
@@ -40,7 +39,7 @@ bool Window::SetUp(pugi::xml_node& node)
 
     if (window == NULL)
     {
-        cout << "Window -> Bad Thing, Error: " << SDL_GetError() << endl;
+        game->Log("Window -> Bad Thing, Error: " + std::string(SDL_GetError()));
         return false;
     }
 
@@ -49,7 +48,7 @@ bool Window::SetUp(pugi::xml_node& node)
 
 bool Window::Start()
 {
-    state = windowstate::SHOW;
+    state = Window::State::SHOW;
 
 	return true;
 }
@@ -58,12 +57,12 @@ bool Window::Update(float dt)
 {
     switch (state)
     {
-    case windowstate::QUIT:
+    case Window::State::QUIT:
         return false;
         break;
-    case windowstate::HIDE:
+    case Window::State::HIDE:
         break;
-    case windowstate::SHOW:
+    case Window::State::SHOW:
         break;
     }
 
@@ -122,7 +121,7 @@ void Window::SetTitle(const char* title)
     SDL_SetWindowTitle(window, title);
 }
 
-void Window::SetState(windowstate state)
+void Window::SetState(Window::State state)
 {
     this->state = state;
 }

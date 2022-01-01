@@ -14,16 +14,16 @@ public:
 
 	bool SetUp(pugi::xml_node&);
 
-	bool Exists(const char* file) const;
+	bool Exists(const std::string& file) const;
 
-	unsigned int LoadData(const char* file, char** buffer) const;
-	SDL_RWops* Load(const char* file, char** buffer) const;
+	unsigned int LoadData(const std::string& file, char** buffer) const;
+	SDL_RWops* Load(const std::string& file, char** buffer) const;
 
-	pugi::xml_parse_result LoadXML(pugi::xml_document &data_file, const char* path);
+	pugi::xml_parse_result LoadXML(pugi::xml_document &data_file, const std::string& path);
 
 private:
 
-	bool CreatePath(const char* newDir, const char* mount_point = nullptr);
+	bool CreatePath(const char* newDir);
 };
 
 #endif

@@ -2,6 +2,8 @@
 
 #include "Window.h"
 
+#include "SDL/include/SDL_events.h"
+
 Input::Input()
 {
 	name = "input";
@@ -67,7 +69,7 @@ bool Input::Update(float dt)
 		switch (event.type)
 		{
 		case SDL_QUIT:
-			game->window->SetState(windowstate::QUIT);
+			game->window->SetState(Window::State::QUIT);
 			break;
 		case SDL_WINDOWEVENT:
 			switch (event.window.event)
@@ -75,13 +77,13 @@ bool Input::Update(float dt)
 			case SDL_WINDOWEVENT_HIDDEN:
 			case SDL_WINDOWEVENT_MINIMIZED:
 			case SDL_WINDOWEVENT_FOCUS_LOST:
-				game->window->SetState(windowstate::HIDE);
+				game->window->SetState(Window::State::HIDE);
 				break;
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_FOCUS_GAINED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
 			case SDL_WINDOWEVENT_RESTORED:
-				game->window->SetState(windowstate::SHOW);
+				game->window->SetState(Window::State::SHOW);
 				break;
 			}
 			break;

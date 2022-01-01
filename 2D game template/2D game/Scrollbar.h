@@ -3,8 +3,6 @@
 
 #include "UIElement.h"
 
-class Font;
-
 class Label;
 class Button;
 
@@ -19,7 +17,7 @@ public:
 	};
 
 	Scrollbar() = delete;
-	Scrollbar(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures = UIStateTextures(),
+	Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures = UIStateTextures(),
 		const UIStateTextures& bartextures = UIStateTextures(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
 		const Observer& observer = Observer());
 	~Scrollbar();

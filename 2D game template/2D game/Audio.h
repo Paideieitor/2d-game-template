@@ -50,8 +50,8 @@ private:
 	int musicvolume;
 	int sfxvolume;
 
-	vector<Music*> musicList;
-	vector<Sfx*> soundList;
+	std::vector<Music*> musicList;
+	std::vector<Sfx*> soundList;
 
 
 	pugi::xml_node node;

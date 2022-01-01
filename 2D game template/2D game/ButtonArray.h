@@ -3,8 +3,6 @@
 
 #include "UIElement.h"
 
-class Font;
-
 class Label;
 class Button;
 
@@ -13,9 +11,9 @@ class ButtonArray : public UIElement
 public:
 
 	ButtonArray() = delete;
-	ButtonArray(const string& text, Font* font, const Color& fontcolor, const vector<string>& options, const fpoint& position, Texture* texture = nullptr, 
-		const UIStateTextures& maintextures = UIStateTextures(), const UIStateTextures& unfoldtextures = UIStateTextures(),
-		bool worldposition = false, const Observer& observer = Observer());
+	ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position, 
+		TexturePtr texture = nullptr, const UIStateTextures& maintextures = UIStateTextures(), 
+		const UIStateTextures& unfoldtextures = UIStateTextures(), bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
 	UIElement::Output Update(float dt) override;
@@ -23,9 +21,9 @@ public:
 
 	void UIEvent(UIElement*) override;
 
-	const string GetCurrent() const;
+	const std::string GetCurrent() const;
 	void SetCurrent(unsigned int index);
-	void SetCurrent(const string& str);
+	void SetCurrent(const std::string& str);
 
 private:
 
@@ -40,7 +38,7 @@ private:
 
 private:
 
-	Texture* texture;
+	TexturePtr texture;
 	UIStateTextures unfoldtextures;
 
 	Label* text;
@@ -48,10 +46,10 @@ private:
 
 	Button* current;
 
-	vector<string> options;
-	vector<Button*> buttons;
+	std::vector<std::string> options;
+	std::vector<Button*> buttons;
 
-	string change;
+	std::string change;
 };
 
 #endif

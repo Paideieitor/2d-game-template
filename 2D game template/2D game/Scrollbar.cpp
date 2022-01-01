@@ -10,7 +10,7 @@
 #define SBAR_DEFAULT_SIZE_X 500
 #define SBAR_DEFAULT_SIZE_Y 20
 
-Scrollbar::Scrollbar(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures,
+Scrollbar::Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures,
 	const UIStateTextures& bartextures, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
 {

@@ -3,26 +3,23 @@
 
 #include "UIElement.h"
 
-class Texture;
-class Font;
-
 class Label : public UIElement
 {
 public:
 
 	Label() = delete;
-	Label(const string& text, Font* font, const Color& color, const fpoint& position, bool worldposition = false);
+	Label(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
 	~Label();
 
 	Output Update(float dt) override;
 	void Render() override;
 
-	const string GetText() const { return text; }
-	Font* const GetFont() const { return font; }
+	const std::string GetText() const { return text; }
+	FontPtr const GetFont() const { return font; }
 	const Color GetColor() const { return color; }
 
-	void ChangeText(const string& text, Font* font = nullptr, const Color& color = Color::null);
-	void ChangeFont(Font* font, const Color& color = Color::black);
+	void ChangeText(const std::string& text, FontPtr font = nullptr, const Color& color = Color::null);
+	void ChangeFont(FontPtr font, const Color& color = Color::black);
 	void ChangeColor(const Color& color);
 
 private:
@@ -34,10 +31,10 @@ private:
 
 private:
 
-	string text;
+	std::string text;
 
-	Texture* texture;
-	Font* font;
+	TexturePtr texture;
+	FontPtr font;
 	Color color;
 };
 

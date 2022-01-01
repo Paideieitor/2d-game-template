@@ -19,7 +19,7 @@ public:
 	void Init() { active = true; }
 	void Deinit() { active = false; }
 
-	string name;
+	std::string name;
 
 protected:
 

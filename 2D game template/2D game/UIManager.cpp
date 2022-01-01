@@ -53,7 +53,7 @@ bool UIManager::Update(float dt)
 					stop = false;
 					break;
 				case UIElement::Output::ERROR:
-					cout << "UIManager Update -> Bad Thing, Error in element " << i << endl;
+					game->Log("UIManager Update -> Bad Thing, Error in element " + i);
 					return false;
 				}
 				counter++;
@@ -95,7 +95,7 @@ bool UIManager::CleanUp()
 
 void UIManager::EraseElement(UIElement* element)
 {
-	for (vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
+	for (std::vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
 		if (element == *e)
 		{
 			elements.erase(e);

@@ -3,6 +3,11 @@
 
 #include "Game.h"
 
+class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
+class Font;
+typedef std::shared_ptr<Font> FontPtr;
+
 class UIElement;
 
 class Scene
@@ -18,7 +23,7 @@ public:
 
 	virtual void UIEvent(UIElement*) {}
 
-	string name;
+	std::string name;
 };
 
 #endif

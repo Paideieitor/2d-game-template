@@ -3,8 +3,6 @@
 
 #include "UIElement.h"
 
-class Font;
-
 class Label;
 class Button;
 
@@ -13,7 +11,7 @@ class InputBox : public UIElement
 public:
 
 	InputBox() = delete;
-	InputBox(Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
+	InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 
@@ -22,7 +20,7 @@ public:
 
 	void UIEvent(UIElement*) override;
 
-	const string GetContent(bool dispose = true);
+	const std::string GetContent(bool dispose = true);
 
 private:
 
@@ -33,11 +31,11 @@ private:
 
 private:
 
-	string content;
+	std::string content;
 	int current;
 
-	string lastrendered;
-	Texture* text;
+	std::string lastrendered;
+	TexturePtr text;
 
 	Button* frame;
 };

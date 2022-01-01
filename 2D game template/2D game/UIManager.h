@@ -25,7 +25,7 @@ private:
 
 private:
 
-	vector<UIElement*> elements;
+	std::vector<UIElement*> elements;
 
 	friend class UIElement;
 };

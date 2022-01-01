@@ -19,12 +19,4 @@ UIElement::~UIElement()
 
 void UIStateTextures::UnloadTextures()
 {
-	if (idle)
-		game->textures->Unload(idle);
-	if (hover)
-		game->textures->Unload(hover);
-	if (click)
-		game->textures->Unload(click);
-	if (disabled)
-		game->textures->Unload(disabled);
 }

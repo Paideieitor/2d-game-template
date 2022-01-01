@@ -9,17 +9,20 @@ typedef struct SDL_Surface Surface;
 class Font
 {
 public:
-	Font(char* buffer, FontData* font) : buffer(buffer), font(font) {}
 
+	Font(char* buffer, FontData* font) : buffer(buffer), font(font) {}
 	~Font();
 
 private:
+
 	char* buffer;
 	FontData* font;
 
 	friend class Fonts;
 	friend class Textures;
 };
+
+typedef std::shared_ptr<Font> FontPtr;
 
 class Fonts : public Module
 {
@@ -34,13 +37,12 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	Font* Load(const char* path, int size);
-	void Unload(Font*&);
+	FontPtr Load(const std::string& path, int size);
 
 private:
 
-	Surface* TextToSurface(FontData* font, const char* text, Color color);
-	vector<Font*> fonts;
+	Surface* TextToSurface(FontData* font, const std::string& text, Color color);
+	std::vector<FontPtr> fonts;
 
 	friend class Textures;
 };

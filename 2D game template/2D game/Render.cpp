@@ -5,7 +5,7 @@
 #include "SceneManager.h"
 #include "Textures.h"
 
-#include "SDL.h"
+#include "SDL/include/SDL_render.h"
 
 Render::Render()
 {
@@ -28,7 +28,7 @@ bool Render::SetUp(pugi::xml_node& node)
 	renderer = SDL_CreateRenderer(game->window->window, -1, flags);
 	if (renderer == NULL)
 	{
-		cout << "Renderer -> Bad Thing, Error: " << SDL_GetError() << endl;
+		game->Log("Renderer -> Bad Thing, Error: " + std::string(SDL_GetError()));
 		return false;
 	}
 	else
@@ -83,9 +83,9 @@ bool Render::CleanUp()
 
 void Render::RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale, float speed, bool filled)
 {
-	RenderEvent event;
+	Render::Event event;
 
-	event.type = RECTANGLE;
+	event.type = Type::RECTANGLE;
 
 	event.position = position;
 	event.width = width;
@@ -99,30 +99,30 @@ void Render::RenderRectangle(int layer, fpoint position, int width, int height, 
 	event.filled = filled;
 
 	if (InCamera((int)position.x, (int)position.y, width, height) || !usescale)
-		eventlist.insert(make_pair(layer, event));
+		eventlist.insert(std::make_pair(layer, event));
 }
 
 void Render::AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color)
 {
-	RenderEvent event;
+	Render::Event event;
 
-	event.type = LINE;
+	event.type = Type::LINE;
 
 	event.position = firstPosition;
 	event.secondPosition = secondPosition;
 
 	event.color = color;
 
-	eventlist.insert(make_pair(layer, event));
+	eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+void Render::RenderTexture(int layer, TexturePtr texture, fpoint position, int x, int y, ipoint size, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
-	RenderEvent event;
+	Render::Event event;
 
-	event.type = TEXTURE;
+	event.type = Type::TEXTURE;
 
-	event.texture = texture->texture;
+	event.texture = texture;
 	event.position = position;
 
 	event.x = x;
@@ -141,26 +141,26 @@ void Render::RenderTexture(int layer, Texture* texture, fpoint position, int x, 
 	event.pivot = pivot;
 	
 	if (InCamera((int)position.x, (int)position.y, size.x, size.y) || !usescale)
-		eventlist.insert(make_pair(layer, event));
+		eventlist.insert(std::make_pair(layer, event));
 }
 
 void Render::PrintEvents()
 {
-	for (map<int, RenderEvent>::iterator e = eventlist.begin(); e != eventlist.end(); e++)
+	for (std::map<int, Render::Event>::iterator e = eventlist.begin(); e != eventlist.end(); e++)
 	{
-		RenderEvent event = e->second;
+		Render::Event event = e->second;
 		switch (event.type)
 		{
-		case RECTANGLE:
+		case Type::RECTANGLE:
 			DrawRect(event.position, event.width, event.height, event.color, event.usescale, event.filled);
 			break;
-		case LINE:
+		case Type::LINE:
 			DrawLine(event.position, event.secondPosition, event.color);
 			break;
-		case CIRCLE:
+		case Type::CIRCLE:
 			DrawCircle(event.position, event.radius, event.color);
 			break;
-		case TEXTURE:
+		case Type::TEXTURE:
 			DrawTexture(event.texture, event.position, event.x, event.y, event.width, event.height, event.flip, event.color.a, event.usescale, event.speed, event.angle, event.pivot);
 			break;
 		}
@@ -186,7 +186,7 @@ ipoint Render::GetCameraPosition(bool worldposition)
 	return output;
 }
 
-bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
+bool Render::DrawTexture(TexturePtr texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot)
 {
 	const float scale = game->window->GetScale();
 
@@ -210,7 +210,7 @@ bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, in
 		rect.y = (int)position.y;
 	}
 
-	SDL_SetTextureAlphaMod(texture, (Uint8)alpha);
+	SDL_SetTextureAlphaMod(texture->texture, (Uint8)alpha);
 
 	SDL_Point p;
 	
@@ -221,9 +221,9 @@ bool Render::DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, in
 	if (flip)
 		f = SDL_FLIP_HORIZONTAL;
 
-	if (SDL_RenderCopyEx(renderer, texture, &section, &rect, angle, &p, f) != 0)
+	if (SDL_RenderCopyEx(renderer, texture->texture, &section, &rect, angle, &p, f) != 0)
 	{
-		cout << "Draw Texture -> Bad Thing, Error: " << SDL_GetError() << endl;
+		game->Log("Draw Texture -> Bad Thing, Error: " + std::string(SDL_GetError()));
 		return false;
 	}
 
@@ -258,7 +258,7 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 
 	if (result != 0)
 	{
-		cout << "Draw Rectangle -> Bad Thing, Error: " << SDL_GetError() << endl;
+		game->Log("Draw Rectangle -> Bad Thing, Error: " + std::string(SDL_GetError()));
 		return false;
 	}
 
@@ -268,7 +268,7 @@ bool Render::DrawRect(fpoint position, int width, int height, Color color, bool 
 bool Render::DrawLine(fpoint firstPosition, fpoint secondPosition, Color color)
 {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderDrawLine(renderer, firstPosition.x, firstPosition.y, secondPosition.x, secondPosition.y);
+	SDL_RenderDrawLine(renderer, (int)firstPosition.x, (int)firstPosition.y, (int)secondPosition.x, (int)secondPosition.y);
 	return false;
 }
 
@@ -287,14 +287,14 @@ bool Render::DrawCircle(fpoint position, int radius, Color color)
 		while (x >= y)
 		{
 			//  Each of the following renders an octant of the circle
-			SDL_RenderDrawPoint(renderer, position.x + x, position.y - y);
-			SDL_RenderDrawPoint(renderer, position.x + x, position.y + y);
-			SDL_RenderDrawPoint(renderer, position.x - x, position.y - y);
-			SDL_RenderDrawPoint(renderer, position.x - x, position.y + y);
-			SDL_RenderDrawPoint(renderer, position.x + y, position.y - x);
-			SDL_RenderDrawPoint(renderer, position.x + y, position.y + x);
-			SDL_RenderDrawPoint(renderer, position.x - y, position.y - x);
-			SDL_RenderDrawPoint(renderer, position.x - y, position.y + x);
+			SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y - y);
+			SDL_RenderDrawPoint(renderer, (int)position.x + x, (int)position.y + y);
+			SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y - y);
+			SDL_RenderDrawPoint(renderer, (int)position.x - x, (int)position.y + y);
+			SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y - x);
+			SDL_RenderDrawPoint(renderer, (int)position.x + y, (int)position.y + x);
+			SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y - x);
+			SDL_RenderDrawPoint(renderer, (int)position.x - y, (int)position.y + x);
 
 			if (error <= 0)
 			{

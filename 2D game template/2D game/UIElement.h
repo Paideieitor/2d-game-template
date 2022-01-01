@@ -8,6 +8,9 @@
 #include "Observer.h"
 
 class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
+class Font;
+typedef std::shared_ptr<Font> FontPtr;
 
 class UIElement
 {
@@ -120,13 +123,13 @@ struct UIStateTextures
 public:
 
 	UIStateTextures() : idle(nullptr), hover(nullptr), click(nullptr), disabled(nullptr) {}
-	UIStateTextures(Texture* idle, Texture* hover = nullptr, Texture* click = nullptr, Texture* disabled = nullptr)
+	UIStateTextures(TexturePtr idle, TexturePtr hover = nullptr, TexturePtr click = nullptr, TexturePtr disabled = nullptr)
 		: idle(idle), hover(hover), click(click), disabled(disabled) {}
 
 	// Not called on destructor
 	void UnloadTextures();
 
-	Texture* const GetTexture(UIElement::State state) const
+	TexturePtr const GetTexture(UIElement::State state) const
 	{
 		switch (state)
 		{
@@ -143,14 +146,15 @@ public:
 			return disabled ? disabled : idle;
 			break;
 		}
+		return nullptr;
 	}
 
 private:
 
-	Texture* idle;
-	Texture* hover;
-	Texture* click;
-	Texture* disabled;
+	TexturePtr idle;
+	TexturePtr hover;
+	TexturePtr click;
+	TexturePtr disabled;
 };
 
 #endif

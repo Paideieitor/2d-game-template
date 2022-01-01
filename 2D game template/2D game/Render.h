@@ -2,50 +2,54 @@
 #define RENDER_H
 
 #include "Module.h"
+
 #include <map>
 
 class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
 
 typedef struct SDL_Renderer Renderer;
 typedef struct SDL_Rect Rect;
 
-enum rendertype
-{
-	RECTANGLE,
-	LINE,
-	CIRCLE,
-	TEXTURE
-};
-
-struct RenderEvent
-{
-	rendertype type;
-
-	SDL_Texture* texture;
-
-	fpoint position;
-	fpoint secondPosition;
-
-	int radius;
-	int x;
-	int y;
-	int width;
-	int height;
-
-	Color color;
-
-	float speed;
-
-	bool flip;
-	bool usescale;
-	bool filled;
-
-	double angle;
-	fpoint pivot;
-};
-
 class Render : public Module
 {
+private:
+
+	enum class Type
+	{
+		RECTANGLE,
+		LINE,
+		CIRCLE,
+		TEXTURE
+	};
+
+	struct Event
+	{
+		Render::Type type;
+
+		TexturePtr texture;
+
+		fpoint position;
+		fpoint secondPosition;
+
+		int radius;
+		int x;
+		int y;
+		int width;
+		int height;
+
+		Color color;
+
+		float speed;
+
+		bool flip;
+		bool usescale;
+		bool filled;
+
+		double angle;
+		fpoint pivot;
+	};
+
 public:
 
 	Render();
@@ -63,7 +67,7 @@ public:
 	}
 	void RenderRectangle(int layer, fpoint position, int width, int height, Color color, bool usescale = true, float speed = 1.0f, bool filled = true);
 	void RenderCircle(int layer, fpoint center, int r, Color color, bool usescale = false, float speed = 1.0f, bool filled = true) {}
-	void RenderTexture(int layer, Texture* texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
+	void RenderTexture(int layer, TexturePtr texture, fpoint position, int x, int y, ipoint size, bool flip = false, int alpha = 255, bool usescale = true, float speed = 1.0f, double angle = 0, fpoint pivot = {0,0});
 
 	void AddLineEvent(int layer, fpoint firstPosition, fpoint secondPosition, Color color);
 
@@ -85,11 +89,11 @@ private:
 	bool DrawRect(fpoint position, int width, int height, Color color, bool usescale, bool filled) const;
 	bool DrawLine(fpoint firstPosition, fpoint secondPosition, Color color);
 	bool DrawCircle(fpoint position, int radius, Color color);
-	bool DrawTexture(SDL_Texture* texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot);
+	bool DrawTexture(TexturePtr texture, fpoint position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, fpoint pivot);
 
 	bool InCamera(int x, int y, int width, int height);
 
-	multimap<int, RenderEvent> eventlist;
+	std::multimap<int, Render::Event> eventlist;
 };
 
 #endif

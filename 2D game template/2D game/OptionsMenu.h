@@ -3,9 +3,6 @@
 
 #include "Scene.h"
 
-class Texture;
-class Font;
-
 class Button;
 class ButtonArray;
 class Scrollbar;
@@ -27,7 +24,7 @@ public:
 
 private:
 
-	Font* buttonfont;
+	FontPtr buttonfont;
 
 	Button* fullscreen;
 	Button* borderless;

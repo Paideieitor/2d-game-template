@@ -6,6 +6,8 @@
 
 #include "Module.h"
 
+#include "SDL/include/SDL_scancode.h" // yep sdl is not completly isolated... dont care, straight up cant be bothered to find a solution to this
+
 enum class Key
 {
 	ZERO = SDL_SCANCODE_0,
@@ -226,7 +228,7 @@ enum class Key
 	X = SDL_SCANCODE_X,
 	Y = SDL_SCANCODE_Y,
 	Z = SDL_SCANCODE_Z,
-	MOUSE_LEFT = SLEEP + 1, // sleep is the last sdl scancode acording to https://www.freepascal-meets-sdl.net/sdl-2-0-scancode-lookup-table/
+	MOUSE_LEFT = SLEEP + 1, // SDL_SLEEP is the last sdl scancode acording to https://www.freepascal-meets-sdl.net/sdl-2-0-scancode-lookup-table/
 	MOUSE_RIGHT = MOUSE_LEFT + 1,
 	MOUSE_1 = MOUSE_RIGHT + 1,
 	MOUSE_2 = MOUSE_1 + 1,

@@ -3,11 +3,10 @@
 #include "AssetManager.h"
 #include "Render.h"
 
-#include "SDL.h"
 #include "IMG/include/SDL_image.h"
 #pragma comment( lib, "IMG/lib/SDL2_image.lib" )
 
-Texture::Texture(const string& path, TextureData* texture) : path(path), texture(texture), instances(0), font(nullptr), color()
+Texture::Texture(const std::string& path, TextureData* texture) : path(path), texture(texture), font(nullptr), color()
 {
 	SDL_QueryTexture(texture, NULL, NULL, &size.x, &size.y);
 }
@@ -31,7 +30,7 @@ bool Textures::SetUp(pugi::xml_node&)
 {
 	if (IMG_Init(IMG_INIT_PNG) == 0)
 	{
-		cout << "Texture -> Bad Thing, Error: Couldn't Init" << endl;
+		game->Log("Texture -> Bad Thing, Error: Couldn't Init");
 		return false;
 	}
 
@@ -45,30 +44,24 @@ bool Textures::Start()
 
 bool Textures::Update(float dt)
 {
+	for (size_t i = 0; i < textures.size(); ++i)
+		if (textures[i].use_count() <= 1)
+			textures.erase(textures.begin() + i);
+
 	return true;
 }
 
 bool Textures::CleanUp()
 {
-	while (textures.size() != 0)
-	{
-		delete* textures.begin();
-		textures.erase(textures.begin());
-	}
-
+	textures.clear();
 	return true;
 }
 
-Texture* Textures::Load(const char* path)
+TexturePtr Textures::Load(const std::string& path)
 {
-	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
-	{
-		if ((*t)->path == path)
-		{
-			++(*t)->instances;
-			return *t;
-		}
-	}
+	for (size_t i = 0; i < textures.size(); ++i)
+		if (textures[i]->path == path)
+			return textures[i];
 
 	char* buffer;
 	SDL_Surface* surface = IMG_Load_RW(game->assets->Load(path, &buffer), 1);
@@ -85,30 +78,24 @@ Texture* Textures::Load(const char* path)
 	}
 	else
 	{
-		cout << "Texture surface loading -> Bad Thing, Error in " << path << " -> " << SDL_GetError() << endl;
+		game->Log("Texture surface loading -> Bad Thing, Error in " + path + " -> " + std::string(SDL_GetError()));
 		return nullptr;
 	}
 
-	Texture* output = new Texture(path, texture);
+	TexturePtr output = std::make_shared<Texture>(path, texture);
 	textures.push_back(output);
-	++output->instances;
 
 	return output;
 }
 
-Texture* Textures::LoadText(Font* font, const char* text, Color color)
+TexturePtr Textures::LoadText(FontPtr font, const std::string& text, Color color)
 {
 	if (!font)
 		return nullptr;
 
-	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
-	{
-		if ((*t)->path == text && (*t)->font == font && (*t)->color == color)
-		{
-			++(*t)->instances;
-			return *t;
-		}
-	}
+	for (size_t i = 0; i < textures.size(); ++i)
+		if (textures[i]->path == text && textures[i]->font == font && textures[i]->color == color)
+			return textures[i];
 
 	SDL_Surface* surface = game->fonts->TextToSurface(font->font, text, color);
 	
@@ -120,40 +107,20 @@ Texture* Textures::LoadText(Font* font, const char* text, Color color)
 	}
 	else
 	{
-		 cout << "Texture font surface -> Bad Thing, Error in " << text << " -> " << SDL_GetError() << endl;
+		 game->Log("Texture font surface -> Bad Thing, Error in " + text + " -> " + std::string(SDL_GetError()));
 		 return nullptr;
 	}
 	
 	if (!texture)
 		return nullptr;
 
-	Texture* output = new Texture(text, texture);
+	TexturePtr output = std::make_shared<Texture>(text, texture);
 	textures.push_back(output);
-	++output->instances;
+
 	output->font = font;
 	output->color = color;
 
 	return output;
-}
-
-void Textures::Unload(Texture*& texture)
-{
-	for (vector<Texture*>::iterator t = textures.begin(); t != textures.end(); t++)
-	{
-		if (*t == texture)
-		{
-			--(*t)->instances;
-			if ((*t)->instances <= 0)
-			{
-				delete texture;
-				textures.erase(t);
-
-				texture = nullptr;
-			}
-
-			break;
-		}
-	}
 }
 
 TextureData* Textures::SurfaceToTexture(Surface* surface)
@@ -161,17 +128,9 @@ TextureData* Textures::SurfaceToTexture(Surface* surface)
 	SDL_Texture* output = SDL_CreateTextureFromSurface(game->render->renderer, surface);
 	if (output == NULL)
 	{
-		cout << "Texture texture creation -> Bad Thing, Error:" << SDL_GetError() << endl;
+		game->Log("Texture texture creation -> Bad Thing, Error:" + std::string(SDL_GetError()));
 		return nullptr;
 	}
 
 	return output;
-}
-
-void Textures::ChangeTexture(Texture*& source, Texture*& destination)
-{
-	Unload(destination);
-
-	++source->instances;
-	destination = source;
 }

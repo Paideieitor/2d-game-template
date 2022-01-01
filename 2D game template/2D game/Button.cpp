@@ -5,7 +5,7 @@
 
 #include "Label.h"
 
-Button::Button(const string& text, Font* font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures, 
+Button::Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures,
 	Button::Type presstype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false), 
 	idle(textures.GetTexture(UIElement::State::IDLE)), hover(textures.GetTexture(UIElement::State::HOVER)), 
@@ -81,12 +81,12 @@ void Button::Render()
 		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
 }
 
-const string Button::GetText() const
+const std::string Button::GetText() const
 {
 	return label ? label->GetText() : "";
 }
 
-Font* const Button::GetFont() const
+FontPtr const Button::GetFont() const
 {
 	return label ? label->GetFont() : nullptr;
 }
@@ -96,7 +96,7 @@ const Color Button::GetColor() const
 	return label ? label->GetColor() : Color::black;
 }
 
-void Button::ChangeText(const string& text)
+void Button::ChangeText(const std::string& text)
 {
 	if (label)
 	{

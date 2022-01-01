@@ -49,8 +49,6 @@ bool SceneManager::Update(float dt)
 		{
 			currentscene->CleanUp();
 			game->ui->CleanUp();
-			game->fonts->CleanUp();
-			game->textures->CleanUp();
 			game->render->ClearEvents();
 		}
 
@@ -63,7 +61,7 @@ bool SceneManager::Update(float dt)
 
 	if (!currentscene->Update(dt))
 	{
-		cout << "Scene Manager Update -> Bad Thing, Error in " << currentscene->name << endl;
+		game->Log("Scene Manager Update -> Bad Thing, Error in " + currentscene->name);
 		return false;
 	}
 
@@ -74,7 +72,7 @@ bool SceneManager::CleanUp()
 {
 	if (currentscene && !currentscene->CleanUp())
 	{
-		cout << "Scene Manager Clean Up -> Bad Thing, Error in " << currentscene->name << endl;
+		game->Log("Scene Manager Clean Up -> Bad Thing, Error in " + currentscene->name);
 		return false;
 	}
 
