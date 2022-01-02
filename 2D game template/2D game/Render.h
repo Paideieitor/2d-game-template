@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+#include "Frame.h"
+
 #include <map>
 
 class Texture;
@@ -68,9 +70,14 @@ public:
 	}
 	void RenderRectangle(int layer, const fpoint& position, int width, int height, const Color& color, bool usescale = true, 
 		float speed = 1.0f, bool filled = true);
-	void RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale = false, float speed = 1.0f);
+	void RenderTexture(int layer, TexturePtr texture, const fpoint& position, const Frame& frame, bool flip = false, int alpha = 255,
+		bool usescale = true, float speed = 1.0f, double angle = 0, const fpoint& pivot = { 0,0 })
+	{
+		RenderTexture(layer, texture, position, frame.position.x, frame.position.y, frame.size, flip, alpha, usescale, speed, angle, pivot);
+	}
 	void RenderTexture(int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip = false, int alpha = 255,
 		bool usescale = true, float speed = 1.0f, double angle = 0, const fpoint& pivot = {0,0});
+	void RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale = false, float speed = 1.0f);
 	void RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color);
 
 	const ipoint GetCameraPosition(bool worldposition = false);

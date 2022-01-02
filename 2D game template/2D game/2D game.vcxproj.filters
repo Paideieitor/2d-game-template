@@ -76,6 +76,9 @@
     <ClCompile Include="Fonts.cpp">
       <Filter>Modules\Image &amp; Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -157,6 +160,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
       <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
