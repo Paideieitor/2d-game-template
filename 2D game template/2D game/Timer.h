@@ -17,6 +17,9 @@ public:
 	void Pause();
 	void Play();
 
+	bool Check(int time, bool restart = true);
+	bool CheckSec(float time, bool restart = true);
+
 private:
 
 	int start;

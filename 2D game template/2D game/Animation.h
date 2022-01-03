@@ -5,16 +5,21 @@
 #include "Timer.h"
 
 #include <vector>
+#include <memory>
 
-class Animation
+class AnimationData;
+typedef std::unique_ptr<AnimationData> Animation;
+
+Animation MakeAnimation(bool loop, float speed);
+Animation MakeAnimation(bool loop, float speed, ipoint position, ipoint size);
+Animation MakeAnimation(bool loop, float speed, unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows);
+
+class AnimationData
 {
 public:
 	
-	Animation() = delete;
-	Animation(bool loop, float speed) : loop(loop), speed(speed) {}
-	Animation(bool loop, float speed, ipoint position, ipoint size) : loop(loop), speed(speed) { AddFrame(position, size); }
-	Animation(bool loop, float speed, unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows)
-		: loop(loop), speed(speed) { AddFrames(amount, initialpos, size, columns, rows); }
+	AnimationData() = delete;
+	AnimationData(bool loop, float speed) : loop(loop), speed(speed), current(0) { timer.Start(); }
 
 	void AddFrame(ipoint position, ipoint size) { frames.emplace_back(Frame(position, size)); }
 	void AddFrames(unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows)
@@ -27,7 +32,7 @@ public:
 			position.x += size.x * column;
 			position.y += size.y * row;
 
-			AddFrame(initialpos, size);
+			AddFrame(position, size);
 
 			++column;
 			if (column >= columns)
@@ -41,7 +46,23 @@ public:
 		}
 	}
 
+	const Frame& GetFrame()
+	{
+		if (timer.CheckSec(speed))
+		{
+			++current;
+			if (current >= frames.size())
+				current = 0;
+		}
 
+		return frames[current];
+	}
+
+	void Reset()
+	{
+		current = 0;
+		timer.Start();
+	}
 
 public:
 
@@ -50,10 +71,14 @@ public:
 
 private:
 
-	Timer timer;
-
+	size_t current;
 	std::vector<Frame> frames;
 
+	Timer timer;
+
+	friend Animation MakeAnimation(bool loop, float speed);
+	friend Animation MakeAnimation(bool loop, float speed, ipoint position, ipoint size);
+	friend Animation MakeAnimation(bool loop, float speed, unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows);
 };
 
 #endif

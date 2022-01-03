@@ -14,6 +14,7 @@ Timer::~Timer()
 void Timer::Start()
 {
 	start = SDL_GetTicks();
+	pausedAt = 0;
 }
 
 void Timer::Stop()
@@ -55,4 +56,32 @@ void Timer::Play()
 		start = SDL_GetTicks() - pausedAt;
 		pausedAt = 0;
 	}
+}
+
+bool Timer::Check(int time, bool restart)
+{
+	if (start < 0)
+		return false;
+
+	if (Read() >= time)
+	{
+		if (restart)
+			Start();
+		return true;
+	}
+	return false;
+}
+
+bool Timer::CheckSec(float time, bool restart)
+{
+	if (start < 0)
+		return false;
+
+	if (ReadSec() >= time)
+	{
+		if (restart)
+			Start();
+		return true;
+	}
+	return false;
 }

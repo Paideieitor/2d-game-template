@@ -79,6 +79,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">

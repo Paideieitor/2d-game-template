@@ -3,6 +3,8 @@
 
 #include "Scene.h"
 
+#include "Animation.h"
+
 class Button;
 class InputBox;
 class Label;
@@ -23,6 +25,9 @@ public:
 private:
 
 	TexturePtr test;
+
+	TexturePtr animTexture;
+	Animation animation;
 
 	FontPtr buttonfont;
 
