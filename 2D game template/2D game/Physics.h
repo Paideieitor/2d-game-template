@@ -22,11 +22,6 @@ public:
 	void DestroyPhysicsObject(PhysicsComponent* object);
 	void PhysicsDebugDraw();
 
-	b2Body* groundBody;
-	PhysicsComponent* box;
-	PhysicsComponent* box1;
-	PhysicsComponent* box2;
-	PhysicsComponent* ground;
 
 
 

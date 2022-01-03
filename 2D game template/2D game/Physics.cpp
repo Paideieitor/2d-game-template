@@ -21,9 +21,9 @@ Physics::~Physics()
 
 bool Physics::SetUp(pugi::xml_node&)
 {
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 60,23 },0,1.0f,0.3f,0.21f,false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,38 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 530,90 }, { 23,48 }, 0, 1.0f, 0.3f, 0.21f, false));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 60,23 },0,1.0f,0.3f,0.21f,false));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,38 }, 0, 1.0f, 0.3f, 0.21f, false));
+	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 530,90 }, { 23,48 }, 0, 1.0f, 0.3f, 0.21f, false));
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 500,30}, { 18,30 }, 0, 1.0f, 0.3f, 0.21f, false));
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 510,0 }, { 23,48 }, 0, 1.0f, 0.3f, 0.21f, false));
 	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 40,23 }, 0, 1.0f, 0.3f, 0.21f, false));
