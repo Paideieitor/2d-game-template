@@ -5,6 +5,7 @@
 
 #include "Game.h"
 
+#include "Animation.h"
 #include "Observer.h"
 
 class Texture;
@@ -36,8 +37,7 @@ public:
 	{
 		IDLE,
 		HOVER,
-		CLICK,
-		DISABLED
+		CLICK
 	};
 
 public:
@@ -89,8 +89,12 @@ public:
 	bool IsHovered() { return state == State::HOVER; }
 	void SetHover() { state = State::HOVER; }
 
-	bool IsDisabled() { return state == State::DISABLED; }
-	void Disable(bool disable) { disable ? state = State::DISABLED : state = State::IDLE; }
+	bool IsDisabled() { return disabled; }
+	void Disable(bool disable) 
+	{ 
+		disabled = disable; 
+		DisableChanged(); 
+	}
 
 public:
 
@@ -99,6 +103,7 @@ public:
 protected:
 
 	virtual void ActiveChanged() = 0;
+	virtual void DisableChanged() = 0;
 	virtual void PositionChanged() = 0;
 	virtual void SizeChanged() = 0;
 	virtual void WorldPosChanged() = 0;
@@ -112,59 +117,30 @@ protected:
 private:
 
 	bool active;
+	bool disabled;
 
 	fpoint position;
 	ipoint size;
 	bool worldposition;
 };
 
-struct UIStateTextures
+struct UIGraphics
 {
 public:
 
-	enum class Type
-	{
-		NONE,
-		MULTI_TEXTURES,
-		SINGLE_TEXTURE_SINGLE_ANIMATION,
-		SINGLE_TEXTURE_MULTI_ANIMATIONS
-	};
+	UIGraphics() : texture(nullptr), idle(nullptr), hover(nullptr), click(nullptr), disabled(nullptr) {}
+	UIGraphics(const TexturePtr& texture, const Animation& idle, const Animation& hover = nullptr, const Animation& click = nullptr, 
+		const Animation& disabled = nullptr)
+		: texture(texture), idle(idle), hover(hover != nullptr ? hover : idle), click(click != nullptr ? click : idle), 
+		disabled(disabled != nullptr ? disabled : idle) 
+	{}
 
-public:
+	TexturePtr texture;
 
-	UIStateTextures() : idle(nullptr), hover(nullptr), click(nullptr), disabled(nullptr) {}
-	UIStateTextures(TexturePtr idle, TexturePtr hover = nullptr, TexturePtr click = nullptr, TexturePtr disabled = nullptr)
-		: idle(idle), hover(hover), click(click), disabled(disabled) {}
-
-	// Not called on destructor
-	void UnloadTextures();
-
-	TexturePtr const GetTexture(UIElement::State state) const
-	{
-		switch (state)
-		{
-		case UIElement::State::IDLE:
-			return idle;
-			break;
-		case UIElement::State::HOVER:
-			return hover ? hover : idle;
-			break;
-		case UIElement::State::CLICK:
-			return click ? click : idle;
-			break;
-		case UIElement::State::DISABLED:
-			return disabled ? disabled : idle;
-			break;
-		}
-		return nullptr;
-	}
-
-private:
-
-	TexturePtr idle;
-	TexturePtr hover;
-	TexturePtr click;
-	TexturePtr disabled;
+	Animation idle;
+	Animation hover;
+	Animation click;
+	Animation disabled;
 };
 
 #endif

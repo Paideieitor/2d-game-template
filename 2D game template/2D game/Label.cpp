@@ -7,8 +7,6 @@ Label::Label(const std::string& text, FontPtr font, const Color& color, const fp
 	: UIElement(UIElement::Type::LABEL, position, worldposition, Observer()), text(text), font(font), color(color)
 {
 	ChangeText(text, font, color);
-	if (texture)
-		SetSize(texture->GetSize());
 }
 
 Label::~Label()
@@ -24,10 +22,9 @@ void Label::Render()
 {
 	if (texture)
 	{
-		ipoint rendersize = GetSize();
-		if (rendersize.IsZero())
-			rendersize = texture->GetSize();
-		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, rendersize, false, 255, IsWorldPos());
+		int alpha = IsDisabled() ? 50 : 255;
+
+		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, texture->GetSize(), false, alpha, IsWorldPos());
 	}
 }
 

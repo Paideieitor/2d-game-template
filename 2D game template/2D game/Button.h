@@ -19,7 +19,7 @@ public:
 	};
 
 	Button() = delete;
-	Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
+	Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics = UIGraphics(),
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
@@ -44,6 +44,7 @@ public:
 private:
 
 	void ActiveChanged() override;
+	void DisableChanged() override;
 	void PositionChanged() override;
 	void SizeChanged() override;
 	void WorldPosChanged() override;
@@ -57,13 +58,12 @@ private:
 
 	Label* label;
 
-	TexturePtr idle;
-	TexturePtr hover;
-	TexturePtr click;
-	TexturePtr disabled;
-	TexturePtr current;
+	UIGraphics graphics;
+	Animation current; // important current is declared after graphics
 
 	Color color; // for when no texture
+
+	fpoint center;
 };
 
 #endif

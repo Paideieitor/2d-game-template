@@ -12,8 +12,8 @@ public:
 
 	ButtonArray() = delete;
 	ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position, 
-		TexturePtr texture = nullptr, const UIStateTextures& maintextures = UIStateTextures(), 
-		const UIStateTextures& unfoldtextures = UIStateTextures(), bool worldposition = false, const Observer& observer = Observer());
+		const UIGraphics& graphics = UIGraphics(), const UIGraphics& togglegraphics = UIGraphics(),
+		const UIGraphics& unfoldgraphics = UIGraphics(), bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
 	UIElement::Output Update(float dt) override;
@@ -28,6 +28,7 @@ public:
 private:
 
 	void ActiveChanged() override;
+	void DisableChanged() override;
 	void PositionChanged() override;
 	void SizeChanged() override;
 	void WorldPosChanged() override;
@@ -38,8 +39,8 @@ private:
 
 private:
 
-	TexturePtr texture;
-	UIStateTextures unfoldtextures;
+	UIGraphics graphics;
+	UIGraphics unfoldgraphics;
 
 	Label* text;
 	ipoint textsize; // size of the non-clickable part

@@ -14,9 +14,8 @@
 //TEST
 #include "Physics.h"
 
-MainMenu::MainMenu() : test(nullptr)
+MainMenu::MainMenu() : Scene("Main Menu"), test(nullptr)
 {
-	name = "menu";
 }
 
 MainMenu::~MainMenu()
@@ -83,7 +82,7 @@ void MainMenu::UIEvent(UIElement* element)
 	if (element == play)
 		game->Log("Straight up NO GAME");
 	else if (element == tooptions)
-		game->scenes->ChangeScene(Scenes::OPTIONS);
+		game->scenes->ChangeScene("Options Menu");
 	else if (element == exit)
 		game->window->SetState(Window::State::QUIT);
 	else if (element == box)

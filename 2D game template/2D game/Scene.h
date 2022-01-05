@@ -14,7 +14,7 @@ class Scene
 {
 public:
 
-	Scene() {}
+	Scene(const std::string& name) : name(name) {}
 	virtual ~Scene() {}
 
 	virtual bool Start() = 0;
@@ -23,7 +23,7 @@ public:
 
 	virtual void UIEvent(UIElement*) {}
 
-	std::string name;
+	const std::string name;
 };
 
 #endif

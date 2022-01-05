@@ -28,10 +28,10 @@ bool SceneManager::SetUp(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
-	menu = new MainMenu();
-	options = new OptionsMenu();
+	scenes.emplace_back(new MainMenu());
+	scenes.emplace_back(new OptionsMenu());
 
-	ChangeScene(Scenes::MENU);
+	ChangeScene("Main Menu");
 
 	return true;
 }
@@ -39,9 +39,9 @@ bool SceneManager::Start()
 bool SceneManager::Update(float dt)
 {
 	if (game->input->CheckState(Key::F1) == Input::State::DOWN)
-		ChangeScene(Scenes::OPTIONS);
+		ChangeScene("Options Menu");
 	if (game->input->CheckState(Key::F2) == Input::State::DOWN)
-		ChangeScene(Scenes::MENU);
+		ChangeScene("Main Menu");
 
 	if (nextscene != currentscene)
 	{
@@ -84,20 +84,16 @@ bool SceneManager::CleanUp()
 	return true;
 }
 
-void SceneManager::ChangeScene(Scenes scene)
+void SceneManager::ChangeScene(const std::string& name)
 {
 	Scene* nextscene = nullptr;
-	switch (scene)
-	{
-	case Scenes::NONE:
-		break;
-	case Scenes::MENU:
-		nextscene = menu;
-		break;
-	case Scenes::OPTIONS:
-		nextscene = options;
-		break;
-	}
+	for (size_t i = 0; i < scenes.size(); ++i)
+		if (scenes[i]->name == name)
+		{
+			nextscene = scenes[i];
+			break;
+		}
+
 	if (nextscene != currentscene)
 	{
 		this->nextscene = nextscene;

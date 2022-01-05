@@ -8,11 +8,12 @@
 #include <memory>
 
 class AnimationData;
-typedef std::unique_ptr<AnimationData> Animation;
+typedef std::shared_ptr<AnimationData> Animation;
 
 Animation MakeAnimation(bool loop, float speed);
-Animation MakeAnimation(bool loop, float speed, ipoint position, ipoint size);
-Animation MakeAnimation(bool loop, float speed, unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows);
+Animation MakeAnimation(bool loop, float speed, const ipoint& position, const ipoint& size);
+Animation MakeAnimation(bool loop, float speed, unsigned int amount, const ipoint& initialpos, const ipoint& size, unsigned int columns, 
+	unsigned int rows);
 
 class AnimationData
 {
@@ -21,8 +22,8 @@ public:
 	AnimationData() = delete;
 	AnimationData(bool loop, float speed) : loop(loop), speed(speed), current(0) { timer.Start(); }
 
-	void AddFrame(ipoint position, ipoint size) { frames.emplace_back(Frame(position, size)); }
-	void AddFrames(unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows)
+	void AddFrame(const ipoint& position, const ipoint& size) { frames.emplace_back(Frame(position, size)); }
+	void AddFrames(unsigned int amount, const ipoint& initialpos, const ipoint& size, unsigned int columns, unsigned int rows)
 	{
 		unsigned int column = 0;
 		unsigned int row = 0;
@@ -46,7 +47,7 @@ public:
 		}
 	}
 
-	const Frame& GetFrame()
+	const Frame GetFrame()
 	{
 		if (timer.CheckSec(speed))
 		{
@@ -57,12 +58,11 @@ public:
 
 		return frames[current];
 	}
+	const ipoint GetCurrentSize() { return frames[current].size; }
 
-	void Reset()
-	{
-		current = 0;
-		timer.Start();
-	}
+	void Pause() { timer.Pause(); }
+	void Resume() { timer.Play(); }
+	void Reset() { current = 0; timer.Start(); }
 
 public:
 
@@ -77,8 +77,9 @@ private:
 	Timer timer;
 
 	friend Animation MakeAnimation(bool loop, float speed);
-	friend Animation MakeAnimation(bool loop, float speed, ipoint position, ipoint size);
-	friend Animation MakeAnimation(bool loop, float speed, unsigned int amount, ipoint initialpos, ipoint size, unsigned int columns, unsigned int rows);
+	friend Animation MakeAnimation(bool loop, float speed, const ipoint& position, const ipoint& size);
+	friend Animation MakeAnimation(bool loop, float speed, unsigned int amount, const ipoint& initialpos, const ipoint& size, unsigned int columns, 
+		unsigned int rows);
 };
 
 #endif

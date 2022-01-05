@@ -10,11 +10,11 @@
 #define IBOX_DEFAULT_SIZE_X 700
 #define IBOX_DEFAULT_SIZE_Y 100
 
-InputBox::InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures, bool worldposition, const Observer& observer)
+InputBox::InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
 {
-	frame = new Button("", font, fontcolor, position, textures, Button::Type::LOCKONCLICK, worldposition, this);
-	if (!textures.GetTexture(UIElement::State::IDLE))
+	frame = new Button("", font, fontcolor, position, graphics, Button::Type::LOCKONCLICK, worldposition, this);
+	if (!graphics.texture)
 		frame->SetSize(ipoint(IBOX_DEFAULT_SIZE_X, IBOX_DEFAULT_SIZE_Y));
 
 	SetSize(frame->GetSize());
@@ -46,12 +46,14 @@ UIElement::Output InputBox::Update(float dt)
 			content.erase(content.begin() + current - 1);
 			current--;
 		}
-		else if (game->input->CheckState(Key::RETURN) == Input::State::DOWN || game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN)
+		else if (game->input->CheckState(Key::RETURN) == Input::State::DOWN)
 		{
 			if (content != "")
 				observer.UIEvent(this);
 			frame->Lock(false);
 		}
+		else if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN)
+			frame->Lock(false);
 	}
 
 	return UIElement::Output::NO_MODIFY;
@@ -84,7 +86,9 @@ void InputBox::Render()
 
 		fpoint renderposition = game->Center(text->GetSize(), GetPosition(), GetSize(), GetPosition(), false, true);
 		renderposition.x += (float)GetSize().x * 0.05f;
-		game->render->RenderTexture(21, text, renderposition, textposition.x, textposition.y, textsize, false, 255, IsWorldPos());
+
+		int alpha = IsDisabled() ? 50 : 255;
+		game->render->RenderTexture(21, text, renderposition, textposition.x, textposition.y, textsize, false, alpha, IsWorldPos());
 	}
 }
 
@@ -108,6 +112,11 @@ void InputBox::ActiveChanged()
 	frame->SetActive(IsActive());
 }
 
+void InputBox::DisableChanged()
+{
+	frame->Disable(IsDisabled());
+}
+
 void InputBox::PositionChanged()
 {
 	frame->SetPosition(GetPosition());
@@ -119,4 +128,5 @@ void InputBox::SizeChanged()
 
 void InputBox::WorldPosChanged()
 {
+	frame->EnableWorldPos(IsWorldPos());
 }

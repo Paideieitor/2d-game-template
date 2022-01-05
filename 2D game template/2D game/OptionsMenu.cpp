@@ -12,9 +12,8 @@
 #include "ButtonArray.h"
 #include "Scrollbar.h"
 
-OptionsMenu::OptionsMenu()
+OptionsMenu::OptionsMenu() : Scene("Options Menu")
 {
-	name = "options";
 }
 
 OptionsMenu::~OptionsMenu()
@@ -28,7 +27,7 @@ bool OptionsMenu::Start()
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), Button::Type::LOCKONCLICK);
+	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK);
 	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,100 }, true, false));
 	fullscreen->Lock(game->window->IsFullscreen());
 
@@ -36,7 +35,7 @@ bool OptionsMenu::Start()
 	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,250 }, true, false));
 
 	std::vector<std::string> resolutuonoptions;
-	pugi::xml_node arraynode = game->scenes->mainnode.child(name.c_str()).child("resolution");
+	pugi::xml_node arraynode = game->scenes->mainnode.child("options").child("resolution");
 	int current = arraynode.attribute("current").as_int();
 	pugi::xml_node button = arraynode.first_child();
 	for (button; button != NULL; button = button.next_sibling())
@@ -45,11 +44,11 @@ bool OptionsMenu::Start()
 	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,400 }, true, false));
 	resolution->SetCurrent(current);
 
-	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), UIStateTextures(), Scrollbar::Type::INT);
+	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT);
 	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,550 }, true, false));
 	music->SetValue((float)game->audio->GetMusicVolume());
 
-	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIStateTextures(), UIStateTextures(), Scrollbar::Type::INT);
+	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT);
 	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,700 }, true, false));
 	sfx->SetValue((float)game->audio->GetSfxVolume());
 
@@ -100,5 +99,5 @@ void OptionsMenu::UIEvent(UIElement* element)
 	else if (element == sfx)
 		game->audio->SetSfxVolume((int)sfx->GetValue());
 	else if (element == tomenu)
-		game->scenes->ChangeScene(Scenes::MENU);
+		game->scenes->ChangeScene("Main Menu");
 }

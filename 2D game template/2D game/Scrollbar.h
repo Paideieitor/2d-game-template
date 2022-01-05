@@ -17,8 +17,8 @@ public:
 	};
 
 	Scrollbar() = delete;
-	Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures = UIStateTextures(),
-		const UIStateTextures& bartextures = UIStateTextures(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
+	Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics = UIGraphics(), 
+		const UIGraphics& bargraphics = UIGraphics(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
 		const Observer& observer = Observer());
 	~Scrollbar();
 
@@ -33,6 +33,7 @@ public:
 private:
 
 	void ActiveChanged() override;
+	void DisableChanged() override;
 	void PositionChanged() override;
 	void SizeChanged() override;
 	void WorldPosChanged() override;

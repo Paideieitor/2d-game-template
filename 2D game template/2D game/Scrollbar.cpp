@@ -10,19 +10,19 @@
 #define SBAR_DEFAULT_SIZE_X 500
 #define SBAR_DEFAULT_SIZE_Y 20
 
-Scrollbar::Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& scrolltextures,
-	const UIStateTextures& bartextures, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+Scrollbar::Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, 
+	const UIGraphics& bargraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
 {
-	bar = new Button("", nullptr, Color::black, position, bartextures, Button::Type::REPEATPRESS, worldposition, this);
-	scroll = new Button("", nullptr, Color::black, position, scrolltextures, Button::Type::REPEATPRESS, worldposition, this);
+	bar = new Button("", nullptr, Color::black, position, scrollgraphics, Button::Type::REPEATPRESS, worldposition, this);
+	scroll = new Button("", nullptr, Color::black, position, bargraphics, Button::Type::REPEATPRESS, worldposition, this);
 
 	this->text = new Label(text, font, fontcolor, position, worldposition);
 	valuetext = new Label("0", font, fontcolor, position, worldposition);
 
-	if (!bartextures.GetTexture(UIElement::State::IDLE))
+	if (!bargraphics.texture)
 		bar->SetSize(ipoint(SBAR_DEFAULT_SIZE_X, (int)((float)SBAR_DEFAULT_SIZE_Y * 0.75f)));
-	if (!scrolltextures.GetTexture(UIElement::State::IDLE))
+	if (!scrollgraphics.texture)
 		scroll->SetSize(ipoint((int)((float)SBAR_DEFAULT_SIZE_X * 0.05f), SBAR_DEFAULT_SIZE_Y));
 	SetSize(bar->GetSize().x, scroll->GetSize().y);
 
@@ -105,6 +105,15 @@ void Scrollbar::ActiveChanged()
 
 	text->SetActive(IsActive());
 	valuetext->SetActive(IsActive());
+}
+
+void Scrollbar::DisableChanged()
+{
+	bar->Disable(IsDisabled());
+	scroll->Disable(IsDisabled());
+
+	text->Disable(IsDisabled());
+	valuetext->Disable(IsDisabled());
 }
 
 void Scrollbar::PositionChanged()

@@ -3,7 +3,7 @@
 	<render width="1920" height="1080">
 		<vsync value="false" />
 	</render>
-	<window width="1920" height="1080" scale="1">
+	<window width="1280" height="720" scale="1">
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<grabbed value="false" />

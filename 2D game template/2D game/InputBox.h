@@ -11,7 +11,7 @@ class InputBox : public UIElement
 public:
 
 	InputBox() = delete;
-	InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIStateTextures& textures = UIStateTextures(),
+	InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics = UIGraphics(),
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 
@@ -25,6 +25,7 @@ public:
 private:
 
 	void ActiveChanged() override;
+	void DisableChanged() override;
 	void PositionChanged() override;
 	void SizeChanged() override;
 	void WorldPosChanged() override;

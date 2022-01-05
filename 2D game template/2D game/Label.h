@@ -25,6 +25,7 @@ public:
 private:
 
 	void ActiveChanged() override {}
+	void DisableChanged() override {}
 	void PositionChanged() override {}
 	void SizeChanged() override {}
 	void WorldPosChanged() override {}

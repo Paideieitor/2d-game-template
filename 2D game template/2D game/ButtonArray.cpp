@@ -8,19 +8,17 @@
 #include "Button.h"
 
 ButtonArray::ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position,
-	TexturePtr texture, const UIStateTextures& maintextures, const UIStateTextures& unfoldtextures, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), texture(texture), unfoldtextures(unfoldtextures), 
+	const UIGraphics& graphics, const UIGraphics& togglegraphics, const UIGraphics& unfoldgraphics, bool worldposition, 
+	const Observer& observer)
+	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), graphics(graphics), unfoldgraphics(unfoldgraphics),
 	options(options), change("")
 {
-	if (options.size() <= 0)
-		delete this;
-
 	if (text.size() > 0)
 		this->text = new Label(text, font, fontcolor, position, worldposition);
-	current = new Button(options[0], font, fontcolor, position, maintextures, Button::Type::LOCKONCLICK, worldposition, this);
+	current = new Button(options[0], font, fontcolor, position, togglegraphics, Button::Type::LOCKONCLICK, worldposition, this);
 
-	if (texture)
-		textsize = texture->GetSize();
+	if (graphics.texture)
+		textsize = graphics.texture->GetSize();
 	else
 		if (this->text)
 			textsize = game->ResizeIPoint(this->text->GetSize(), RECT_SIZE_MULTIPLIER);
@@ -58,8 +56,15 @@ UIElement::Output ButtonArray::Update(float dt)
 
 void ButtonArray::Render()
 {
-	if (!texture)
-		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), textsize, Color(255, 50, 50), IsWorldPos());
+	int alpha = IsDisabled() ? 50 : 255;
+
+	if (!graphics.texture)
+		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), textsize, Color(255, 50, 50, alpha), IsWorldPos());
+	else
+	{
+		Animation animation = IsDisabled() ? graphics.disabled : graphics.idle;
+		game->render->RenderTexture(UI_RENDER_LAYER, graphics.texture, GetPosition(), animation->GetFrame(), false, alpha, IsWorldPos());
+	}
 }
 
 void ButtonArray::UIEvent(UIElement* element)
@@ -100,6 +105,15 @@ void ButtonArray::ActiveChanged()
 		buttons[i]->SetActive(IsActive());
 }
 
+void ButtonArray::DisableChanged()
+{
+	text->Disable(IsDisabled());
+	current->Disable(IsDisabled());
+
+	for (size_t i = 0; i < buttons.size(); ++i)
+		buttons[i]->Disable(IsDisabled());
+}
+
 void ButtonArray::PositionChanged()
 {
 	fpoint position = GetPosition();
@@ -126,7 +140,7 @@ void ButtonArray::WorldPosChanged()
 void ButtonArray::CreateButtons()
 {
 	for (size_t i = 0; i < options.size(); ++i)
-		buttons.push_back(new Button(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), unfoldtextures, 
+		buttons.push_back(new Button(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), unfoldgraphics, 
 			Button::Type::SINGLECLICK, IsWorldPos(), this));
 	PlaceButtons();
 }
