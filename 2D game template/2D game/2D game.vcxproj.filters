@@ -82,6 +82,12 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Modules\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -171,6 +177,12 @@
     <ClInclude Include="Frame.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Modules\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -199,6 +211,9 @@
     </Filter>
     <Filter Include="Modules\Managers">
       <UniqueIdentifier>{8e455241-c126-4f08-bd00-3c18a00e80e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{e3f51e5e-6ec6-4af3-8c6a-e84a5f27277a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

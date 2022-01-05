@@ -37,11 +37,10 @@ bool UIManager::Update(float dt)
 		stop = true;
 		for (size_t i = counter; i < elements.size(); ++i)
 		{
+			counter++;
+
 			if (!elements[i]->IsActive())
-			{
-				counter++;
 				continue;
-			}
 
 			if (!elements[i]->IsDisabled())
 			{
@@ -56,7 +55,6 @@ bool UIManager::Update(float dt)
 					game->Log("UIManager Update -> Bad Thing, Error in element " + i);
 					return false;
 				}
-				counter++;
 
 				elements[i]->SetIdle();
 				if (IsFocused(elements[i]))

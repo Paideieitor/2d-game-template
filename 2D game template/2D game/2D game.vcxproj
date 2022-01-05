@@ -153,6 +153,8 @@
     <ClCompile Include="ButtonArray.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -181,6 +183,8 @@
     <ClInclude Include="ButtonArray.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Game.h" />
