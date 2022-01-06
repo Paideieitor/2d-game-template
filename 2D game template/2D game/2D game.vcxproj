@@ -165,6 +165,7 @@
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="SceneManager.h" />

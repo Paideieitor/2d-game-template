@@ -75,7 +75,6 @@ void Physics::DestroyPhysicsObject(PhysicsComponent* object)
 	{
 		if(physicsObjects[i] == object)
 		{
-			world->DestroyBody(object->GetBody());
 			delete physicsObjects[i];
 		}
 	}

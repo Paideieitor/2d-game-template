@@ -105,6 +105,8 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 
 PhysicsComponent::~PhysicsComponent()
 {
+	body->DestroyFixture(fixture);
+	game->physics->GetWorld()->DestroyBody(body);
 }
 
 fpoint PhysicsComponent::GetDimentions()
@@ -118,6 +120,12 @@ b2Body* PhysicsComponent::GetBody()
 	return body;
 }
 
+
+const fpoint PhysicsComponent::GetPosition() const
+{
+	b2Vec2 pos = body->GetPosition();
+	return fpoint((float)pos.x, (float)-pos.y);
+}
 
 void PhysicsComponent::SetPosition(float x, float y)
 {
@@ -141,6 +149,11 @@ void PhysicsComponent::SetDimentions(float x, float y)
 {
 	dimentions.x = x;
 	dimentions.y = y;
+}
+
+const float PhysicsComponent::GetRotation() const
+{
+	return -(float)body->GetAngle() * 180.0f / 3.1416f;
 }
 
 void PhysicsComponent::SetRotationAngle(float rotation)

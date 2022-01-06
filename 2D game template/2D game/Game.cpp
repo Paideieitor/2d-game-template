@@ -12,6 +12,7 @@
 #include "Audio.h"
 #include "Console.h"
 #include "Physics.h"
+#include "EntityManager.h"
 
 #include <sstream>
 
@@ -26,8 +27,8 @@ Game::Game()
 	textures = new Textures();
 	render = new Render();
 	audio = new Audio();
-	//console = new Console();
 	physics = new Physics();
+	entities = new EntityManager();
 
 	AddModule(input);
 	//FIRST ^
@@ -39,6 +40,7 @@ Game::Game()
 	AddModule(textures);
 
 	AddModule(ui);
+	AddModule(entities);
 	AddModule(scenes);
 
 	AddModule(physics);

@@ -13,6 +13,7 @@
 
 //TEST
 #include "Physics.h"
+#include "Player.h"
 
 MainMenu::MainMenu() : Scene("Main Menu"), test(nullptr)
 {
@@ -29,9 +30,6 @@ bool MainMenu::Start()
 
 	test = game->textures->Load("images/Chadkino.png");
 
-	animTexture = game->textures->Load("images/AnimationTest.png");
-	animation = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
-
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	play = new Button("Play", buttonfont, Color::black, { 0.0f, 0.0f });
@@ -44,6 +42,8 @@ bool MainMenu::Start()
 	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,400 }, true, false));
 
 	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
+
+	player = new Player("Ron", { 0,0 }, 0);
 	
 	return true;
 }
@@ -51,8 +51,6 @@ bool MainMenu::Start()
 bool MainMenu::Update(float dt)
 {
 	game->render->RenderTexture(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
-
-	game->render->RenderTexture(25, animTexture, { 200,200 }, animation->GetFrame());
 
 	//Physics test
 	game->physics->PhysicsDebugDraw();
@@ -63,9 +61,6 @@ bool MainMenu::Update(float dt)
 bool MainMenu::CleanUp()
 {
 	test = nullptr;
-	animTexture = nullptr;
-
-	animation = nullptr;
 
 	buttonfont = nullptr;
 
@@ -73,6 +68,8 @@ bool MainMenu::CleanUp()
 	delete tooptions;
 	delete exit;
 	delete box;
+
+	delete player;
 
 	return true;
 }

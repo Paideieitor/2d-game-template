@@ -1,13 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Point.h"
+#include "Color.h"
+
+#include "pugixml.hpp"
+
 #include <vector>
 #include <string>
 #include <memory>
 #include <iostream>
-#include "pugixml.hpp"
-#include "Point.h"
-#include "Color.h"
 
 class Module;
 
@@ -22,6 +24,7 @@ class Textures;
 class Audio;
 class Console;
 class Physics;
+class EntityManager;
 
 class Render;
 
@@ -49,6 +52,7 @@ public:
 	Audio* audio;
 	Console* console;
 	Physics* physics;
+	EntityManager* entities;
 
 	Render* render;
 

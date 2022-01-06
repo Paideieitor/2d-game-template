@@ -21,6 +21,7 @@ public:
 private:
 
 	void AddEntity(Entity*);
+	void EraseEntity(Entity*);
 	void EraseEntity(Entity*&);
 
 private:

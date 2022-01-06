@@ -23,12 +23,11 @@ bool EntityManager::Start()
 
 bool EntityManager::Update(float dt)
 {
-    listmodify = false;
-
     size_t counter = 0;
     bool entitiesleft = true;
     while (entitiesleft)
     {
+        listmodify = false;
         entitiesleft = false;
         for (size_t i = counter; i < entities.size(); ++i)
         {
@@ -42,7 +41,6 @@ bool EntityManager::Update(float dt)
 
             if (listmodify)
             {
-                listmodify = false;
                 entitiesleft = true;
                 break;
             }
@@ -64,6 +62,17 @@ void EntityManager::AddEntity(Entity* entity)
         entities.push_back(entity);
         listmodify = true;
     }
+}
+
+void EntityManager::EraseEntity(Entity* entity)
+{
+    for (size_t i = 0; i < entities.size(); ++i)
+        if (entities[i] == entity)
+        {
+            entities.erase(entities.begin() + i);
+
+            listmodify = true;
+        }
 }
 
 void EntityManager::EraseEntity(Entity*& entity)

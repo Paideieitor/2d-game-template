@@ -28,10 +28,12 @@ public:
 	fpoint GetDimentions();
 	b2Body* GetBody();
 
+	const fpoint GetPosition() const;
 	void SetPosition(float x, float y);
 	void SetVelocity(float x, float y);
 	void SetAcceleration(float x, float y);
 	void SetDimentions(float x, float y);
+	const float GetRotation() const;
 	void SetRotationAngle(float rotation);
 
 	void DebugDraw();

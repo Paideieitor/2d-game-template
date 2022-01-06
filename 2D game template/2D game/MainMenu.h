@@ -3,11 +3,11 @@
 
 #include "Scene.h"
 
-#include "Animation.h"
-
 class Button;
 class InputBox;
 class Label;
+
+class Player;
 
 class MainMenu : public Scene
 {
@@ -26,9 +26,6 @@ private:
 
 	TexturePtr test;
 
-	TexturePtr animTexture;
-	Animation animation;
-
 	FontPtr buttonfont;
 
 	Button* play;
@@ -36,6 +33,8 @@ private:
 	Button* exit;
 
 	InputBox* box;
+
+	Player* player;
 };
 
 #endif

@@ -1,9 +1,12 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "Point.h"
+#include "Game.h"
 
-#include <string>
+#include "Animation.h"
+
+class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
 
 class Entity
 {
@@ -16,7 +19,7 @@ public:
 	};
 
 	Entity() = delete;
-	Entity(Entity::Type type, const std::string& name, const fpoint& position, double rotation);
+	Entity(Entity::Type type, const std::string& name, const fpoint& position, float rotation);
 	virtual ~Entity();
 
 	virtual bool Update(float dt) = 0;
@@ -24,8 +27,8 @@ public:
 	const fpoint GetPosition() const { return position; }
 	void SetPosition(const fpoint& position);
 
-	const double GetRotation() const { return rotation; }
-	void SetRotation(double rotation);
+	const float GetRotation() const { return rotation; }
+	void SetRotation(float rotation);
 
 public:
 
@@ -37,10 +40,12 @@ protected:
 	virtual void PositionChanged() = 0;
 	virtual void RotationChanged() = 0;
 
-private:
+	fpoint GetRenderPosition(ipoint size);
+
+protected:
 
 	fpoint position;
-	double rotation;
+	float rotation;
 };
 
 #endif
