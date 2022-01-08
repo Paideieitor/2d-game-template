@@ -11,15 +11,11 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 
 	 if(type ==ColliderType::BOX_COLLIDER)
 	 {
-		SetPosition(position.x, position.y);
-		SetDimentions(dimentions.x, dimentions.y);
-
 		b2BodyDef bodyDef;
 		bodyDef.type = bodyType;
 		bodyDef.position.Set(position.x, position.y);
 		bodyDef.angle = rotation / 57.2958f;
 		body = game->physics->GetWorld()->CreateBody(&bodyDef);
-
 		b2PolygonShape boxShape;
 		boxShape.SetAsBox(dimentions.x, dimentions.y);
 
@@ -39,8 +35,6 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 	 }
 	 else if (type == ColliderType::CIRCLE_COLLIDER)
 	 {
-		 SetPosition(position.x, position.y);
-		 SetDimentions(dimentions.x, dimentions.y);
 
 		 b2BodyDef bodyDef;
 		 bodyDef.type = bodyType;
@@ -61,8 +55,6 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 	 }
 	 else if (type == ColliderType::POLYGON_COLLIDER)
 	 {
-		 SetPosition(position.x, position.y);
-		 SetDimentions(dimentions.x, dimentions.y);
 
 		 b2BodyDef bodyDef;
 		 bodyDef.type = bodyType;
@@ -107,45 +99,53 @@ PhysicsComponent::~PhysicsComponent()
 {
 }
 
-fpoint PhysicsComponent::GetDimentions()
-{
-	return dimentions;
-}
-
 
 b2Body* PhysicsComponent::GetBody()
 {
 	return body;
 }
 
+fpoint PhysicsComponent::GetPosition()
+{
+	return {body->GetPosition().x,body->GetPosition().y};
+}
+
+fpoint PhysicsComponent::GetLinearVelocity()
+{
+	return {body->GetLinearVelocity().x, body->GetLinearVelocity().y};
+}
+
+float PhysicsComponent::GetAngularVelocity()
+{
+	return body->GetAngularVelocity();
+}
+
+
+float PhysicsComponent::GetRotation()
+{
+	return body->GetAngle() * 57.2958f;
+}
+
 
 void PhysicsComponent::SetPosition(float x, float y)
 {
-	position.x = x;
-	position.y = y;
+	body->SetTransform({x,y},body->GetAngle());
 }
 
-void PhysicsComponent::SetVelocity(float x, float y)
+void PhysicsComponent::SetLinearVelocity(float x, float y)
 {
-	velocity.x = x;
-	velocity.y = y;
+	body->SetLinearVelocity({x,y});
 }
 
-void PhysicsComponent::SetAcceleration(float x, float y)
+void PhysicsComponent::SetAngularVelocity(float velocity)
 {
-	acceleration.x = x;
-	acceleration.y = y;
+	body->SetAngularVelocity(velocity);
 }
 
-void PhysicsComponent::SetDimentions(float x, float y)
-{
-	dimentions.x = x;
-	dimentions.y = y;
-}
 
 void PhysicsComponent::SetRotationAngle(float rotation)
 {
-	rotationAngle = rotation;
+	rotationAngle = rotation / 57.2958f;
 }
 
 void PhysicsComponent::DebugDraw()
