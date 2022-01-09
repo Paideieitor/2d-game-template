@@ -4,7 +4,7 @@
 #include "Textures.h"
 
 #include "BOX2D/Box2D/Box2D.h"
-
+/*
 PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions, float rotation, float density, float friction, float restitution, bool isSensor)
 {
 	 colliderType = type;
@@ -94,15 +94,13 @@ PhysicsComponent::PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoin
 	 }
 
 }
-
-PhysicsComponent::~PhysicsComponent()
+*/
+PhysicsComponent::PhysicsComponent()
 {
 }
 
-
-b2Body* PhysicsComponent::GetBody()
+PhysicsComponent::~PhysicsComponent()
 {
-	return body;
 }
 
 fpoint PhysicsComponent::GetPosition()
@@ -145,52 +143,12 @@ void PhysicsComponent::SetAngularVelocity(float velocity)
 
 void PhysicsComponent::SetRotationAngle(float rotation)
 {
-	rotationAngle = rotation / 57.2958f;
+	body->SetTransform({ body->GetPosition().x,body->GetPosition().y}, rotation / 57.2958f);
 }
 
 void PhysicsComponent::DebugDraw()
 {
-	DrawRectangle();
-	for (int p = 0; p < vertices.size(); p++)
-	{
-		if (p == vertices.size() - 1)
-		{
-			game->render->RenderLine(5, { vertices[p].x,-vertices[p].y }, { vertices[0].x,-vertices[0].y }, { 255,0,0,255 });
-		}
-		else
-		{
-			game->render->RenderLine(5, { vertices[p].x,-vertices[p].y }, { vertices[p + 1].x,-vertices[p + 1].y }, { 255,0,0,255 });
-		}
-	}
 }
 
-void PhysicsComponent::DrawRectangle()
-{
-	b2PolygonShape* shape = nullptr;
-	shape = GetVertex();
-	if (shape != nullptr)
-	{
-		for (int i = 0; i < shape->GetVertexCount(); i++)
-		{
-			vertices[i] = body->GetWorldPoint({ shape->GetVertex(i).x, shape->GetVertex(i).y });
-		}
-	}
-}
 
-b2PolygonShape* PhysicsComponent::GetVertex()
-{
-	for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext())
-	{
-		b2Shape::Type shapeType = f->GetType();
-		if (shapeType == b2Shape::e_circle)
-		{
-			b2CircleShape* circleShape = (b2CircleShape*)fixture->GetShape();
-		}
-		else if (shapeType == b2Shape::e_polygon)
-		{
-			b2PolygonShape* polygonShape = (b2PolygonShape*)fixture->GetShape();
-			return polygonShape;
-		}
-	}
-}
 

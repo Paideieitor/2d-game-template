@@ -1,3 +1,6 @@
+#ifndef PHYSICSCOMPONENT_H
+#define PHYSICSCOMPONENT_H
+
 #include "Point.h"
 #include <vector>
 #include <memory> // for the shared pointer, erase when no texture
@@ -24,9 +27,8 @@ class PhysicsComponent
 {
 public:
 
-	PhysicsComponent(ColliderType type, b2BodyType bodyType, fpoint position, fpoint dimentions,float rotation, float density, float friction,float restitution,bool isSensor);
-	~PhysicsComponent();
-	b2Body* GetBody();
+	PhysicsComponent();
+	virtual ~PhysicsComponent();
 
 	fpoint GetPosition();
 	fpoint GetLinearVelocity();
@@ -39,20 +41,11 @@ public:
 	void SetAngularVelocity(float velocity);
 	void SetRotationAngle(float rotation);
 
-	virtual void DebugDraw();
-
-private:
-
-	b2PolygonShape* GetVertex();
-	void DrawRectangle();
-
-	b2Body* body = nullptr;
-	float rotationAngle;
-
-	std::vector<b2Vec2> vertices;
 	ColliderType colliderType = ColliderType::NONE;
+	b2Body* body;
+	b2Fixture* fixture;
 
-	TexturePtr test;
-
-	b2Fixture* fixture = nullptr;
+	virtual void DebugDraw();
 };
+
+#endif

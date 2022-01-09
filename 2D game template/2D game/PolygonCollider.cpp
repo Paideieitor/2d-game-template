@@ -1,37 +1,38 @@
-#include "BoxCollider.h"
+#include "PolygonCollider.h"
 #include "PhysicsComponent.h"
 #include "Physics.h"
 #include "Game.h"
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor)
+PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex[], float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor)
 {
-	colliderType = ColliderType::BOX_COLLIDER;
+	colliderType = ColliderType::POLYGON_COLLIDER;
+
 	b2BodyDef bodyDef;
 	bodyDef.type = bodyType;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.angle = rotation / 57.2958f;
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(size.x, size.y);
+
+	b2PolygonShape polygon;
+	polygon.Set(vertex, numOfVertex);
 
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &boxShape;
+	fixtureDef.shape = &polygon;
 	fixtureDef.density = density;
 	fixtureDef.friction = friction;
 	fixtureDef.restitution = restitution;
 	fixtureDef.isSensor = isSensor;
 	fixture = body->CreateFixture(&fixtureDef);
 
-	for (int i = 0; i < boxShape.GetVertexCount(); i++)
+	for (int i = 0; i < polygon.GetVertexCount(); i++)
 	{
-		vertices.push_back(body->GetWorldPoint({ boxShape.GetVertex(i).x, boxShape.GetVertex(i).y }));
+		vertices.push_back(body->GetWorldPoint({ polygon.GetVertex(i).x, polygon.GetVertex(i).y }));
 	}
-
 }
 
-void BoxCollider::DebugDraw()
+void PolygonCollider::DebugDraw()
 {
 	UpdateVertex();
 	for (int p = 0; p < vertices.size(); p++)
@@ -47,7 +48,7 @@ void BoxCollider::DebugDraw()
 	}
 }
 
-void BoxCollider::UpdateVertex()
+void PolygonCollider::UpdateVertex()
 {
 	b2PolygonShape* shape = nullptr;
 
@@ -67,5 +68,4 @@ void BoxCollider::UpdateVertex()
 			vertices[i] = body->GetWorldPoint({ shape->GetVertex(i).x, shape->GetVertex(i).y });
 		}
 	}
-
 }

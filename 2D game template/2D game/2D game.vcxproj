@@ -152,6 +152,7 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonArray.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PolygonCollider.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -183,6 +185,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonArray.h" />
+    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Entity.h" />
@@ -199,6 +202,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="PolygonCollider.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scene.h" />
