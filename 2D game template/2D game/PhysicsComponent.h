@@ -3,9 +3,6 @@
 
 #include "Point.h"
 #include <vector>
-#include <memory> // for the shared pointer, erase when no texture
-class Texture;
-typedef std::shared_ptr<Texture> TexturePtr;
 
 class b2Body;
 class b2Fixture;
@@ -31,13 +28,10 @@ public:
 	virtual ~PhysicsComponent();
 
 	const fpoint GetPosition() const;
-	void SetAcceleration(float x, float y);
-	void SetDimentions(float x, float y);
-	void SetRotationAngle(float rotation);
 
 	fpoint GetLinearVelocity();
 	float GetAngularVelocity();
-	float GetRotation();
+	const float GetRotation() const;
 
 	void SetPosition(float x, float y);
 	void SetLinearVelocity(float x, float y);
@@ -52,7 +46,6 @@ protected:
 
 	b2Body* body;
 	b2Fixture* fixture;
-
 };
 
 #endif

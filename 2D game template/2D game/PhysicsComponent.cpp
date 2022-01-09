@@ -15,11 +15,6 @@ PhysicsComponent::~PhysicsComponent()
 	game->physics->GetWorld()->DestroyBody(body);
 }
 
-fpoint PhysicsComponent::GetPosition()
-{
-	return {body->GetPosition().x,body->GetPosition().y};
-}
-
 fpoint PhysicsComponent::GetLinearVelocity()
 {
 	return {body->GetLinearVelocity().x, body->GetLinearVelocity().y};
@@ -36,7 +31,7 @@ const fpoint PhysicsComponent::GetPosition() const
 	return fpoint((float)pos.x, (float)-pos.y);
 }
 
-float PhysicsComponent::GetRotation()
+const float PhysicsComponent::GetRotation() const
 {
 	return body->GetAngle() * 57.2958f;
 }
@@ -65,6 +60,3 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 void PhysicsComponent::DebugDraw()
 {
 }
-
-
-

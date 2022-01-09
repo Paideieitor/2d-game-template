@@ -15,19 +15,19 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	current = idle;
 
 	fpoint size = fpoint((float)current->GetCurrentSize().x * 0.5f, (float)current->GetCurrentSize().y * 0.5f);
-	collider = new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, position, size, rotation, 1.0f, 0.5f, 0.2f, false);
-	game->physics->AddPhysicsObject(collider);
+	//collider = new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, position, size, rotation, 1.0f, 0.5f, 0.2f, false);
+	//game->physics->AddPhysicsObject(collider);
 }
 
 Player::~Player()
 {
-	game->physics->DestroyPhysicsObject(collider);
+	//game->physics->DestroyPhysicsObject(collider);
 }
 
 bool Player::Update(float dt)
 {
-	position = collider->GetPosition();
-	rotation = collider->GetRotation();
+	//position = collider->GetPosition();
+	//rotation = collider->GetRotation();
 
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();

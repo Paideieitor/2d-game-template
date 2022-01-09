@@ -22,9 +22,6 @@ public:
 	void DestroyPhysicsObject(PhysicsComponent* object);
 	void PhysicsDebugDraw();
 
-
-
-
 private:
 	std::vector<PhysicsComponent*> physicsObjects;
 	b2World* world;
