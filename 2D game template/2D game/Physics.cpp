@@ -1,5 +1,8 @@
 #include "Physics.h"
 #include "PhysicsComponent.h"
+#include "BoxCollider.h"
+#include "CircleCollider.h"
+#include "PolygonCollider.h"
 #include "Input.h"
 
 #include "BOX2D/Box2D/Box2D.h"
@@ -21,29 +24,26 @@ Physics::~Physics()
 
 bool Physics::SetUp(pugi::xml_node&)
 {
-	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 60,23 },0,1.0f,0.3f,0.21f,false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,38 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::POLYGON_COLLIDER, b2BodyType::b2_dynamicBody, { 530,90 }, { 23,48 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 500,30}, { 18,30 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 510,0 }, { 23,48 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 40,23 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,38 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 530,90 }, { 28,44 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 500,30 }, { 15,30 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 510,0 }, { 23,44 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 400,3 }, { 40,23 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 490,2 }, { 15,38 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 530,90 }, { 23,44 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 500,30 }, { 85,30 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_dynamicBody, { 510,0 }, { 23,44 }, 0, 1.0f, 0.3f, 0.21f, false));
-	AddPhysicsObject(new PhysicsComponent(ColliderType::BOX_COLLIDER, b2BodyType::b2_staticBody, { 100,-600 }, { 1500,20 }, -20, 1.0f, 0.3f, 0.23f, false));
+	b2Vec2 vertices[3];
+	vertices[0] = { 0,0 };
+	vertices[1] = { 50,0 };
+	vertices[2] = { 25,50 };
+
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, b2BodyType::b2_staticBody, 1.0f, 1.0f, 0.0f, false));
 	return true;
 }
 
 bool Physics::Update(float dt)
 {
-	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
-		physicsObjects[0]->GetBody()->ApplyForce(b2Vec2((game->input->GetMousePos().x - physicsObjects[0]->GetBody()->GetPosition().x)*200, -(game->input->GetMousePos().y - physicsObjects[0]->GetBody()->GetPosition().y) * 100), physicsObjects[0]->GetBody()->GetWorldCenter(), true);
 	world->Step(0.0008f, 3, 3);
 	return true;
 }
