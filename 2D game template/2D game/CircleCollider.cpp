@@ -29,5 +29,5 @@ CircleCollider::CircleCollider(fpoint position, float radius, float rotation, b2
 
 void CircleCollider::DebugDraw()
 {
-	game->render->RenderCircle(5, { body->GetPosition().x,-body->GetPosition().x }, radius, { 255,0,0,255 });
+	game->render->RenderCircle(5, { body->GetPosition().x,-body->GetPosition().y }, radius, { 255,0,0,255 });
 }

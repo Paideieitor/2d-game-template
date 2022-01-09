@@ -42,10 +42,14 @@ public:
 	void SetRotationAngle(float rotation);
 
 	ColliderType colliderType = ColliderType::NONE;
+
+	virtual void DebugDraw();
+
+protected:	
+
 	b2Body* body;
 	b2Fixture* fixture;
 
-	virtual void DebugDraw();
 };
 
 #endif

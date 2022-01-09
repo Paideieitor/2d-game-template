@@ -1,6 +1,8 @@
 #include "Physics.h"
 #include "PhysicsComponent.h"
 #include "BoxCollider.h"
+#include "CircleCollider.h"
+#include "PolygonCollider.h"
 #include "Input.h"
 
 #include "BOX2D/Box2D/Box2D.h"
@@ -22,7 +24,21 @@ Physics::~Physics()
 
 bool Physics::SetUp(pugi::xml_node&)
 {
-	AddPhysicsObject(new BoxCollider({60,60}, {100,100},0, b2BodyType::b2_dynamicBody,1.0f,1.0f,1.0f,false));
+	b2Vec2 vertices[3];
+	vertices[0] = { 0,0 };
+	vertices[1] = { 50,0 };
+	vertices[2] = { 25,50 };
+
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, b2BodyType::b2_staticBody, 1.0f, 1.0f, 0.0f, false));
 	return true;
 }
 
