@@ -31,10 +31,12 @@ bool Physics::SetUp(pugi::xml_node&)
 
 	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
+
+
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
@@ -76,6 +78,7 @@ void Physics::DestroyPhysicsObject(PhysicsComponent* object)
 		if(physicsObjects[i] == object)
 		{
 			delete physicsObjects[i];
+			physicsObjects.erase(physicsObjects.begin() + i);
 		}
 	}
 }

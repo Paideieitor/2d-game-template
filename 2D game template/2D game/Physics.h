@@ -5,6 +5,7 @@ class b2World;
 class b2Body;
 class PhysicsComponent;
 
+
 class Physics : public Module
 {
 public:
@@ -15,7 +16,6 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	b2World* GetWorld();
-
 	void CreateWorld(b2Vec2* gravity);
 
 	void AddPhysicsObject(PhysicsComponent* object);
