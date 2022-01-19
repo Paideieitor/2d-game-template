@@ -57,6 +57,11 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 	body->SetTransform({ body->GetPosition().x,body->GetPosition().y}, rotation / 57.2958f);
 }
 
+b2Body* PhysicsComponent::GetBody()
+{
+	return body;
+}
+
 void PhysicsComponent::DebugDraw()
 {
 }

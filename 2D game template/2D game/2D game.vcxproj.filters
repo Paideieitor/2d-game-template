@@ -40,9 +40,6 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Scrollbar.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -92,13 +89,19 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Physics\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="PolygonCollider.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Joint.cpp">
+      <Filter>Physics\Joints</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Util</Filter>
@@ -199,13 +199,19 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="CircleCollider.h">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Physics\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="PolygonCollider.h">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Joint.h">
+      <Filter>Physics\Joints</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +244,12 @@
     </Filter>
     <Filter Include="Entities">
       <UniqueIdentifier>{e3f51e5e-6ec6-4af3-8c6a-e84a5f27277a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Colliders">
+      <UniqueIdentifier>{c0991338-ac86-4833-922a-0b5ca1211402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Joints">
+      <UniqueIdentifier>{f7705e0d-7e45-41b9-9006-c03984f2f501}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

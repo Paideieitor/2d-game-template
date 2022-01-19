@@ -18,6 +18,7 @@ public:
 	b2World* GetWorld();
 	void CreateWorld(b2Vec2* gravity);
 
+
 	void AddPhysicsObject(PhysicsComponent* object);
 	void DestroyPhysicsObject(PhysicsComponent* object);
 	void PhysicsDebugDraw();

@@ -19,7 +19,6 @@ CIRCLE_COLLIDER,
 NONE
 };
 
-
 class PhysicsComponent
 {
 public:
@@ -37,6 +36,8 @@ public:
 	void SetLinearVelocity(float x, float y);
 	void SetAngularVelocity(float velocity);
 	void SetRotationAngle(float rotation);
+
+	b2Body* GetBody();
 
 	ColliderType colliderType = ColliderType::NONE;
 
