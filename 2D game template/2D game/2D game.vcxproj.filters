@@ -103,6 +103,12 @@
     <ClCompile Include="Joint.cpp">
       <Filter>Physics\Joints</Filter>
     </ClCompile>
+    <ClCompile Include="RevoluteJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -211,6 +217,12 @@
       <Filter>Physics\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="Joint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="RevoluteJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceJoint.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
   </ItemGroup>

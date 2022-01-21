@@ -10,7 +10,7 @@ class Joint
 {
 public:
 	Joint();
-	~Joint();
+	virtual ~Joint();
 
 	void CreateJoint(b2Body* bodyA, b2Body* bodyB, float lenght);
 

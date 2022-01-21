@@ -4,6 +4,8 @@
 #include "CircleCollider.h"
 #include "PolygonCollider.h"
 #include "Joint.h"
+#include "DistanceJoint.h"
+#include "RevoluteJoint.h"
 #include "Input.h"
 
 #include "BOX2D/Box2D/Box2D.h"
@@ -40,14 +42,13 @@ bool Physics::SetUp(pugi::xml_node&)
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 
-	Joint* test = new Joint();
-	test->CreateJoint(obj1->GetBody(), obj2->GetBody(), 30.0f);
+	AddJoint(new RevoluteJoint(obj1->GetBody(), obj2->GetBody(),true,true));
 
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, b2BodyType::b2_staticBody, 1.0f, 1.0f, 0.0f, false));
-	return true;
+	return true; 
 }
 
 bool Physics::Update(float dt)
@@ -85,6 +86,23 @@ void Physics::DestroyPhysicsObject(PhysicsComponent* object)
 		if(physicsObjects[i] == object)
 		{
 			delete physicsObjects[i];
+			physicsObjects.erase(physicsObjects.begin() + i);
+		}
+	}
+}
+
+void Physics::AddJoint(Joint* joint)
+{
+	joints.push_back(joint);
+}
+
+void Physics::DestroyJoint(Joint* joint)
+{
+	for (size_t i = 0; i < joints.size(); ++i)
+	{
+		if (joints[i] == joint)
+		{
+			delete joints[i];
 			physicsObjects.erase(physicsObjects.begin() + i);
 		}
 	}

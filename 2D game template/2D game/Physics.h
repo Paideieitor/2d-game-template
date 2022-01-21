@@ -4,6 +4,7 @@ struct b2Vec2;
 class b2World;
 class b2Body;
 class PhysicsComponent;
+class Joint;
 
 
 class Physics : public Module
@@ -21,10 +22,17 @@ public:
 
 	void AddPhysicsObject(PhysicsComponent* object);
 	void DestroyPhysicsObject(PhysicsComponent* object);
+
+	void AddJoint(Joint* joint);
+	void DestroyJoint(Joint* joint);
+
 	void PhysicsDebugDraw();
 
 private:
+
 	std::vector<PhysicsComponent*> physicsObjects;
+	std::vector<Joint*> joints;
+
 	b2World* world;
 	float gravity = -9.8f;
 
