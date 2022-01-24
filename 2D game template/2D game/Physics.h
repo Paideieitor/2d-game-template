@@ -29,7 +29,7 @@ public:
 	void PhysicsDebugDraw();
 
 private:
-
+	PhysicsComponent* obj1;
 	std::vector<PhysicsComponent*> physicsObjects;
 	std::vector<Joint*> joints;
 

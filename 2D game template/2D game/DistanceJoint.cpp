@@ -16,5 +16,5 @@ DistanceJoint::DistanceJoint(b2Body* bodyA, b2Body* bodyB, float lenght)
 
 DistanceJoint::~DistanceJoint()
 {
-	delete joint;
+	game->physics->GetWorld()->DestroyJoint(joint);
 }

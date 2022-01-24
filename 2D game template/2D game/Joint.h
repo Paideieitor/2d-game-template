@@ -12,11 +12,6 @@ public:
 	Joint();
 	virtual ~Joint();
 
-	void CreateJoint(b2Body* bodyA, b2Body* bodyB, float lenght);
-
-private:
-
-	b2DistanceJoint* joint;
 };
 
 #endif

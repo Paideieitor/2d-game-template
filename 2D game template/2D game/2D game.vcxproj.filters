@@ -109,6 +109,9 @@
     <ClCompile Include="DistanceJoint.cpp">
       <Filter>Physics\Joints</Filter>
     </ClCompile>
+    <ClCompile Include="PerfTimer.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="DistanceJoint.h">
       <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="PerfTimer.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
