@@ -24,6 +24,7 @@ CircleCollider::CircleCollider(fpoint position, float radius, float rotation, b2
 	fixtureDef.friction = friction;
 	fixtureDef.restitution = restitution;
 	fixtureDef.isSensor = isSensor;
+	fixtureDef.userData = this;
 	fixture = body->CreateFixture(&fixtureDef);
 }
 

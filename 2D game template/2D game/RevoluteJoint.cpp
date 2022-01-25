@@ -18,5 +18,5 @@ RevoluteJoint::RevoluteJoint(b2Body* bodyA, b2Body* bodyB,bool enableLimit, bool
 
 RevoluteJoint::~RevoluteJoint()
 {
-	delete joint;
+	game->physics->GetWorld()->DestroyJoint(joint);
 }
