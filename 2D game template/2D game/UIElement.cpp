@@ -8,9 +8,9 @@ UIElement::UIElement(const Type& type, const fpoint& position, bool worldpositio
 	: type(type), active(true), disabled(false), position(position), size(ipoint(0,0)), worldposition(worldposition), state(State::IDLE), 
 	observer(observer)
 {
-	game->ui->elements.push_back(this);
+	game->ui->AddElement(this);
 	if (this->observer.IsEmpty())
-		this->observer.Fill(game->scenes->currentscene);
+		this->observer.Fill(game->scenes->CurrentScene());
 }
 
 UIElement::~UIElement()

@@ -13,16 +13,16 @@ Label::~Label()
 {
 }
 
-UIElement::Output Label::Update(float dt)
+bool Label::Update(float dt)
 {
-	return Output::NO_MODIFY;
+	return true;
 }
 
 void Label::Render()
 {
 	if (texture)
 	{
-		int alpha = IsDisabled() ? 50 : 255;
+		int alpha = IsDisabled() ? 150 : 255;
 
 		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, texture->GetSize(), false, alpha, IsWorldPos());
 	}

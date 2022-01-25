@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Input.h"
+#include "UIManager.h"
 
 #include "Label.h"
 #include "Button.h"
@@ -38,7 +39,7 @@ Scrollbar::~Scrollbar()
 	delete valuetext;
 }
 
-UIElement::Output Scrollbar::Update(float dt)
+bool Scrollbar::Update(float dt)
 {
 	if (bar->IsHovered() || scroll->IsHovered())
 		if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::UP)
@@ -64,7 +65,10 @@ UIElement::Output Scrollbar::Update(float dt)
 			observer.UIEvent(this);
 		}
 
-	return UIElement::Output::NO_MODIFY;
+	if (game->ui->IsListModify())
+		return false;
+
+	return true;
 }
 
 void Scrollbar::Render()

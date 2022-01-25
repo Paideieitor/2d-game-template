@@ -15,7 +15,7 @@ public:
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 
-	UIElement::Output Update(float dt) override;
+	bool Update(float dt) override;
 	void Render() override;
 
 	void UIEvent(UIElement*) override;

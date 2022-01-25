@@ -21,17 +21,20 @@ public:
 	void ChangeScene(const std::string& name);
 	const bool ChangingScenes() const { return changing; }
 
-	Scene* currentscene;
+	Scene* const CurrentScene() const { return currentscene; }
 
-	pugi::xml_node mainnode;
+	const std::vector<std::string> GetButtonArrayOptions(const std::string& scene, const std::string& buttonatrray, int& current) const;
+	void SetButtonArrayCurrent(const std::string& scene, const std::string& buttonatrray, const int current);
 
 private:
 
+	Scene* currentscene;
 	Scene* nextscene;
-
 	std::vector<Scene*> scenes;
 
 	bool changing;
+
+	pugi::xml_node mainnode;
 };
 
 #endif

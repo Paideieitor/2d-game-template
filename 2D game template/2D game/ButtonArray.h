@@ -11,12 +11,12 @@ class ButtonArray : public UIElement
 public:
 
 	ButtonArray() = delete;
-	ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position, 
+	ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position,
 		const UIGraphics& graphics = UIGraphics(), const UIGraphics& togglegraphics = UIGraphics(),
 		const UIGraphics& unfoldgraphics = UIGraphics(), bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
-	UIElement::Output Update(float dt) override;
+	bool Update(float dt) override;
 	void Render() override;
 
 	void UIEvent(UIElement*) override;
@@ -24,6 +24,8 @@ public:
 	const std::string GetCurrent() const;
 	void SetCurrent(unsigned int index);
 	void SetCurrent(const std::string& str);
+
+	const int GetIndex() const;
 
 private:
 
@@ -47,7 +49,7 @@ private:
 
 	Button* current;
 
-	std::vector<std::string> options;
+	const std::vector<std::string> options;
 	std::vector<Button*> buttons;
 
 	std::string change;

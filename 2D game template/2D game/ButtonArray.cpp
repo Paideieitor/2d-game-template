@@ -37,7 +37,7 @@ ButtonArray::~ButtonArray()
 	DeleteButtons();
 }
 
-UIElement::Output ButtonArray::Update(float dt)
+bool ButtonArray::Update(float dt)
 {
 	if (change.size() > 0)
 	{
@@ -47,16 +47,17 @@ UIElement::Output ButtonArray::Update(float dt)
 		DeleteButtons();
 		current->Lock(false);
 		observer.UIEvent(this);
-
-		return UIElement::Output::LIST_MODIFY;
 	}
 
-	return UIElement::Output::NO_MODIFY;
+	if (game->ui->IsListModify())
+		return false;
+
+	return true;
 }
 
 void ButtonArray::Render()
 {
-	int alpha = IsDisabled() ? 50 : 255;
+	int alpha = IsDisabled() ? 150 : 255;
 
 	if (!graphics.texture)
 		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), textsize, Color(255, 50, 50, alpha), IsWorldPos());
@@ -94,6 +95,14 @@ void ButtonArray::SetCurrent(unsigned int index)
 void ButtonArray::SetCurrent(const std::string& str)
 {
 	current->ChangeText(str);
+}
+
+const int ButtonArray::GetIndex() const
+{
+	for (size_t i = 0; i < options.size(); ++i)
+		if (options[i] == current->GetText())
+			return i;
+	return -1;
 }
 
 void ButtonArray::ActiveChanged()

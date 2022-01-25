@@ -11,7 +11,7 @@ public:
 	Label(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
 	~Label();
 
-	Output Update(float dt) override;
+	bool Update(float dt) override;
 	void Render() override;
 
 	const std::string GetText() const { return text; }

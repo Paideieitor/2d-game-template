@@ -26,13 +26,6 @@ public:
 		INPUTBOX
 	};
 
-	enum class Output
-	{
-		NO_MODIFY,		// the ui manager list was NOT modified
-		LIST_MODIFY,	// the ui manager list was modified
-		ERROR
-	};
-
 	enum class State
 	{
 		IDLE,
@@ -45,7 +38,7 @@ public:
 	UIElement(const Type& type, const fpoint& position, bool worldposition, const Observer& observer);
 	virtual ~UIElement();
 
-	virtual Output Update(float dt) = 0;
+	virtual bool Update(float dt) = 0;
 	virtual void Render() = 0;
 
 	virtual void UIEvent(UIElement*) {}

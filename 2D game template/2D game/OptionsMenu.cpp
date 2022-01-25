@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "Audio.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 
 #include "Fonts.h"
 #include "Textures.h"
@@ -14,56 +15,36 @@
 
 OptionsMenu::OptionsMenu() : Scene("Options Menu")
 {
-}
-
-OptionsMenu::~OptionsMenu()
-{
-
-}
-
-bool OptionsMenu::Start()
-{
-	game->render->background = Color(150,150,200,255);
+	game->ui->DisableAll();
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK);
+	fullscreen = new Button("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK, false, this);
 	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,100 }, true, false));
 	fullscreen->Lock(game->window->IsFullscreen());
 
-	borderless = new Button("Borderless", buttonfont, Color::black, { 0.0f, 0.0f });
+	borderless = new Button("Borderless", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
 	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,250 }, true, false));
 
-	std::vector<std::string> resolutuonoptions;
-	pugi::xml_node arraynode = game->scenes->mainnode.child("options").child("resolution");
-	int current = arraynode.attribute("current").as_int();
-	pugi::xml_node button = arraynode.first_child();
-	for (button; button != NULL; button = button.next_sibling())
-		resolutuonoptions.push_back(button.attribute("name").as_string());
-	resolution = new ButtonArray("Resolution", buttonfont, Color::black, resolutuonoptions, fpoint(0, 0));
+	int current = 0;
+	const std::vector<std::string> resolutuonoptions = game->scenes->GetButtonArrayOptions("options", "resolution", current);
+	resolution = new ButtonArray("Resolution", buttonfont, Color::black, resolutuonoptions, fpoint(0, 0),UIGraphics(), UIGraphics(), UIGraphics(), false, this);
 	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,400 }, true, false));
 	resolution->SetCurrent(current);
 
-	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT);
+	music = new Scrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
 	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,550 }, true, false));
 	music->SetValue((float)game->audio->GetMusicVolume());
 
-	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT);
+	sfx = new Scrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
 	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,700 }, true, false));
 	sfx->SetValue((float)game->audio->GetSfxVolume());
 
-	tomenu = new Button("Main Menu", buttonfont, Color::black, { 0.0f, 0.0f });
+	tomenu = new Button("Main Menu", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
 	tomenu->SetPosition(game->Center(tomenu->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,850 }, true, false));
-
-	return true;
 }
 
-bool OptionsMenu::Update(float dt)
-{
-	return true;
-}
-
-bool OptionsMenu::CleanUp()
+OptionsMenu::~OptionsMenu()
 {
 	buttonfont = nullptr;
 
@@ -74,6 +55,11 @@ bool OptionsMenu::CleanUp()
 	delete sfx;
 	delete tomenu;
 
+	game->ui->EnableAll();
+}
+
+bool OptionsMenu::Update(float dt)
+{
 	return true;
 }
 
@@ -86,11 +72,12 @@ void OptionsMenu::UIEvent(UIElement* element)
 	else if (element == resolution)
 	{
 		std::string current = resolution->GetCurrent();
+		game->scenes->SetButtonArrayCurrent("options", "resolution", resolution->GetIndex());
 		int cut = current.find_first_of('x');
 		ipoint res;
 		res.x = game->StringToInt(current.substr(0, cut));
 		res.y = game->StringToInt(current.substr(cut + 1));
-		
+
 		game->window->SetWindowSize(res);
 		game->window->CenterWindowPosition();
 	}
@@ -99,5 +86,5 @@ void OptionsMenu::UIEvent(UIElement* element)
 	else if (element == sfx)
 		game->audio->SetSfxVolume((int)sfx->GetValue());
 	else if (element == tomenu)
-		game->scenes->ChangeScene("Main Menu");
+		delete this;
 }

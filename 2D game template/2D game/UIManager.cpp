@@ -35,6 +35,7 @@ bool UIManager::Update(float dt)
 	while (!stop)
 	{
 		stop = true;
+		listmodify = false;
 		for (size_t i = counter; i < elements.size(); ++i)
 		{
 			counter++;
@@ -44,22 +45,20 @@ bool UIManager::Update(float dt)
 
 			if (!elements[i]->IsDisabled())
 			{
-				switch (elements[i]->Update(dt))
+				if (elements[i]->Update(dt))
 				{
-				case UIElement::Output::NO_MODIFY:
-					break;
-				case UIElement::Output::LIST_MODIFY:
-					stop = false;
-					break;
-				case UIElement::Output::ERROR:
-					game->Log("UIManager Update -> Bad Thing, Error in element " + i);
-					return false;
+					elements[i]->SetIdle();
+					if (IsFocused(elements[i]))
+						focused = elements[i];
 				}
 
-				elements[i]->SetIdle();
-				if (IsFocused(elements[i]))
-					focused = elements[i];
+				if (listmodify)
+				{
+					stop = false;
+					break;
+				}
 			}
+
 			elements[i]->Render();
 
 			if (!stop)
@@ -91,12 +90,34 @@ bool UIManager::CleanUp()
 	return true;
 }
 
+void UIManager::DisableAll()
+{
+	for (size_t i = 0; i < elements.size(); ++i)
+	{
+		elements[i]->SetIdle();
+		elements[i]->Disable(true);
+	}
+}
+
+void UIManager::EnableAll()
+{
+	for (size_t i = 0; i < elements.size(); ++i)
+		elements[i]->Disable(false);
+}
+
+void UIManager::AddElement(UIElement* element)
+{
+	game->ui->elements.push_back(element);
+	listmodify = true;
+}
+
 void UIManager::EraseElement(UIElement* element)
 {
 	for (std::vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
 		if (element == *e)
 		{
 			elements.erase(e);
+			listmodify = true;
 			break;
 		}
 }

@@ -29,7 +29,6 @@ bool SceneManager::SetUp(pugi::xml_node& node)
 bool SceneManager::Start()
 {
 	scenes.emplace_back(new MainMenu());
-	scenes.emplace_back(new OptionsMenu());
 
 	ChangeScene("Main Menu");
 
@@ -39,17 +38,12 @@ bool SceneManager::Start()
 bool SceneManager::Update(float dt)
 {
 	if (game->input->CheckState(Key::F1) == Input::State::DOWN)
-		ChangeScene("Options Menu");
-	if (game->input->CheckState(Key::F2) == Input::State::DOWN)
 		ChangeScene("Main Menu");
 
 	if (nextscene != currentscene)
 	{
 		if (currentscene != nullptr)
-		{
 			currentscene->CleanUp();
-			game->ui->CleanUp();
-		}
 
 		currentscene = nextscene;
 		changing = false;
@@ -99,4 +93,23 @@ void SceneManager::ChangeScene(const std::string& name)
 		this->nextscene = nextscene;
 		changing = true;
 	}
+}
+
+const std::vector<std::string> SceneManager::GetButtonArrayOptions(const std::string& scene, const std::string& buttonatrray, int& current) const
+{
+	std::vector<std::string> output;
+	pugi::xml_node arraynode = game->scenes->mainnode.child(scene.c_str()).child(buttonatrray.c_str());
+
+	current = arraynode.attribute("current").as_int();
+	for (pugi::xml_node button = arraynode.first_child(); button != NULL; button = button.next_sibling())
+		output.push_back(button.attribute("name").as_string());
+
+	return output;
+}
+
+void SceneManager::SetButtonArrayCurrent(const std::string& scene, const std::string& buttonatrray, const int current)
+{
+	pugi::xml_node arraynode = game->scenes->mainnode.child(scene.c_str()).child(buttonatrray.c_str());
+	arraynode.attribute("current").set_value(current);
+	game->document.save_file("config.xml");
 }

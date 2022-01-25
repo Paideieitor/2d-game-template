@@ -23,7 +23,7 @@ public:
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
-	UIElement::Output Update(float dt) override;
+	bool Update(float dt) override;
 
 	void Render() override;
 

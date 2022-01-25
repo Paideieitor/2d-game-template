@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
+#include "UIManager.h"
 
 #include "Label.h"
 
@@ -29,7 +30,7 @@ Button::~Button()
 		delete label;
 }
 
-UIElement::Output Button::Update(float dt)
+bool Button::Update(float dt)
 {
 	if (repeat)
 		if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::UP)
@@ -63,13 +64,16 @@ UIElement::Output Button::Update(float dt)
 		break;
 	}
 
+	if (game->ui->IsListModify())
+		return false;
+
 	if (locked)
 	{
 		color = Color::blue;
 		current = graphics.hover;
 	}
 
-	return UIElement::Output::NO_MODIFY;
+	return true;
 }
 
 void Button::Render()
@@ -84,7 +88,7 @@ void Button::Render()
 	else
 	{
 		if (IsDisabled())
-			color.a = 50;
+			color.a = 150;
 		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
 	}
 }

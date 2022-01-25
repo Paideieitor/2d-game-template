@@ -4,6 +4,8 @@
 #include "Window.h"
 #include "SceneManager.h"
 
+#include "OptionsMenu.h"
+
 #include "Textures.h"
 #include "Fonts.h"
 
@@ -79,7 +81,7 @@ void MainMenu::UIEvent(UIElement* element)
 	if (element == play)
 		game->Log("Straight up NO GAME");
 	else if (element == tooptions)
-		game->scenes->ChangeScene("Options Menu");
+		new OptionsMenu();
 	else if (element == exit)
 		game->window->SetState(Window::State::QUIT);
 	else if (element == box)

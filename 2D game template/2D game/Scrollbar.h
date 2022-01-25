@@ -22,7 +22,7 @@ public:
 		const Observer& observer = Observer());
 	~Scrollbar();
 
-	UIElement::Output Update(float dt) override;
+	bool Update(float dt) override;
 	void Render() override;
 
 	void UIEvent(UIElement*);

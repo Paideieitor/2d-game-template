@@ -27,7 +27,7 @@ InputBox::~InputBox()
 	delete frame;
 }
 
-UIElement::Output InputBox::Update(float dt)
+bool InputBox::Update(float dt)
 {
 	if (frame->IsLocked())
 	{
@@ -56,7 +56,7 @@ UIElement::Output InputBox::Update(float dt)
 			frame->Lock(false);
 	}
 
-	return UIElement::Output::NO_MODIFY;
+	return true;
 }
 
 void InputBox::Render()
@@ -87,7 +87,7 @@ void InputBox::Render()
 		fpoint renderposition = game->Center(text->GetSize(), GetPosition(), GetSize(), GetPosition(), false, true);
 		renderposition.x += (float)GetSize().x * 0.05f;
 
-		int alpha = IsDisabled() ? 50 : 255;
+		int alpha = IsDisabled() ? 150 : 255;
 		game->render->RenderTexture(21, text, renderposition, textposition.x, textposition.y, textsize, false, alpha, IsWorldPos());
 	}
 }

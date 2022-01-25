@@ -14,23 +14,22 @@ public:
 	OptionsMenu();
 	~OptionsMenu();
 
-	bool Start() override;
+	bool Start() override { return true; };
 	bool Update(float dt) override;
-	bool CleanUp() override;
+	bool CleanUp() override { return true; };
 
 	void UIEvent(UIElement*) override;
 
 private:
 
-	FontPtr buttonfont;
+	FontPtr buttonfont = nullptr;
 
-	Button* fullscreen;
-	Button* borderless;
-	ButtonArray* resolution;
-	Scrollbar* music;
-	Scrollbar* sfx;
-	Button* tomenu;
-
+	Button* fullscreen = nullptr;
+	Button* borderless = nullptr;
+	ButtonArray* resolution = nullptr;
+	Scrollbar* music = nullptr;
+	Scrollbar* sfx = nullptr;
+	Button* tomenu = nullptr;
 };
 
 #endif
