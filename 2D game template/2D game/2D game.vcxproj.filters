@@ -112,6 +112,9 @@
     <ClCompile Include="PerfTimer.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="ContactListener.cpp">
+      <Filter>Physics\CollisionDetection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="PerfTimer.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="ContactListener.h">
+      <Filter>Physics\CollisionDetection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -268,6 +274,9 @@
     </Filter>
     <Filter Include="Physics\Joints">
       <UniqueIdentifier>{f7705e0d-7e45-41b9-9006-c03984f2f501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\CollisionDetection">
+      <UniqueIdentifier>{e987988d-baa4-416d-af25-f2193c1cdce4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

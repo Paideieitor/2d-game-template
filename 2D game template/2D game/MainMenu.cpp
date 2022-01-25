@@ -29,7 +29,7 @@ bool MainMenu::Start()
 	game->render->background = Color(255,255,0,255);
 
 	test = game->textures->Load("images/Chadkino.png");
-
+	backgroundImg = game->textures->Load("images/forestpixel.png");
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	play = new Button("Play", buttonfont, Color::black, { 0.0f, 0.0f });
@@ -51,7 +51,7 @@ bool MainMenu::Start()
 bool MainMenu::Update(float dt)
 {
 	game->render->RenderTexture(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
-
+	game->render->RenderTexture(1, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize(), false, 255, false);
 	//Physics test
 	game->physics->PhysicsDebugDraw();
 

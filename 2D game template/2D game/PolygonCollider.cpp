@@ -24,6 +24,7 @@ PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex
 	fixtureDef.friction = friction;
 	fixtureDef.restitution = restitution;
 	fixtureDef.isSensor = isSensor;
+	fixtureDef.userData = this;
 	fixture = body->CreateFixture(&fixtureDef);
 
 	for (int i = 0; i < polygon.GetVertexCount(); i++)

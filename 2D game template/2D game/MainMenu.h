@@ -25,6 +25,7 @@ public:
 private:
 
 	TexturePtr test;
+	TexturePtr backgroundImg;
 
 	FontPtr buttonfont;
 

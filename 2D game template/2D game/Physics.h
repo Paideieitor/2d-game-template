@@ -5,6 +5,7 @@ class b2World;
 class b2Body;
 class PhysicsComponent;
 class Joint;
+class ContactListener;
 
 
 class Physics : public Module
@@ -30,6 +31,7 @@ public:
 
 private:
 	PhysicsComponent* obj1;
+	ContactListener* listener;
 	std::vector<PhysicsComponent*> physicsObjects;
 	std::vector<Joint*> joints;
 
