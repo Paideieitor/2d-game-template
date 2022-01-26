@@ -22,6 +22,10 @@ private:
 
 private:
 
+	float velocity = 40;
+	//craaaaaazy number
+	float jumpForce = 920000;
+
 	TexturePtr texture;
 
 	Animation current;

@@ -45,7 +45,7 @@ bool MainMenu::Start()
 
 	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
-	player = new Player("Ron", { 0,0 }, 0);
+	player = new Player("Ron", { 400,-900 }, 0);
 	
 	return true;
 }

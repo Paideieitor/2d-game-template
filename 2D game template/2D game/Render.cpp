@@ -41,7 +41,7 @@ bool Render::Update(float dt)
 {
 	SDL_RenderClear(renderer);
 	//FIRST ^
-
+	/*
 	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
 		(*camera).y++;
 	if (game->input->CheckState(Key::S) == Input::State::REPEAT)
@@ -50,7 +50,7 @@ bool Render::Update(float dt)
 		(*camera).x++;
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 		(*camera).x--;
-
+*/
 	PrintEvents();
 
 	//LAST v

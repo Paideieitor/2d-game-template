@@ -5,13 +5,14 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor)
+BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation, b2BodyType bodyType, float density, float friction, float restitution,bool fixedRotation, bool isSensor)
 {
 	colliderType = ColliderType::BOX_COLLIDER;
 	b2BodyDef bodyDef;
 	bodyDef.type = bodyType;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.angle = rotation / 57.2958f;
+	bodyDef.fixedRotation = fixedRotation;
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(size.x, size.y);

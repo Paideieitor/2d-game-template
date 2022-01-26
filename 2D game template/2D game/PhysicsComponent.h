@@ -36,6 +36,8 @@ public:
 	void SetLinearVelocity(float x, float y);
 	void SetAngularVelocity(float velocity);
 	void SetRotationAngle(float rotation);
+	void ApplyForce(fpoint force, bool wake);
+	void ApplyLinearImpulse(fpoint linearImpulse, bool wake);
 
 	b2Body* GetBody();
 
