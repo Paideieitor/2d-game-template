@@ -55,7 +55,7 @@ bool Physics::SetUp(pugi::xml_node&)
 
 bool Physics::Update(float dt)
 {
-	world->Step(1.0f/520.0f, 6, 3);
+	world->Step(dt, 60, 30);
 	return true;
 }
 

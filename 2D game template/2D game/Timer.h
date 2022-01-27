@@ -16,6 +16,7 @@ public:
 
 	void Pause();
 	void Play();
+	void Delay(int delay);
 
 	bool Check(int time, bool restart = true);
 	bool CheckSec(float time, bool restart = true);

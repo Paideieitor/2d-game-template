@@ -17,7 +17,7 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	current = idle;
 
 	fpoint size = fpoint((float)current->GetCurrentSize().x * 0.5f, (float)current->GetCurrentSize().y * 0.5f);
-	collider = new BoxCollider(position, {25,40},rotation, b2BodyType::b2_dynamicBody, 3.0f, 1, 0.15, true, false);
+	collider = new BoxCollider(position, {25,40},rotation, b2BodyType::b2_dynamicBody, 3.0f, 1, 0, true, false);
 	game->physics->AddPhysicsObject(collider);
 }
 
@@ -30,7 +30,7 @@ bool Player::Update(float dt)
 {
 
 	if (game->input->CheckState(Key::W) == Input::State::DOWN)
-		collider->ApplyLinearImpulse({ 0,jumpForce }, false);
+		collider->ApplyLinearImpulse({ 0,jumpForce }, true);
 
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT)
 		collider->SetLinearVelocity(-velocity, collider->GetLinearVelocity().y);

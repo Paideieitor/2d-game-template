@@ -3,6 +3,7 @@
 
 #include "Point.h"
 #include "Color.h"
+#include "Timer.h"
 
 #include "pugixml.hpp"
 
@@ -72,6 +73,12 @@ private:
 
 	void AddModule(Module* module, bool active = true);
 	std::vector<Module*> modules;
+
+	int frameMs;
+	int timeToDelay;
+	int frameCap = 120;
+	float dt = 0;
+	Timer time;
 };
 
 extern Game* game;

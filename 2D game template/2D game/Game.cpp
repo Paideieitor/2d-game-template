@@ -100,12 +100,12 @@ bool Game::Start()
 bool Game::Update()
 {
 	bool output = true;
-
+	time.Start();
 	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		Module* module = *m;
 
-		output = module->Update(0.0f); // D: GASP
+		output = module->Update(dt); // D: GASP
 
 		if (!output)
 		{
@@ -113,6 +113,16 @@ bool Game::Update()
 			break;
 		}
 	}
+
+	frameMs = time.Read();
+	timeToDelay = (1.0f / (float)frameCap * 1000) - frameMs;
+	
+	if(timeToDelay > 0)
+	{
+		time.Delay(timeToDelay);
+	}
+	
+	dt = time.ReadSec();
 
 	return output;
 }

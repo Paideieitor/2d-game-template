@@ -58,6 +58,11 @@ void Timer::Play()
 	}
 }
 
+void Timer::Delay(int delay)
+{
+	SDL_Delay(delay);
+}
+
 bool Timer::Check(int time, bool restart)
 {
 	if (start < 0)
