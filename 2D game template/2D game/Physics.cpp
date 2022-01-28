@@ -55,7 +55,12 @@ bool Physics::SetUp(pugi::xml_node&)
 
 bool Physics::Update(float dt)
 {
-	world->Step(dt, 60, 30);
+	float p = dt/0.001f;
+	for(int x= 0; x < (int)p; x++)
+	{
+		world->Step(1.0f / 1000.0f, 6, 3);
+	}
+		
 	return true;
 }
 

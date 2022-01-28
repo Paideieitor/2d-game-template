@@ -22,7 +22,7 @@ private:
 
 private:
 
-	float velocity = 40;
+	float velocity = 100;
 	//craaaaaazy number
 	float jumpForce = 920000;
 
