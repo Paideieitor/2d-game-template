@@ -41,7 +41,7 @@ bool Physics::SetUp(pugi::xml_node&)
 	PhysicsComponent* obj2 = new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false);
 	
 	AddPhysicsObject(obj1);
-	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false,false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 30,30 }, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false,false));
 	AddPhysicsObject(obj2);
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC));
 	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
@@ -49,7 +49,7 @@ bool Physics::SetUp(pugi::xml_node&)
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
 	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, BodyType::STATIC, 1.0f, 1.0f, 0.0f, false, false));
+	AddPhysicsObject(new BoxCollider({ 600,-970 }, { 1800,10 }, 0, BodyType::STATIC, 1.0f, 1.0f, 0.0f, false, false));
 	return true; 
 }
 
