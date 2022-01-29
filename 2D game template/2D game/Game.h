@@ -76,7 +76,7 @@ private:
 
 	int frameMs;
 	int timeToDelay;
-	int frameCap = 140;
+	int frameCap = 120;
 	float dt = 0;
 	Timer time;
 };

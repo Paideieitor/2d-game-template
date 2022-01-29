@@ -5,12 +5,23 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex[], float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor)
+PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex[], float rotation, BodyType type, float density, float friction, float restitution, bool isSensor)
 {
 	colliderType = ColliderType::POLYGON_COLLIDER;
 
 	b2BodyDef bodyDef;
-	bodyDef.type = bodyType;
+	switch (type)
+	{
+	case BodyType::DYNAMIC:
+		bodyDef.type = b2BodyType::b2_dynamicBody;
+		break;
+	case BodyType::KINEMATIC:
+		bodyDef.type = b2BodyType::b2_kinematicBody;
+		break;
+	case BodyType::STATIC:
+		bodyDef.type = b2BodyType::b2_staticBody;
+		break;
+	}
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.angle = rotation / 57.2958f;
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);

@@ -19,6 +19,12 @@ CIRCLE_COLLIDER,
 NONE
 };
 
+enum BodyType {
+DYNAMIC,
+KINEMATIC,
+STATIC
+};
+
 class PhysicsComponent
 {
 public:

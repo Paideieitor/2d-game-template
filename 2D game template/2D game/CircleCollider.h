@@ -7,7 +7,7 @@ class CircleCollider: public PhysicsComponent
 {
 public:
 
-	CircleCollider(fpoint position, float radius, float rotation, b2BodyType bodyType, float density = 1.0f, float friction = 0.0f, float restitution = 0.15f, bool isSensor = false);
+	CircleCollider(fpoint position, float radius, float rotation, BodyType type, float density = 1.0f, float friction = 0.0f, float restitution = 0.15f, bool isSensor = false);
 	void DebugDraw() override;
 
 private:

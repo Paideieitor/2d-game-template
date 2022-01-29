@@ -5,12 +5,26 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-CircleCollider::CircleCollider(fpoint position, float radius, float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor)
+CircleCollider::CircleCollider(fpoint position, float radius, float rotation, BodyType type, float density, float friction, float restitution, bool isSensor)
 {
 	colliderType = ColliderType::CIRCLE_COLLIDER;
-
 	b2BodyDef bodyDef;
-	bodyDef.type = bodyType;
+
+
+	switch (type) 
+	{
+	case BodyType::DYNAMIC:
+		bodyDef.type = b2BodyType::b2_dynamicBody;
+		break;
+	case BodyType::KINEMATIC:
+		bodyDef.type = b2BodyType::b2_kinematicBody;
+		break;
+	case BodyType::STATIC:
+		bodyDef.type = b2BodyType::b2_staticBody;
+		break;
+	}
+
+
 	bodyDef.position.Set(position.x, position.y);
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
 

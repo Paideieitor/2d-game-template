@@ -22,9 +22,10 @@ private:
 
 private:
 
-	float velocity = 100;
+	float velocity = 500;
 	//craaaaaazy number
-	float jumpForce = 920000;
+	float jumpForce = 1920000;
+	bool playerIsMoving;
 
 	TexturePtr texture;
 

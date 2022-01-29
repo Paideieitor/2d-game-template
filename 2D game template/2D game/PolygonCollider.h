@@ -7,7 +7,7 @@ class PolygonCollider : public PhysicsComponent
 {
 public:
 
-	PolygonCollider(fpoint position,int numOfVertex, b2Vec2 vertex[], float rotation, b2BodyType bodyType, float density, float friction, float restitution, bool isSensor);
+	PolygonCollider(fpoint position,int numOfVertex, b2Vec2 vertex[], float rotation, BodyType type, float density, float friction, float restitution, bool isSensor);
 	void DebugDraw();
 
 private:

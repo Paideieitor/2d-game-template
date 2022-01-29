@@ -37,28 +37,28 @@ bool Physics::SetUp(pugi::xml_node&)
 	vertices[1] = { 50,0 };
 	vertices[2] = { 25,50 };
 
-	obj1 = new BoxCollider({ 650,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false, false);
-	PhysicsComponent* obj2 = new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false);
+	obj1 = new BoxCollider({ 650,60 }, { 10,10 }, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false, false);
+	PhysicsComponent* obj2 = new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false);
 	
 	AddPhysicsObject(obj1);
-	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false,false));
+	AddPhysicsObject(new BoxCollider({ 600,60 }, { 10,10 }, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false,false));
 	AddPhysicsObject(obj2);
-	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody));
-	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, b2BodyType::b2_dynamicBody, 1.0f, 1.0f, 0.05f, false));
-	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, b2BodyType::b2_staticBody, 1.0f, 1.0f, 0.0f, false, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new CircleCollider({ 600,60 }, 20, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3,vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new PolygonCollider({ 600,60 }, 3, vertices, 0, BodyType::DYNAMIC, 1.0f, 1.0f, 0.05f, false));
+	AddPhysicsObject(new BoxCollider({ 600,-1001 }, { 1800,10 }, 0, BodyType::STATIC, 1.0f, 1.0f, 0.0f, false, false));
 	return true; 
 }
 
 bool Physics::Update(float dt)
 {
-	float p = dt/0.001f;
+	float p = dt/(1.0f / 500.0f);
 	for(int x= 0; x < (int)p; x++)
 	{
-		world->Step(1.0f / 1000.0f, 6, 3);
+		world->Step(1.0f / 500.0f, 10, 5);
 	}
 		
 	return true;
