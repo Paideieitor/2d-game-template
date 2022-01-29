@@ -53,7 +53,7 @@ bool MainMenu::Start()
 bool MainMenu::Update(float dt)
 {
 	//game->render->RenderTexture(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
-	game->render->RenderTexture(1, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize()*6, false, 255, false);
+	game->render->RenderTexture(1, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize()*6, false, 255,true);
 	//Physics test
 	game->physics->PhysicsDebugDraw();
 

@@ -53,10 +53,12 @@ bool Player::Update(float dt)
 	position = collider->GetPosition();
 	rotation = collider->GetRotation();
 
+
+	game->render->SetCameraPosition({-(int)position.x + game->render->GetResolution().x/2,-(int)position.y + game->render->GetResolution().y/2});
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
 	//game->render->RenderTexture(25, texture, GetRenderPosition(size), frame, false, 255, true, 1.0f, -(double)GetRotation(), fpoint((float)size.x * 0.5f, (float)size.y * 0.5f));
-	game->render->RenderTexture(5, texture, { position.x - texture->GetSize().x*2 ,position.y - texture->GetSize().y*2  }, 0, 0, texture->GetSize() * 4, false, 255, false);
+	game->render->RenderTexture(5, texture, { position.x - texture->GetSize().x*2 ,position.y - texture->GetSize().y*2  }, 0, 0, texture->GetSize() * 4, false, 255, true);
 
     return true;
 }

@@ -78,9 +78,10 @@ public:
 	void RenderTexture(int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip = false, int alpha = 255,
 		bool usescale = true, float speed = 1.0f, double angle = 0, const fpoint& pivot = {0,0});
 	void RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale = false, float speed = 1.0f);
-	void RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color);
+	void RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color, bool usescale = false, float speed = 1.0f);
 
 	const ipoint GetCameraPosition(bool worldposition = false);
+	void SetCameraPosition(ipoint position);
 	const ipoint GetResolution() { return resolution; }
 
 	const bool UsingVsync() { return vsync; }
@@ -100,8 +101,8 @@ private:
 	bool DrawRect(const fpoint& position, int width, int height, const Color& color, bool usescale, bool filled) const;
 	bool DrawTexture(TexturePtr texture, const fpoint& position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, 
 		float speed, double angle, const fpoint& pivot);
-	bool DrawCircle(const fpoint& position, int radius, const Color& color);
-	bool DrawLine(const fpoint& firstPosition, const fpoint& secondPosition, const Color& color);
+	bool DrawCircle(fpoint& position, int radius, const Color& color, bool usescale, float speed);
+	bool DrawLine(fpoint& firstPosition, fpoint& secondPosition, const Color& color, bool usescale, float speed);
 	
 	bool InCamera(int x, int y, int width, int height);
 

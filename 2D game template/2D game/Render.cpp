@@ -135,7 +135,7 @@ void Render::RenderCircle(int layer, const fpoint& center, int radius, const Col
 	eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color)
+void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color, bool usescale, float speed)
 {
 	Render::Event event;
 
@@ -145,6 +145,9 @@ void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpo
 	event.endpoint = endpoint;
 
 	event.color = color;
+	
+	event.speed = speed;
+	event.usescale = usescale;
 
 	eventlist.insert(std::make_pair(layer, event));
 }
@@ -159,6 +162,12 @@ const ipoint Render::GetCameraPosition(bool worldposition)
 		output.y = (int)((float)output.y / game->window->GetScale());
 	}
 	return output;
+}
+
+void Render::SetCameraPosition(ipoint position)
+{
+	camera->x = position.x;
+	camera->y = position.y;
 }
 
 void Render::SetVsync(bool enable)
@@ -204,10 +213,10 @@ void Render::PrintEvents()
 			DrawRect(event.position, event.width, event.height, event.color, event.usescale, event.filled);
 			break;
 		case Type::LINE:
-			DrawLine(event.position, event.endpoint, event.color);
+			DrawLine(event.position, event.endpoint, event.color, event.usescale, event.speed);
 			break;
 		case Type::CIRCLE:
-			DrawCircle(event.position, event.radius, event.color);
+			DrawCircle(event.position, event.radius, event.color, event.usescale, event.speed);
 			break;
 		case Type::TEXTURE:
 			DrawTexture(event.texture, event.position, event.x, event.y, event.width, event.height, event.flip, event.color.a, event.usescale, event.speed, event.angle, event.pivot);
@@ -302,8 +311,17 @@ bool Render::DrawRect(const fpoint& position, int width, int height, const Color
 	return true;
 }
 
-bool Render::DrawCircle(const fpoint& position, int radius, const Color& color)
+bool Render::DrawCircle(fpoint& position, int radius, const Color& color, bool usescale, float speed)
 {
+
+	const float scale = game->window->GetScale();
+
+	if (usescale)
+	{
+		position.x = ((*camera).x + position.x * scale);
+		position.y = ((*camera).y + position.y * scale);
+	}
+
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	const int diameter = (radius * 2);
@@ -343,10 +361,22 @@ bool Render::DrawCircle(const fpoint& position, int radius, const Color& color)
 	return true;
 }
 
-bool Render::DrawLine(const fpoint& firstPosition, const fpoint& secondPosition, const Color& color)
+bool Render::DrawLine(fpoint& firstPosition, fpoint& secondPosition, const Color& color, bool usescale, float speed)
 {
+	const float scale = game->window->GetScale();
+
+	if (usescale)
+	{
+		firstPosition.x = ((*camera).x + firstPosition.x * scale);
+		firstPosition.y = ((*camera).y + firstPosition.y * scale);
+
+		secondPosition.x = ((*camera).x + secondPosition.x * scale);
+		secondPosition.y = ((*camera).y + secondPosition.y * scale);
+	}
+
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderDrawLine(renderer, (int)firstPosition.x, (int)firstPosition.y, (int)secondPosition.x, (int)secondPosition.y);
+
 	return false;
 }
 
