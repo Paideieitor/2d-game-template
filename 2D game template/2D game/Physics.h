@@ -36,6 +36,6 @@ private:
 	std::vector<Joint*> joints;
 
 	b2World* world;
-	float gravity = -205.0f;
+	float gravity = -695.0f;
 
 };
