@@ -17,7 +17,6 @@ bool Window::SetUp(pugi::xml_node& node)
     this->node = node;
     size.x = node.attribute("width").as_int();
     size.y = node.attribute("height").as_int();
-    scale = node.attribute("scale").as_float();
     
     Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
     fullscreen = false;

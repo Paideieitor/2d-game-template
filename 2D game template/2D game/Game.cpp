@@ -125,7 +125,7 @@ bool Game::Update()
 	}
 
 	frameMs = time.Read();
-	timeToDelay = (1.0f / (float)frameCap * 1000) - frameMs;
+	timeToDelay = (int)(1.0f / (float)frameCap * 1000.0f) - frameMs;
 	
 	if(timeToDelay > 0)
 	{

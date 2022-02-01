@@ -27,13 +27,15 @@ bool Render::SetUp(pugi::xml_node& node)
 
 	this->node = node;
 
-	return CreateRenderer();
+	CreateRenderer();
+
+	camera = new SDL_Rect{ 0,0, resolution.x, resolution.y };
+
+	return true;
 }
 
 bool Render::Start()
 {
-	SDL_RenderGetViewport(renderer, viewport);
-
 	return true;
 }
 
@@ -41,6 +43,7 @@ bool Render::Update(float dt)
 {
 	SDL_RenderClear(renderer);
 	//FIRST ^
+
 	/*
 	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
 		(*camera).y++;
@@ -50,7 +53,7 @@ bool Render::Update(float dt)
 		(*camera).x++;
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 		(*camera).x--;
-*/
+	*/
 	PrintEvents();
 
 	//LAST v
@@ -65,11 +68,11 @@ bool Render::CleanUp()
 	SDL_DestroyRenderer(renderer);
 
 	delete camera;
-	delete viewport;
+
 	return true;
 }
 
-void Render::RenderRectangle(int layer, const fpoint& position, int width, int height, const Color& color, bool usescale, float speed, bool filled)
+void Render::RenderRectangle(bool ui, int layer, const fpoint& position, int width, int height, const Color& color, bool usescale, float speed, bool filled)
 {
 	Render::Event event;
 
@@ -86,11 +89,17 @@ void Render::RenderRectangle(int layer, const fpoint& position, int width, int h
 	event.usescale = usescale;
 	event.filled = filled;
 
+	if (ui)
+	{
+		uieventlist.insert(std::make_pair(layer, event));
+		return;
+	}
+
 	if (InCamera((int)position.x, (int)position.y, width, height) || !usescale)
 		eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::RenderTexture(int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip, int alpha, bool usescale, float speed, double angle, const fpoint& pivot)
+void Render::RenderTexture(bool ui, int layer, TexturePtr texture, const fpoint& position, int x, int y, const ipoint& size, bool flip, int alpha, bool usescale, float speed, double angle, const fpoint& pivot)
 {
 	Render::Event event;
 
@@ -113,12 +122,18 @@ void Render::RenderTexture(int layer, TexturePtr texture, const fpoint& position
 
 	event.angle = angle;
 	event.pivot = pivot;
+
+	if (ui)
+	{
+		uieventlist.insert(std::make_pair(layer, event));
+		return;
+	}
 	
 	if (InCamera((int)position.x, (int)position.y, size.x, size.y) || !usescale)
 		eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::RenderCircle(int layer, const fpoint& center, int radius, const Color& color, bool usescale, float speed)
+void Render::RenderCircle(bool ui, int layer, const fpoint& center, int radius, const Color& color, bool usescale, float speed)
 {
 	Render::Event event;
 
@@ -132,10 +147,16 @@ void Render::RenderCircle(int layer, const fpoint& center, int radius, const Col
 	event.speed = speed;
 	event.usescale = usescale;
 
+	if (ui)
+	{
+		uieventlist.insert(std::make_pair(layer, event));
+		return;
+	}
+
 	eventlist.insert(std::make_pair(layer, event));
 }
 
-void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color, bool usescale, float speed)
+void Render::RenderLine(bool ui, int layer, const fpoint& startpoint, const fpoint& endpoint, const Color& color, bool usescale, float speed)
 {
 	Render::Event event;
 
@@ -149,19 +170,18 @@ void Render::RenderLine(int layer, const fpoint& startpoint, const fpoint& endpo
 	event.speed = speed;
 	event.usescale = usescale;
 
+	if (ui)
+	{
+		uieventlist.insert(std::make_pair(layer, event));
+		return;
+	}
+
 	eventlist.insert(std::make_pair(layer, event));
 }
 
-const ipoint Render::GetCameraPosition(bool worldposition)
+const ipoint Render::GetCameraPosition()
 {
-	ipoint output = { 0,0 };
-	if (worldposition)
-	{
-		output = { -(*camera).x, -(*camera).y };
-		output.x = (int)((float)output.x / game->window->GetScale());
-		output.y = (int)((float)output.y / game->window->GetScale());
-	}
-	return output;
+	return ipoint(-camera->x, -camera->y);
 }
 
 void Render::SetCameraPosition(ipoint position)
@@ -192,11 +212,9 @@ bool Render::CreateRenderer()
 	renderer = SDL_CreateRenderer(game->window->window, -1, flags);
 	if (renderer == NULL)
 	{
-		game->Log("Renderer -> Bad Thing, Error: " + std::string(SDL_GetError()));
+		game->Log("Renderer -> Bad Thing, Renderer Error: " + std::string(SDL_GetError()));
 		return false;
 	}
-
-	camera = new SDL_Rect{ 0,0, resolution.x, resolution.y };
 	SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
 
 	return true;
@@ -204,6 +222,8 @@ bool Render::CreateRenderer()
 
 void Render::PrintEvents()
 {
+	SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
+
 	for (std::map<int, Render::Event>::iterator e = eventlist.begin(); e != eventlist.end(); e++)
 	{
 		Render::Event event = e->second;
@@ -223,8 +243,30 @@ void Render::PrintEvents()
 			break;
 		}
 	}
-
 	eventlist.erase(eventlist.begin(), eventlist.end());
+
+	SDL_RenderSetLogicalSize(renderer, uiresolution.x, uiresolution.y);
+
+	for (std::map<int, Render::Event>::iterator e = uieventlist.begin(); e != uieventlist.end(); e++)
+	{
+		Render::Event event = e->second;
+		switch (event.type)
+		{
+		case Type::RECTANGLE:
+			DrawRect(event.position, event.width, event.height, event.color, event.usescale, event.filled);
+			break;
+		case Type::LINE:
+			DrawLine(event.position, event.endpoint, event.color, event.usescale, event.speed);
+			break;
+		case Type::CIRCLE:
+			DrawCircle(event.position, event.radius, event.color, event.usescale, event.speed);
+			break;
+		case Type::TEXTURE:
+			DrawTexture(event.texture, event.position, event.x, event.y, event.width, event.height, event.flip, event.color.a, event.usescale, event.speed, event.angle, event.pivot);
+			break;
+		}
+	}
+	uieventlist.erase(uieventlist.begin(), uieventlist.end());
 }
 
 void Render::ClearEvents()
@@ -232,10 +274,8 @@ void Render::ClearEvents()
 	eventlist.erase(eventlist.begin(), eventlist.end());
 }
 
-bool Render::DrawTexture(TexturePtr texture, const fpoint& position, int x, int y, int width, int height, bool flip, int alpha, bool usescale, float speed, double angle, const fpoint& pivot)
+bool Render::DrawTexture(TexturePtr texture, const fpoint& position, int x, int y, int width, int height, bool flip, int alpha, bool worldposition, float speed, double angle, const fpoint& pivot)
 {
-	const float scale = game->window->GetScale();
-
 	SDL_Rect section = { x,y,width,height };
 
 	SDL_Rect rect;
@@ -243,12 +283,12 @@ bool Render::DrawTexture(TexturePtr texture, const fpoint& position, int x, int 
 	rect.w = width;
 	rect.h = height;
 
-	if (usescale)
+	if (worldposition)
 	{
-		rect.x = (int)((*camera).x * speed + position.x * scale);
-		rect.y = (int)((*camera).y * speed + position.y * scale);
-		rect.w = (int)(rect.w * scale);
-		rect.h = (int)(rect.h * scale);
+		rect.x = (int)((*camera).x * speed + position.x);
+		rect.y = (int)((*camera).y * speed + position.y);
+		rect.w = (int)(rect.w);
+		rect.h = (int)(rect.h);
 	}
 	else
 	{
@@ -276,25 +316,23 @@ bool Render::DrawTexture(TexturePtr texture, const fpoint& position, int x, int 
 	return true;
 }
 
-bool Render::DrawRect(const fpoint& position, int width, int height, const Color& color, bool usescale, bool filled) const
+bool Render::DrawRect(const fpoint& position, int width, int height, const Color& color, bool worldposition, bool filled) const
 {
-	const float scale = game->window->GetScale();
-
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
 	int x = (int)position.x;
 	int y = (int)position.y;
 
-	if (usescale)
+	if (worldposition)
 	{
-		x = (int)((*camera).x + x * scale);
-		y = (int)((*camera).y + y * scale);
-		width = (int)(width * scale);
-		height = (int)(height * scale);
+		x = (int)((*camera).x + x);
+		y = (int)((*camera).y + y);
+		width = (int)(width);
+		height = (int)(height);
 	}
 
 	SDL_Rect rect = { x, y, width, height };
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
 	int result;
 	if (filled)
@@ -311,15 +349,12 @@ bool Render::DrawRect(const fpoint& position, int width, int height, const Color
 	return true;
 }
 
-bool Render::DrawCircle(fpoint& position, int radius, const Color& color, bool usescale, float speed)
+bool Render::DrawCircle(fpoint& position, int radius, const Color& color, bool worldposition, float speed)
 {
-
-	const float scale = game->window->GetScale();
-
-	if (usescale)
+	if (worldposition)
 	{
-		position.x = ((*camera).x + position.x * scale);
-		position.y = ((*camera).y + position.y * scale);
+		position.x = ((*camera).x + position.x);
+		position.y = ((*camera).y + position.y);
 	}
 
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -361,17 +396,15 @@ bool Render::DrawCircle(fpoint& position, int radius, const Color& color, bool u
 	return true;
 }
 
-bool Render::DrawLine(fpoint& firstPosition, fpoint& secondPosition, const Color& color, bool usescale, float speed)
+bool Render::DrawLine(fpoint& firstPosition, fpoint& secondPosition, const Color& color, bool worldposition, float speed)
 {
-	const float scale = game->window->GetScale();
-
-	if (usescale)
+	if (worldposition)
 	{
-		firstPosition.x = ((*camera).x + firstPosition.x * scale);
-		firstPosition.y = ((*camera).y + firstPosition.y * scale);
+		firstPosition.x = ((*camera).x + firstPosition.x);
+		firstPosition.y = ((*camera).y + firstPosition.y);
 
-		secondPosition.x = ((*camera).x + secondPosition.x * scale);
-		secondPosition.y = ((*camera).y + secondPosition.y * scale);
+		secondPosition.x = ((*camera).x + secondPosition.x);
+		secondPosition.y = ((*camera).y + secondPosition.y);
 	}
 
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -382,13 +415,11 @@ bool Render::DrawLine(fpoint& firstPosition, fpoint& secondPosition, const Color
 
 bool Render::InCamera(int x, int y, int width, int height)
 {
-	const float scale = game->window->GetScale();
-
 	SDL_Rect cull = (*camera);
-	cull.x = (int)(cull.x / -scale);
-	cull.y = (int)(cull.y / -scale);
-	cull.w = (int)(cull.w / scale);
-	cull.h = (int)(cull.h / scale);
+	cull.x = (int)(-cull.x);
+	cull.y = (int)(-cull.y);
+	cull.w = (int)(cull.w);
+	cull.h = (int)(cull.h);
 
 	if (cull.x <= x + width && cull.x + cull.w >= x &&
 		cull.y <= y + height && cull.h + cull.y >= y)

@@ -1,6 +1,7 @@
 #include "Input.h"
 
 #include "Window.h"
+#include "Render.h"
 
 #include "SDL/include/SDL_events.h"
 
@@ -144,9 +145,12 @@ bool Input::GetTextInput(char& input)
 		return false;
 }
 
-fpoint Input::GetMousePos(bool usescale) const
+fpoint Input::GetMousePos(bool worldposition) const
 {
-	if (usescale)
-		return  mouse / game->window->GetScale();
+	if (worldposition)
+	{
+		ipoint campos = game->render->GetCameraPosition();
+		return  mouse + fpoint((float)campos.x, (float)campos.y);
+	}
 	return mouse;
 }

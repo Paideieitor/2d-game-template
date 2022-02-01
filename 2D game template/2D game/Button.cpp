@@ -82,14 +82,14 @@ void Button::Render()
 	{
 		if (IsDisabled())
 			current = graphics.disabled;
-		game->render->RenderTexture(UI_RENDER_LAYER, graphics.texture, GetPosition(), current->GetFrame());
+		game->render->RenderTexture(true, UI_RENDER_LAYER, graphics.texture, GetPosition(), current->GetFrame());
 		SetSize(current->GetCurrentSize());
 	}
 	else
 	{
 		if (IsDisabled())
 			color.a = 150;
-		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
+		game->render->RenderRectangle(true, UI_RENDER_LAYER, GetPosition(), GetSize(), color, IsWorldPos());
 	}
 }
 

@@ -266,7 +266,7 @@ public:
 
 	const State CheckState(Key key) const;
 
-	fpoint GetMousePos(bool usescale = true) const;
+	fpoint GetMousePos(bool worldpostion) const;
 
 	bool GetTextInput(char &input);
 

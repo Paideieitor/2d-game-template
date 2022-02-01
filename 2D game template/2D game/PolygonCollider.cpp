@@ -47,17 +47,11 @@ PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex
 void PolygonCollider::DebugDraw()
 {
 	UpdateVertex();
-	for (int p = 0; p < vertices.size(); p++)
-	{
+	for (size_t p = 0; p < vertices.size(); p++)
 		if (p == vertices.size() - 1)
-		{
-			game->render->RenderLine(5, { vertices[p].x,-vertices[p].y }, { vertices[0].x,-vertices[0].y }, { 255,0,0,255 },true);
-		}
+			game->render->RenderLine(false, 5, { vertices[p].x,-vertices[p].y }, { vertices[0].x,-vertices[0].y }, { 255,0,0,255 }, true);
 		else
-		{
-			game->render->RenderLine(5, { vertices[p].x,-vertices[p].y }, { vertices[p + 1].x,-vertices[p + 1].y }, { 255,0,0,255 }, true);
-		}
-	}
+			game->render->RenderLine(false, 5, { vertices[p].x,-vertices[p].y }, { vertices[p + 1].x,-vertices[p + 1].y }, { 255,0,0,255 }, true);
 }
 
 void PolygonCollider::UpdateVertex()

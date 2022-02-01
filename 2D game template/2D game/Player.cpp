@@ -57,8 +57,8 @@ bool Player::Update(float dt)
 	rotation = collider->GetRotation();
 
 
-	float playerPosition = (-(int)position.x + game->render->GetResolution().x / 2);
-	float cameraPosition = game->render->GetCameraPosition(true).x;
+	float playerPosition = (float)(-(int)position.x + game->render->GetResolution(false).x / 2);
+	float cameraPosition = (float)game->render->GetCameraPosition().x;
 
 	float k = Lerp(playerPosition, cameraPosition, 1.0f);
 
@@ -71,8 +71,8 @@ bool Player::Update(float dt)
 	
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
-	//game->render->RenderTexture(25, texture, GetRenderPosition(size), frame, false, 255, true, 1.0f, -(double)GetRotation(), fpoint((float)size.x * 0.5f, (float)size.y * 0.5f));
-	game->render->RenderTexture(5, texture, { position.x - texture->GetSize().x*2 ,position.y - texture->GetSize().y*2  }, 0, 0, texture->GetSize() * 4, false, 255, true);
+
+	game->render->RenderTexture(false, 5, texture, { position.x - texture->GetSize().x*2 ,position.y - texture->GetSize().y*2  }, 0, 0, texture->GetSize() * 4, false, 255, true);
 
     return true;
 }

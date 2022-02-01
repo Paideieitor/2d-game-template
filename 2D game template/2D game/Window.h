@@ -42,9 +42,6 @@ public:
 
 	void CenterWindowPosition();
 
-	const float GetScale() const { return scale; }
-	void SetScale(float scale) { this->scale = scale; }
-
 private:
 
 	WindowData* window;
@@ -52,7 +49,6 @@ private:
 	Window::State state;
 
 	ipoint size;
-	float scale;
 
 	bool fullscreen;
 	bool borderless;

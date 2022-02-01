@@ -58,11 +58,11 @@ void ButtonArray::Render()
 	int alpha = IsDisabled() ? 150 : 255;
 
 	if (!graphics.texture)
-		game->render->RenderRectangle(UI_RENDER_LAYER, GetPosition(), textsize, Color(255, 50, 50, alpha), IsWorldPos());
+		game->render->RenderRectangle(true, UI_RENDER_LAYER, GetPosition(), textsize, Color(255, 50, 50, alpha), IsWorldPos());
 	else
 	{
 		Animation animation = IsDisabled() ? graphics.disabled : graphics.idle;
-		game->render->RenderTexture(UI_RENDER_LAYER, graphics.texture, GetPosition(), animation->GetFrame(), false, alpha, IsWorldPos());
+		game->render->RenderTexture(true, UI_RENDER_LAYER, graphics.texture, GetPosition(), animation->GetFrame(), false, alpha, IsWorldPos());
 	}
 }
 

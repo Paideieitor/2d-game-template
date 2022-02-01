@@ -32,13 +32,13 @@ bool MainMenu::Start()
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	play = game->ui->AddButton("Play", buttonfont, Color::black, { 0.0f, 0.0f });
-	play->SetPosition(game->Center(play->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,100 }, true, false));
+	play->SetPosition(game->Center(play->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
 
 	tooptions = game->ui->AddButton("Options", buttonfont, Color::black, { 0.0f, 0.0f });
-	tooptions->SetPosition(game->Center(tooptions->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,250 }, true, false));
+	tooptions->SetPosition(game->Center(tooptions->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,250 }, true, false));
 
 	exit = game->ui->AddButton("Exit", buttonfont, Color::black, {0.0f, 0.0f});
-	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,400 }, true, false));
+	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,400 }, true, false));
 
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
@@ -49,9 +49,8 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	//game->render->RenderTexture(5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
-	//game->render->RenderTexture(1, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize()*6, false, 255,true);
-	//Physics test
+	game->render->RenderTexture(false, 5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
+
 	game->physics->PhysicsDebugDraw();
 
 	return true;

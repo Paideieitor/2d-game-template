@@ -24,7 +24,7 @@ void Label::Render()
 	{
 		int alpha = IsDisabled() ? 150 : 255;
 
-		game->render->RenderTexture(UI_RENDER_LAYER, texture, GetPosition(), 0, 0, texture->GetSize(), false, alpha, IsWorldPos());
+		game->render->RenderTexture(true, UI_RENDER_LAYER, texture, GetPosition(), 0, 0, texture->GetSize(), false, alpha, IsWorldPos());
 	}
 }
 

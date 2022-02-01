@@ -17,33 +17,33 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	fpscap = game->ui->AddScrollbar("FPS Cap", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
-	fpscap->SetPosition(game->Center(fpscap->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,100 }, true, false));
+	fpscap->SetPosition(game->Center(fpscap->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
 	fpscap->SetMinMax(30.0f, 300.0f);
-	fpscap->SetValue(game->GetFPSCap());
+	fpscap->SetValue((float)game->GetFPSCap());
 
 	fullscreen = game->ui->AddButton("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK, false, this);
-	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,200 }, true, false));
+	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,200 }, true, false));
 	fullscreen->Lock(game->window->IsFullscreen());
 
 	borderless = game->ui->AddButton("Borderless", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
-	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,350 }, true, false));
+	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,350 }, true, false));
 
 	int current = 0;
 	const std::vector<std::string> resolutuonoptions = game->scenes->GetButtonArrayOptions("options", "resolution", current);
 	resolution = game->ui->AddButtonArray("Resolution", buttonfont, Color::black, resolutuonoptions, fpoint(0, 0),UIGraphics(), UIGraphics(), UIGraphics(), false, this);
-	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,500 }, true, false));
+	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,500 }, true, false));
 	resolution->SetCurrent(current);
 
 	music = game->ui->AddScrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
-	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,650 }, true, false));
+	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,650 }, true, false));
 	music->SetValue((float)game->audio->GetMusicVolume());
 
 	sfx = game->ui->AddScrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
-	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,800 }, true, false));
+	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,800 }, true, false));
 	sfx->SetValue((float)game->audio->GetSfxVolume());
 
 	tomenu = game->ui->AddButton("Main Menu", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
-	tomenu->SetPosition(game->Center(tomenu->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,900 }, true, false));
+	tomenu->SetPosition(game->Center(tomenu->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,900 }, true, false));
 }
 
 OptionsMenu::~OptionsMenu()
