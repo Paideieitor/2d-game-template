@@ -1,3 +1,7 @@
+#ifndef AUDIOMODULE_H
+#define AUDIOMODULE_H
+
+
 #include "Module.h"
 
 struct _Mix_Music;
@@ -56,3 +60,5 @@ private:
 
 	pugi::xml_node node;
 };
+
+#endif

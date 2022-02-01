@@ -29,6 +29,7 @@ class Audio;
 class Console;
 class Physics;
 class EntityManager;
+class MapLoader;
 
 class Render;
 
@@ -57,6 +58,7 @@ public:
 	Console* console;
 	Physics* physics;
 	EntityManager* entities;
+	MapLoader* maploader;
 
 	Render* render;
 

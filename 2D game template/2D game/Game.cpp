@@ -13,6 +13,7 @@
 #include "Console.h"
 #include "Physics.h"
 #include "EntityManager.h"
+#include "MapLoader.h"
 
 #include <sstream>
 
@@ -29,6 +30,7 @@ Game::Game()
 	audio = new Audio();
 	physics = new Physics();
 	entities = new EntityManager();
+	maploader = new MapLoader();
 
 	AddModule(input);
 	//FIRST ^
@@ -40,10 +42,11 @@ Game::Game()
 	AddModule(textures);
 
 	AddModule(ui);
-	AddModule(entities);
 	AddModule(scenes);
 
 	AddModule(physics);
+	AddModule(maploader);
+	AddModule(entities);
 	//LAST  v
 	AddModule(render);
 }

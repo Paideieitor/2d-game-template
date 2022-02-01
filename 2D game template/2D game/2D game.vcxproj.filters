@@ -115,6 +115,9 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>Physics\CollisionDetection</Filter>
     </ClCompile>
+    <ClCompile Include="MapLoader.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="ContactListener.h">
       <Filter>Physics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLoader.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
