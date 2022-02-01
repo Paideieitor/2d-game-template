@@ -34,6 +34,10 @@ public:
 	const float GetValue() const { return value; };
 	void SetValue(float value);
 
+	const float GetMin() { return min; }
+	const float GetMax() { return max; }
+	void SetMinMax(float min, float max);
+
 private:
 
 	void ActiveChanged() override;
@@ -43,6 +47,8 @@ private:
 	void WorldPosChanged() override;
 
 	void SetScrollPositionFromValue();
+
+	float Range() { return max - min; }
 
 private:
 
@@ -55,6 +61,9 @@ private:
 	Button* bar;
 
 	float value;
+
+	float min = 0.0f;
+	float max = 100.0f;
 
 	friend class UIManager;
 };

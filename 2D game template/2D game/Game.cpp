@@ -58,13 +58,23 @@ bool Game::SetUp()
 {
 	bool output = true;
 
-	pugi::xml_parse_result result = document.load_file("config.xml");
+	pugi::xml_parse_result result = document.load_file(CONFIG_FILE);
+
+	pugi::xml_node confignode = document.first_child();
+
+	if (confignode.attribute("version").as_float() != CURRENT_VERSION)
+	{
+		Log("Set Up -> Bad Thing, Incompatible config version");
+		return false;
+	}
+
+	frameCap = confignode.attribute("framecap").as_int();
 
 	for (std::vector<Module*>::iterator m = modules.begin(); m != modules.end(); m++)
 	{
 		Module* module = *m;
 
-		pugi::xml_node node = document.first_child().child(module->name.c_str());
+		pugi::xml_node node = confignode.child(module->name.c_str());
 		output = module->SetUp(node);
 
 		if (!output)
@@ -146,6 +156,17 @@ bool Game::CleanUp()
 	}
 
 	return output;
+}
+
+void Game::SetFPSCap(int fpsCap)
+{
+	if (fpsCap != frameCap)
+	{
+		frameCap = fpsCap;
+
+		document.first_child().attribute("framecap").set_value(frameCap);
+		document.save_file(CONFIG_FILE);
+	}
 }
 
 void Game::AddModule(Module* module, bool active)

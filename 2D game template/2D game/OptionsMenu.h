@@ -24,6 +24,7 @@ private:
 
 	FontPtr buttonfont = nullptr;
 
+	Scrollbar* fpscap = nullptr;
 	Button* fullscreen = nullptr;
 	Button* borderless = nullptr;
 	ButtonArray* resolution = nullptr;

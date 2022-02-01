@@ -45,8 +45,8 @@ bool Scrollbar::Update(float dt)
 		if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::UP)
 		{
 			++value;
-			if (value > 100.0f)
-				value = 100.0f;
+			if (value > max)
+				value = max;
 			SetValue(value);
 
 			SetScrollPositionFromValue();
@@ -56,8 +56,8 @@ bool Scrollbar::Update(float dt)
 		else if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::DOWN)
 		{
 			--value;
-			if (value < 0.0f)
-				value = 0.0f;
+			if (value < min)
+				value = min;
 			SetValue(value);
 
 			SetScrollPositionFromValue();
@@ -80,7 +80,7 @@ void Scrollbar::UIEvent(UIElement* element)
 	else if (mouseposx > GetPosition().x + (float)GetSize().x)
 		mouseposx = GetPosition().x + (float)GetSize().x;
 
-	float newvalue = ((mouseposx - GetPosition().x) / (float)GetSize().x) * 100.0f;
+	float newvalue = min + ((mouseposx - GetPosition().x) / (float)GetSize().x) * Range();
 	if (newvalue != value)
 	{
 		SetValue(newvalue);
@@ -97,6 +97,12 @@ void Scrollbar::SetValue(float value)
 	SetScrollPositionFromValue();
 
 	valuetext->ChangeText(game->FloatToString(value));
+}
+
+void Scrollbar::SetMinMax(float min, float max)
+{
+	this->min = min;
+	this->max = max;
 }
 
 void Scrollbar::ActiveChanged()
@@ -121,7 +127,7 @@ void Scrollbar::PositionChanged()
 {
 	fpoint position = GetPosition();
 	bar->SetPosition(position.x, game->Center(bar->GetSize(), position, GetSize(), fpoint(0, 0), false, true).y);
-	scroll->SetPosition(position.x + (value * GetSize().x * 0.01f) - scroll->GetSize().x * 0.5f, position.y);
+	scroll->SetPosition(position.x + (GetSize().x * (1 / Range()) * value) - scroll->GetSize().x * 0.5f, position.y);
 
 	text->SetPosition(position.x, position.y - text->GetSize().y);
 	valuetext->SetPosition(position.x + GetSize().x + GetSize().x * 0.05f, game->Center(valuetext->GetSize(), position, GetSize()).y);
@@ -147,6 +153,6 @@ void Scrollbar::WorldPosChanged()
 
 void Scrollbar::SetScrollPositionFromValue()
 {
-	float positionx = GetPosition().x + ((float)GetSize().x * 0.01f * value) - scroll->GetSize().x * 0.5f;
+	float positionx = GetPosition().x + ((float)GetSize().x * (1 / Range()) * (value - min)) - scroll->GetSize().x * 0.5f;
 	scroll->SetPosition(positionx, scroll->GetPosition().y);
 }

@@ -12,6 +12,9 @@
 #include <memory>
 #include <iostream>
 
+#define CONFIG_FILE "config.xml"
+#define CURRENT_VERSION 0.1f
+
 class Module;
 
 class Input;
@@ -69,6 +72,9 @@ public:
 
 	void Log(const std::string& log) const { std::cout << log << "\n"; }
 
+	const int GetFPSCap() { return frameCap; }
+	void SetFPSCap(int fpsCap);
+
 private:
 
 	void AddModule(Module* module, bool active = true);
@@ -76,7 +82,7 @@ private:
 
 	int frameMs;
 	int timeToDelay;
-	int frameCap = 240;
+	int frameCap = 60;
 	float dt = 0;
 	Timer time;
 };
