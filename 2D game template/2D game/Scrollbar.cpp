@@ -5,21 +5,30 @@
 #include "Input.h"
 #include "UIManager.h"
 
-#include "Label.h"
-#include "Button.h"
-
 #define SBAR_DEFAULT_SIZE_X 500
 #define SBAR_DEFAULT_SIZE_Y 20
 
-Scrollbar::Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, 
-	const UIGraphics& bargraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+Scrollbar::Scrollbar(const fpoint& position, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
 {
-	bar = new Button("", nullptr, Color::black, position, scrollgraphics, Button::Type::REPEATPRESS, worldposition, this);
-	scroll = new Button("", nullptr, Color::black, position, bargraphics, Button::Type::REPEATPRESS, worldposition, this);
+}
 
-	this->text = new Label(text, font, fontcolor, position, worldposition);
-	valuetext = new Label("0", font, fontcolor, position, worldposition);
+Scrollbar::~Scrollbar()
+{
+	game->ui->EraseElement(bar);
+	game->ui->EraseElement(scroll);
+
+	game->ui->EraseElement(text);
+	game->ui->EraseElement(valuetext);
+}
+
+void Scrollbar::Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics)
+{
+	bar = game->ui->AddButton("", nullptr, Color::black, GetPosition(), scrollgraphics, Button::Type::REPEATPRESS, IsWorldPos(), this);
+	scroll = game->ui->AddButton("", nullptr, Color::black, GetPosition(), bargraphics, Button::Type::REPEATPRESS, IsWorldPos(), this);
+
+	this->text = game->ui->AddLabel(text, font, fontcolor, GetPosition(), IsWorldPos());
+	valuetext = game->ui->AddLabel("0", font, fontcolor, GetPosition(), IsWorldPos());
 
 	if (!bargraphics.texture)
 		bar->SetSize(ipoint(SBAR_DEFAULT_SIZE_X, (int)((float)SBAR_DEFAULT_SIZE_Y * 0.75f)));
@@ -28,15 +37,6 @@ Scrollbar::Scrollbar(const std::string& text, FontPtr font, const Color& fontcol
 	SetSize(bar->GetSize().x, scroll->GetSize().y);
 
 	PositionChanged();
-}
-
-Scrollbar::~Scrollbar()
-{
-	delete bar;
-	delete scroll;
-
-	delete text;
-	delete valuetext;
 }
 
 bool Scrollbar::Update(float dt)
@@ -64,9 +64,6 @@ bool Scrollbar::Update(float dt)
 
 			observer.UIEvent(this);
 		}
-
-	if (game->ui->IsListModify())
-		return false;
 
 	return true;
 }

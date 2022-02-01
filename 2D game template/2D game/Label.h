@@ -5,7 +5,7 @@
 
 class Label : public UIElement
 {
-public:
+private:
 
 	Label() = delete;
 	Label(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
@@ -13,6 +13,8 @@ public:
 
 	bool Update(float dt) override;
 	void Render() override;
+
+public:
 
 	const std::string GetText() const { return text; }
 	FontPtr const GetFont() const { return font; }
@@ -37,6 +39,8 @@ private:
 	TexturePtr texture;
 	FontPtr font;
 	Color color;
+
+	friend class UIManager;
 };
 
 #endif

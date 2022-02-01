@@ -3,28 +3,31 @@
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
+#include "UIManager.h"
 
-#include "Label.h"
-#include "Button.h"
 
 #define IBOX_DEFAULT_SIZE_X 700
 #define IBOX_DEFAULT_SIZE_Y 100
 
-InputBox::InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, bool worldposition, const Observer& observer)
+InputBox::InputBox(const fpoint& position, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
 {
-	frame = new Button("", font, fontcolor, position, graphics, Button::Type::LOCKONCLICK, worldposition, this);
+}
+
+InputBox::~InputBox()
+{
+	game->ui->EraseElement(frame);
+}
+
+void InputBox::Start(FontPtr font, const Color& fontcolor, const UIGraphics& graphics)
+{
+	frame = game->ui->AddButton("", font, fontcolor, GetPosition(), graphics, Button::Type::LOCKONCLICK, IsWorldPos(), this);
 	if (!graphics.texture)
 		frame->SetSize(ipoint(IBOX_DEFAULT_SIZE_X, IBOX_DEFAULT_SIZE_Y));
 
 	SetSize(frame->GetSize());
 
 	PositionChanged();
-}
-
-InputBox::~InputBox()
-{
-	delete frame;
 }
 
 bool InputBox::Update(float dt)

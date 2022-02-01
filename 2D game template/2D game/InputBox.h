@@ -8,15 +8,18 @@ class Button;
 
 class InputBox : public UIElement
 {
-public:
+private:
 
 	InputBox() = delete;
-	InputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics = UIGraphics(),
+	InputBox(const fpoint& position,
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 
+	void Start(FontPtr font, const Color& fontcolor, const UIGraphics& graphics);
 	bool Update(float dt) override;
 	void Render() override;
+
+public:
 
 	void UIEvent(UIElement*) override;
 
@@ -39,6 +42,8 @@ private:
 	TexturePtr text;
 
 	Button* frame;
+
+	friend class UIManager;
 };
 
 #endif

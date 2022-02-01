@@ -8,10 +8,7 @@
 
 #include "Textures.h"
 #include "Fonts.h"
-
-#include "Button.h"
-#include "InputBox.h"
-#include "Label.h"
+#include "UIManager.h"
 
 //TEST
 #include "Physics.h"
@@ -34,16 +31,16 @@ bool MainMenu::Start()
 	backgroundImg = game->textures->Load("images/BG12.png");
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	play = new Button("Play", buttonfont, Color::black, { 0.0f, 0.0f });
+	play = game->ui->AddButton("Play", buttonfont, Color::black, { 0.0f, 0.0f });
 	play->SetPosition(game->Center(play->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,100 }, true, false));
 
-	tooptions = new Button("Options", buttonfont, Color::black, { 0.0f, 0.0f });
+	tooptions = game->ui->AddButton("Options", buttonfont, Color::black, { 0.0f, 0.0f });
 	tooptions->SetPosition(game->Center(tooptions->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,250 }, true, false));
 
-	exit = new Button("Exit", buttonfont, Color::black, {0.0f, 0.0f});
+	exit = game->ui->AddButton("Exit", buttonfont, Color::black, {0.0f, 0.0f});
 	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->GetResolution(), { 0,400 }, true, false));
 
-	box = new InputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
+	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
 	player = new Player("Ron", { 400,-900 }, 0);
 	
@@ -66,10 +63,10 @@ bool MainMenu::CleanUp()
 
 	buttonfont = nullptr;
 
-	delete play;
-	delete tooptions;
-	delete exit;
-	delete box;
+	game->ui->EraseElement(play);
+	game->ui->EraseElement(tooptions);
+	game->ui->EraseElement(exit);
+	game->ui->EraseElement(box);
 
 	delete player;
 

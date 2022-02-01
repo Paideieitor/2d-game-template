@@ -33,13 +33,15 @@ public:
 		CLICK
 	};
 
-public:
+protected:
 
 	UIElement(const Type& type, const fpoint& position, bool worldposition, const Observer& observer);
 	virtual ~UIElement();
 
 	virtual bool Update(float dt) = 0;
 	virtual void Render() = 0;
+
+public:
 
 	virtual void UIEvent(UIElement*) {}
 
@@ -92,6 +94,7 @@ public:
 public:
 
 	const Type type;
+	bool todelete = false;
 
 protected:
 
@@ -115,6 +118,8 @@ private:
 	fpoint position;
 	ipoint size;
 	bool worldposition;
+
+	friend class UIManager;
 };
 
 struct UIGraphics

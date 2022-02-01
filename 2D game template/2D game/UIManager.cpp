@@ -30,46 +30,40 @@ bool UIManager::Update(float dt)
 {
 	UIElement* focused = nullptr;
 
-	int counter = 0;
-	bool stop = false;
-	while (!stop)
+	std::vector<int> deleteindex;
+
+	for (size_t i = 0; i < elements.size(); ++i)
 	{
-		stop = true;
-		listmodify = false;
-		for (size_t i = counter; i < elements.size(); ++i)
+		if (!elements[i].first)
 		{
-			counter++;
-
-			if (!elements[i]->IsActive())
-				continue;
-
-			if (!elements[i]->IsDisabled())
-			{
-				if (elements[i]->Update(dt))
-				{
-					elements[i]->SetIdle();
-					if (IsFocused(elements[i]))
-						focused = elements[i];
-				}
-
-				if (listmodify)
-				{
-					stop = false;
-					break;
-				}
-			}
-
-			elements[i]->Render();
-
-			if (!stop)
-				break;
-			if (game->scenes->ChangingScenes())
-			{
-				stop = true;
-				break;
-			}
+			deleteindex.push_back(i);
+			continue;
 		}
+
+		UIElement* element = elements[i].second;
+		if (!element->IsActive())
+			continue;
+
+		if (!element->IsDisabled())
+			if (element->Update(dt))
+			{
+				element->SetIdle();
+				if (IsFocused(element))
+					focused = element;
+			}
+
+		element->Render();
 	}
+
+	for (int i = deleteindex.size() - 1; i >= 0; --i)
+	{
+		delete elements[deleteindex[i]].second;
+		elements.erase(elements.begin() + deleteindex[i]);
+	}
+
+	for (size_t i = 0; i < addelems.size(); ++i)
+		elements.push_back(std::make_pair(true, addelems[i]));
+	addelems.clear();
 
 	if (focused)
 	{
@@ -85,41 +79,95 @@ bool UIManager::Update(float dt)
 bool UIManager::CleanUp()
 {
 	while (elements.size() != 0)
-		delete *elements.begin();
+	{
+		if (elements.begin()->first)
+			delete elements.begin()->second;
+		elements.erase(elements.begin());
+	}
+
+	while (addelems.size() != 0)
+	{
+		delete *addelems.begin();
+		addelems.erase(addelems.begin());
+	}
 
 	return true;
+}
+
+Button* UIManager::AddButton(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, Button::Type presstype, bool worldposition, const Observer& observer)
+{
+	Button* output = new Button(position, graphics, presstype, worldposition, observer);
+	addelems.push_back(output);
+
+	output->Start(text, font, fontcolor);
+
+	return output;
+}
+
+ButtonArray* UIManager::AddButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position, const UIGraphics& graphics, const UIGraphics& togglegraphics, const UIGraphics& unfoldgraphics, bool worldposition, const Observer& observer)
+{
+	ButtonArray* output = new ButtonArray(options, position, graphics, unfoldgraphics, worldposition, observer);
+	addelems.push_back(output);
+
+	output->Start(text, font, fontcolor, togglegraphics);
+
+	return output;
+}
+
+InputBox* UIManager::AddInputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, bool worldposition, const Observer& observer)
+{
+	InputBox* output = new InputBox(position, worldposition, observer);
+	addelems.push_back(output);
+
+	output->Start(font, fontcolor, graphics);
+
+	return output;
+}
+
+Label* UIManager::AddLabel(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition)
+{
+	Label* output = new Label(text, font, color, position, worldposition);
+	addelems.push_back(output);
+
+	return output;
+}
+
+Scrollbar* UIManager::AddScrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+{
+	Scrollbar* output = new Scrollbar(position, datatype, worldposition, observer);
+	addelems.push_back(output);
+
+	output->Start(text, font, fontcolor, scrollgraphics, bargraphics);
+
+	return output;
+}
+
+void UIManager::EraseElement(UIElement* element)
+{
+	for (size_t i = 0; i < elements.size(); ++i)
+		if (element == elements[i].second)
+		{
+			elements[i].first = false;
+			element = nullptr;
+			break;
+		}
 }
 
 void UIManager::DisableAll()
 {
 	for (size_t i = 0; i < elements.size(); ++i)
-	{
-		elements[i]->SetIdle();
-		elements[i]->Disable(true);
-	}
+		if (elements[i].first)
+		{
+			elements[i].second->SetIdle();
+			elements[i].second->Disable(true);
+		}
 }
 
 void UIManager::EnableAll()
 {
 	for (size_t i = 0; i < elements.size(); ++i)
-		elements[i]->Disable(false);
-}
-
-void UIManager::AddElement(UIElement* element)
-{
-	game->ui->elements.push_back(element);
-	listmodify = true;
-}
-
-void UIManager::EraseElement(UIElement* element)
-{
-	for (std::vector<UIElement*>::iterator e = elements.begin(); e != elements.end(); e++)
-		if (element == *e)
-		{
-			elements.erase(e);
-			listmodify = true;
-			break;
-		}
+		if (elements[i].first)
+			elements[i].second->Disable(false);
 }
 
 bool UIManager::IsFocused(UIElement* element)

@@ -1,17 +1,26 @@
 #include "Button.h"
+
 #include "Input.h"
 #include "Textures.h"
 #include "Render.h"
 #include "UIManager.h"
 
-#include "Label.h"
-
-Button::Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics,
+Button::Button(const fpoint& position, const UIGraphics& graphics,
 	Button::Type presstype, bool worldposition, const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false), 
 	graphics(graphics), current(graphics.idle)
 {
-	label = new Label(text, font, fontcolor, position, worldposition);
+}
+
+Button::~Button()
+{
+	if (label)
+		game->ui->EraseElement(label);
+}
+
+void Button::Start(const std::string& text, FontPtr font, const Color& fontcolor)
+{
+	label = game->ui->AddLabel(text, font, fontcolor, GetPosition(), IsWorldPos());
 
 	ipoint size;
 	if (current)
@@ -22,12 +31,6 @@ Button::Button(const std::string& text, FontPtr font, const Color& fontcolor, co
 	center.x = GetPosition().x + ((float)GetSize().x / 2.0f);
 	center.y = GetPosition().y + ((float)GetSize().y / 2.0f);
 	SetSize(size);
-}
-
-Button::~Button()
-{
-	if (label)
-		delete label;
 }
 
 bool Button::Update(float dt)
@@ -63,9 +66,6 @@ bool Button::Update(float dt)
 		observer.UIEvent(this);
 		break;
 	}
-
-	if (game->ui->IsListModify())
-		return false;
 
 	if (locked)
 	{

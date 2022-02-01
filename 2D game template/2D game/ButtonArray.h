@@ -8,16 +8,19 @@ class Button;
 
 class ButtonArray : public UIElement
 {
-public:
+private:
 
 	ButtonArray() = delete;
-	ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position,
-		const UIGraphics& graphics = UIGraphics(), const UIGraphics& togglegraphics = UIGraphics(),
+	ButtonArray(const std::vector<std::string>& options, const fpoint& position,
+		const UIGraphics& graphics = UIGraphics(),
 		const UIGraphics& unfoldgraphics = UIGraphics(), bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
 
+	void Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& togglegraphics);
 	bool Update(float dt) override;
 	void Render() override;
+
+public:
 
 	void UIEvent(UIElement*) override;
 
@@ -53,6 +56,8 @@ private:
 	std::vector<Button*> buttons;
 
 	std::string change;
+
+	friend class UIManager;
 };
 
 #endif

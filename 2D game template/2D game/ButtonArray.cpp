@@ -1,21 +1,30 @@
 #include "ButtonArray.h"
 
-#include "UIManager.h"
 #include "Textures.h"
 #include "Render.h"
+#include "UIManager.h"
 
-#include "Label.h"
-#include "Button.h"
-
-ButtonArray::ButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position,
-	const UIGraphics& graphics, const UIGraphics& togglegraphics, const UIGraphics& unfoldgraphics, bool worldposition, 
+ButtonArray::ButtonArray(const std::vector<std::string>& options, const fpoint& position,
+	const UIGraphics& graphics, const UIGraphics& unfoldgraphics, bool worldposition, 
 	const Observer& observer)
 	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), graphics(graphics), unfoldgraphics(unfoldgraphics),
 	options(options), change("")
 {
+}
+
+ButtonArray::~ButtonArray()
+{
+	game->ui->EraseElement(text);
+	game->ui->EraseElement(current);
+
+	DeleteButtons();
+}
+
+void ButtonArray::Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& togglegraphics)
+{
 	if (text.size() > 0)
-		this->text = new Label(text, font, fontcolor, position, worldposition);
-	current = new Button(options[0], font, fontcolor, position, togglegraphics, Button::Type::LOCKONCLICK, worldposition, this);
+		this->text = game->ui->AddLabel(text, font, fontcolor, GetPosition(), IsWorldPos());
+	current = game->ui->AddButton(options[0], font, fontcolor, GetPosition(), togglegraphics, Button::Type::LOCKONCLICK, IsWorldPos(), this);
 
 	if (graphics.texture)
 		textsize = graphics.texture->GetSize();
@@ -29,14 +38,6 @@ ButtonArray::ButtonArray(const std::string& text, FontPtr font, const Color& fon
 	PositionChanged();
 }
 
-ButtonArray::~ButtonArray()
-{
-	delete text;
-	delete current;
-
-	DeleteButtons();
-}
-
 bool ButtonArray::Update(float dt)
 {
 	if (change.size() > 0)
@@ -48,9 +49,6 @@ bool ButtonArray::Update(float dt)
 		current->Lock(false);
 		observer.UIEvent(this);
 	}
-
-	if (game->ui->IsListModify())
-		return false;
 
 	return true;
 }
@@ -149,7 +147,7 @@ void ButtonArray::WorldPosChanged()
 void ButtonArray::CreateButtons()
 {
 	for (size_t i = 0; i < options.size(); ++i)
-		buttons.push_back(new Button(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), unfoldgraphics, 
+		buttons.push_back(game->ui->AddButton(options[i], current->GetFont(), current->GetColor(), fpoint(0, 0), unfoldgraphics, 
 			Button::Type::SINGLECLICK, IsWorldPos(), this));
 	PlaceButtons();
 }
@@ -157,7 +155,7 @@ void ButtonArray::CreateButtons()
 void ButtonArray::DeleteButtons()
 {
 	for (size_t i = 0; i < buttons.size(); ++i)
-		delete buttons[i];
+		game->ui->EraseElement(buttons[i]);
 	buttons.clear();
 }
 

@@ -16,14 +16,18 @@ public:
 		FLOAT
 	};
 
+private:
+
 	Scrollbar() = delete;
-	Scrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics = UIGraphics(), 
-		const UIGraphics& bargraphics = UIGraphics(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
+	Scrollbar(const fpoint& position, Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
 		const Observer& observer = Observer());
 	~Scrollbar();
 
+	void Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics);
 	bool Update(float dt) override;
 	void Render() override;
+
+public:
 
 	void UIEvent(UIElement*);
 
@@ -51,6 +55,8 @@ private:
 	Button* bar;
 
 	float value;
+
+	friend class UIManager;
 };
 
 #endif

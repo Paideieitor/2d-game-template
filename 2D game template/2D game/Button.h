@@ -18,14 +18,19 @@ public:
 		REPEATPRESS
 	};
 
+private:
+
 	Button() = delete;
-	Button(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics = UIGraphics(),
+	Button(const fpoint& position, const UIGraphics& graphics = UIGraphics(),
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
+	void Start(const std::string& text, FontPtr font, const Color& fontcolor);
 	bool Update(float dt) override;
 
 	void Render() override;
+
+public:
 
 	const bool IsLocked() const { return locked; }
 	// This function does not trigger a UIEvent
@@ -64,6 +69,8 @@ private:
 	Color color; // for when no texture
 
 	fpoint center;
+
+	friend class UIManager;
 };
 
 #endif
