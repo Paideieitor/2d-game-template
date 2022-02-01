@@ -19,12 +19,13 @@ private:
 
 	void PositionChanged();
 	void RotationChanged();
+	float Lerp(float a, float b, float f);
 
 private:
 
 	float velocity = 500;
 	//craaaaaazy number
-	float jumpForce = 1920000;
+	float jumpForce = 400;
 	bool playerIsMoving;
 
 	TexturePtr texture;

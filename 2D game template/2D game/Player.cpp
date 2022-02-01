@@ -2,11 +2,14 @@
 
 #include "Textures.h"
 #include "Render.h"
-
 #include "Physics.h"
 #include "Input.h"
-#include "PhysicsComponent.h"
+
 #include "BoxCollider.h"
+
+#include <cmath>
+#include <cassert>
+#include <iostream>
 
 Player::Player(const std::string& name, const fpoint& position, float rotation)
     : Entity(Entity::Type::PLAYER, name, position, rotation)
@@ -29,7 +32,7 @@ bool Player::Update(float dt)
 {
 
 	if (game->input->CheckState(Key::W) == Input::State::DOWN)
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x,velocity/2);
+		collider->SetLinearVelocity(collider->GetLinearVelocity().x,jumpForce);
 
 	playerIsMoving = false;
 
@@ -54,7 +57,18 @@ bool Player::Update(float dt)
 	rotation = collider->GetRotation();
 
 
-	game->render->SetCameraPosition({-(int)position.x + game->render->GetResolution().x/2,-(int)position.y + game->render->GetResolution().y/2});
+	float playerPosition = (-(int)position.x + game->render->GetResolution().x / 2);
+	float cameraPosition = game->render->GetCameraPosition(true).x;
+
+	float k = Lerp(playerPosition, cameraPosition, 1.0f);
+
+	game->render->SetCameraPosition({(int)k,0/*-(int)position.y + game->render->GetResolution().y/2*/});
+	
+
+
+	
+	
+	
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
 	//game->render->RenderTexture(25, texture, GetRenderPosition(size), frame, false, 255, true, 1.0f, -(double)GetRotation(), fpoint((float)size.x * 0.5f, (float)size.y * 0.5f));
@@ -69,4 +83,9 @@ void Player::PositionChanged()
 
 void Player::RotationChanged()
 {
+}
+
+float Player::Lerp(float a, float b, float f)
+{
+	return a + f * (b - a);
 }
