@@ -21,12 +21,12 @@ BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation,BodyType t
 		bodyDef.type = b2BodyType::b2_staticBody;
 		break;
 	}
-	bodyDef.position.Set(position.x, position.y);
+	bodyDef.position.Set(position.x + size.x / 2, position.y - size.y / 2);
 	bodyDef.angle = rotation / 57.2958f;
 	bodyDef.fixedRotation = fixedRotation;
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(size.x, size.y);
+	boxShape.SetAsBox(size.x/2, size.y/2);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &boxShape;

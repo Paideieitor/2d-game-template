@@ -25,12 +25,12 @@ CircleCollider::CircleCollider(fpoint position, float radius, float rotation, Bo
 	}
 
 
-	bodyDef.position.Set(position.x, position.y);
+	bodyDef.position.Set(position.x + radius / 2, position.y - radius / 2);
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;
-	circle.m_radius = radius;
-	this->radius = radius;
+	circle.m_radius = radius/2;
+	this->radius = radius/2;
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circle;

@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include "BoxCollider.h"
 #include "CircleCollider.h"
+#include <string>
 
 MapLoader::MapLoader()
 {
@@ -43,16 +44,34 @@ void MapLoader::LoadMap(const char* mapName)
 		if (!child.child("polygon") && !child.child("ellipse")&& !child.child("point"))
 		{
 			child.attribute("x").as_int();
-			fpoint position = { child.attribute("x").as_float(),child.attribute("y").as_float() };
+			fpoint position = { child.attribute("x").as_float(),-(child.attribute("y").as_float())};
 			fpoint size = { child.attribute("width").as_float(),child.attribute("height").as_float() };
+			BodyType type = BodyType::DYNAMIC;
 
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, BodyType::DYNAMIC, 1.0f, 0.5f, 0.25f, false, false));
+			//CHECKING FOR PROPERTIES
+			if (child.child("properties")) 
+			{
+				for (const auto& child : child.child("properties"))
+				{
+					if (!std::strcmp(child.attribute("name").as_string(),"static"))
+					{
+						if (child.attribute("value").as_bool()) 
+						{
+							type = BodyType::STATIC;
+						}
+					}
+					
+				}
+			}
+			/////////////////////////
+
+			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.5f, 0.25f, false, false));
 		}
 
 		//CIRCLE COLLIDER
 		if (child.child("ellipse")) 
 		{
-			fpoint position = { child.attribute("x").as_float(),child.attribute("y").as_float() };
+			fpoint position = { child.attribute("x").as_float(),-child.attribute("y").as_float() };
 			float radius = child.attribute("width").as_float();
 
 			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f,BodyType::DYNAMIC));
