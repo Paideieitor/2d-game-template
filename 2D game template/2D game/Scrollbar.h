@@ -5,6 +5,7 @@
 
 class Label;
 class Button;
+class InputBox;
 
 class Scrollbar : public UIElement
 {
@@ -23,7 +24,8 @@ private:
 		const Observer& observer = Observer());
 	~Scrollbar();
 
-	void Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics);
+	void Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics,
+		const UIGraphics& valuegraphics);
 	bool Update(float dt) override;
 	void Render() override;
 
@@ -55,7 +57,7 @@ private:
 	Scrollbar::Type datatype;
 
 	Label* text;
-	Label* valuetext;
+	InputBox* valuetext;
 
 	Button* scroll;
 	Button* bar;

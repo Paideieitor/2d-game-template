@@ -22,13 +22,15 @@ Scrollbar::~Scrollbar()
 	game->ui->EraseElement(valuetext);
 }
 
-void Scrollbar::Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics)
+void Scrollbar::Start(const std::string& text, FontPtr font, const Color& fontcolor, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics,
+	const UIGraphics& valuegraphics)
 {
 	bar = game->ui->AddButton("", nullptr, Color::black, GetPosition(), scrollgraphics, Button::Type::REPEATPRESS, IsWorldPos(), this);
 	scroll = game->ui->AddButton("", nullptr, Color::black, GetPosition(), bargraphics, Button::Type::REPEATPRESS, IsWorldPos(), this);
 
 	this->text = game->ui->AddLabel(text, font, fontcolor, GetPosition(), IsWorldPos());
-	valuetext = game->ui->AddLabel("0", font, fontcolor, GetPosition(), IsWorldPos());
+	valuetext = game->ui->AddInputBox(font, fontcolor, GetPosition(), valuegraphics, IsWorldPos(), this);
+	valuetext->SetContent("0");
 
 	if (!bargraphics.texture)
 		bar->SetSize(ipoint(SBAR_DEFAULT_SIZE_X, (int)((float)SBAR_DEFAULT_SIZE_Y * 0.75f)));
@@ -45,8 +47,6 @@ bool Scrollbar::Update(float dt)
 		if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::UP)
 		{
 			++value;
-			if (value > max)
-				value = max;
 			SetValue(value);
 
 			SetScrollPositionFromValue();
@@ -56,8 +56,6 @@ bool Scrollbar::Update(float dt)
 		else if (game->input->CheckState(Key::MOUSE_SCROLL) == Input::State::DOWN)
 		{
 			--value;
-			if (value < min)
-				value = min;
 			SetValue(value);
 
 			SetScrollPositionFromValue();
@@ -74,29 +72,47 @@ void Scrollbar::Render()
 
 void Scrollbar::UIEvent(UIElement* element)
 {
-	float mouseposx = game->input->GetMousePos(IsWorldPos()).x + (float)game->render->GetCameraPosition().x;
-	if (mouseposx < GetPosition().x)
-		mouseposx = GetPosition().x;
-	else if (mouseposx > GetPosition().x + (float)GetSize().x)
-		mouseposx = GetPosition().x + (float)GetSize().x;
-
-	float newvalue = min + ((mouseposx - GetPosition().x) / (float)GetSize().x) * Range();
-	if (newvalue != value)
+	if (element != valuetext)
 	{
-		SetValue(newvalue);
-		observer.UIEvent(this);
+		float mouseposx = game->input->GetMousePos(IsWorldPos()).x + (float)game->render->GetCameraPosition().x;
+		if (mouseposx < GetPosition().x)
+			mouseposx = GetPosition().x;
+		else if (mouseposx > GetPosition().x + (float)GetSize().x)
+			mouseposx = GetPosition().x + (float)GetSize().x;
+
+		float newvalue = min + ((mouseposx - GetPosition().x) / (float)GetSize().x) * Range();
+		if (newvalue != value)
+		{
+			SetValue(newvalue);
+			observer.UIEvent(this);
+		}
+	}
+	else
+	{
+		float newvalue = game->StringToFloat(valuetext->GetContent(false));
+
+		if (newvalue != value)
+		{
+			SetValue(newvalue);
+			observer.UIEvent(this);
+		}
 	}
 }
 
 void Scrollbar::SetValue(float value)
 {
+	if (value > max)
+		value = max;
+	else if (value < min)
+		value = min;
+
 	if (datatype == Scrollbar::Type::INT)
 		value = (float)(int)value;
 
 	this->value = value;
 	SetScrollPositionFromValue();
 
-	valuetext->ChangeText(game->FloatToString(value));
+	valuetext->SetContent(game->FloatToString(value));
 }
 
 void Scrollbar::SetMinMax(float min, float max)

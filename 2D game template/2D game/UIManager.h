@@ -33,8 +33,8 @@ public:
 		bool worldposition = false, const Observer& observer = Observer());
 	Label* AddLabel(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
 	Scrollbar* AddScrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics = UIGraphics(),
-		const UIGraphics& bargraphics = UIGraphics(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false,
-		const Observer& observer = Observer());
+		const UIGraphics& bargraphics = UIGraphics(), const UIGraphics& valuegraphics = UIGraphics(), Scrollbar::Type datatype = Scrollbar::Type::FLOAT,
+		bool worldposition = false, const Observer& observer = Observer());
 
 	void EraseElement(UIElement* element);
 

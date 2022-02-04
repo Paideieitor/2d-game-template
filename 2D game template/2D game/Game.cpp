@@ -206,7 +206,7 @@ ipoint Game::ResizeIPoint(const ipoint& size, float multiplier)
 	return ipoint((int)x, (int)y);
 }
 
-int Game::StringToInt(std::string number)
+int Game::StringToInt(const std::string& number)
 {
 	int output;
 	std::stringstream stream;
@@ -220,6 +220,17 @@ int Game::StringToInt(std::string number)
 std::string Game::IntToString(int number)
 {
 	std::string output;
+	std::stringstream stream;
+
+	stream << number;
+	stream >> output;
+
+	return output;
+}
+
+float Game::StringToFloat(const std::string& number)
+{
+	float output;
 	std::stringstream stream;
 
 	stream << number;

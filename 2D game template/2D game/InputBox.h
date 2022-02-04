@@ -24,6 +24,7 @@ public:
 	void UIEvent(UIElement*) override;
 
 	const std::string GetContent(bool dispose = true);
+	void SetContent(const std::string& content);
 
 private:
 

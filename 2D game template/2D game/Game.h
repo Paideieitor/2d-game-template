@@ -68,8 +68,9 @@ public:
 	fpoint Center(ipoint objsize, fpoint position, ipoint size, fpoint objposition = { 0,0 }, bool horizontal = true, bool vertical = true);
 	ipoint ResizeIPoint(const ipoint& size, float multiplier);
 
-	int StringToInt(std::string);
+	int StringToInt(const std::string&);
 	std::string IntToString(int);
+	float StringToFloat(const std::string&);
 	std::string FloatToString(float);
 
 	void Log(const std::string& log) const { std::cout << log << "\n"; }

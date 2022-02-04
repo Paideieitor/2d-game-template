@@ -91,7 +91,7 @@ void InputBox::Render()
 		renderposition.x += (float)GetSize().x * 0.05f;
 
 		int alpha = IsDisabled() ? 150 : 255;
-		game->render->RenderTexture(true, UI_RENDER_LAYER, text, renderposition, textposition.x, textposition.y, textsize, false, alpha, IsWorldPos());
+		game->render->RenderTexture(true, UI_RENDER_LAYER + 1, text, renderposition, textposition.x, textposition.y, textsize, false, alpha, IsWorldPos());
 	}
 }
 
@@ -108,6 +108,12 @@ const std::string InputBox::GetContent(bool dispose)
 		current = 0;
 	}
 	return output;
+}
+
+void InputBox::SetContent(const std::string& content)
+{
+	this->content = content;
+	current = this->content.size();
 }
 
 void InputBox::ActiveChanged()

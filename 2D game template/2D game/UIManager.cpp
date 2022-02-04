@@ -132,12 +132,12 @@ Label* UIManager::AddLabel(const std::string& text, FontPtr font, const Color& c
 	return output;
 }
 
-Scrollbar* UIManager::AddScrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+Scrollbar* UIManager::AddScrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics, const UIGraphics& valuegraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 {
 	Scrollbar* output = new Scrollbar(position, datatype, worldposition, observer);
 	addelems.push_back(output);
 
-	output->Start(text, font, fontcolor, scrollgraphics, bargraphics);
+	output->Start(text, font, fontcolor, scrollgraphics, bargraphics, valuegraphics);
 
 	return output;
 }

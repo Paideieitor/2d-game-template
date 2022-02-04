@@ -16,7 +16,7 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	fpscap = game->ui->AddScrollbar("FPS Cap", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
+	fpscap = game->ui->AddScrollbar("FPS Cap", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
 	fpscap->SetPosition(game->Center(fpscap->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
 	fpscap->SetMinMax(30.0f, 300.0f);
 	fpscap->SetValue((float)game->GetFPSCap());
@@ -34,11 +34,11 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 	resolution->SetPosition(game->Center(resolution->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,500 }, true, false));
 	resolution->SetCurrent(current);
 
-	music = game->ui->AddScrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
+	music = game->ui->AddScrollbar("Music", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
 	music->SetPosition(game->Center(music->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,650 }, true, false));
 	music->SetValue((float)game->audio->GetMusicVolume());
 
-	sfx = game->ui->AddScrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
+	sfx = game->ui->AddScrollbar("SFX", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
 	sfx->SetPosition(game->Center(sfx->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,800 }, true, false));
 	sfx->SetValue((float)game->audio->GetSfxVolume());
 
