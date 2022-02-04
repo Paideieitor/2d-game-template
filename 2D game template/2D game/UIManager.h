@@ -47,7 +47,6 @@ private:
 private:
 
 	std::vector<std::pair<bool, UIElement*>> elements;
-
 	std::vector<UIElement*> addelems;
 
 	unsigned int nextid = 0;
