@@ -3,7 +3,7 @@
 #include "Physics.h"
 #include "BoxCollider.h"
 #include "CircleCollider.h"
-#include <string>
+#include "AssetManager.h"
 
 MapLoader::MapLoader()
 {
@@ -15,13 +15,12 @@ MapLoader::~MapLoader()
 
 bool MapLoader::SetUp(pugi::xml_node&)
 {
-	LoadMap("test_map.tmx");
+	LoadMap("tiled/test_map.tmx");
 	return true;
 }
 
 bool MapLoader::Update(float dt)
 {
-	//LoadMap("test_map.tmx");
 	return true;
 }
 
@@ -32,7 +31,7 @@ bool MapLoader::CleanUp()
 
 void MapLoader::LoadMap(const char* mapName)
 {
-	pugi::xml_parse_result result = document.load_file(mapName);
+	pugi::xml_parse_result result = game->assets->LoadXML(document, mapName);
 
 	pugi::xml_node physicsObjects = document.first_child().child("objectgroup");
 

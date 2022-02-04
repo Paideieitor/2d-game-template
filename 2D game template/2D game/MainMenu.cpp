@@ -29,6 +29,7 @@ bool MainMenu::Start()
 
 	test = game->textures->Load("images/Chadkino.png");
 	backgroundImg = game->textures->Load("images/BG12.png");
+
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
 	play = game->ui->AddButton("Play", buttonfont, Color::black, { 0.0f, 0.0f });
@@ -42,7 +43,7 @@ bool MainMenu::Start()
 
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
-	player = new Player("Ron", { 400,-900 }, 0);
+	player = new Player("Ron", { 50,0 }, 0);
 	
 	return true;
 }
@@ -59,6 +60,7 @@ bool MainMenu::Update(float dt)
 bool MainMenu::CleanUp()
 {
 	test = nullptr;
+	backgroundImg = nullptr;
 
 	buttonfont = nullptr;
 

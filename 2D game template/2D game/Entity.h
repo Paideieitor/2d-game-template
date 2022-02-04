@@ -15,7 +15,8 @@ public:
 	enum class Type
 	{
 		ENTITY,
-		PLAYER
+		PLAYER,
+		CAMERA
 	};
 
 	Entity() = delete;

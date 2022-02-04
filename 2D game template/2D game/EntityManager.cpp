@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-EntityManager::EntityManager() : listmodify(false)
+EntityManager::EntityManager()
 {
     name = "entity_manager";
 }
@@ -23,29 +23,36 @@ bool EntityManager::Start()
 
 bool EntityManager::Update(float dt)
 {
-    size_t counter = 0;
-    bool entitiesleft = true;
-    while (entitiesleft)
+    std::vector<int> deleteindex;
+
+    for (size_t i = 0; i < entities.size(); ++i)
     {
-        listmodify = false;
-        entitiesleft = false;
-        for (size_t i = counter; i < entities.size(); ++i)
+        if (!entities[i].first)
         {
-            ++counter;
+            deleteindex.push_back(i);
+            continue;
+        }
 
-            if (!entities[i]->Update(dt))
-            {
-                game->Log("EntityManager Update -> Bad Thing, Error in entity " + entities[i]->name);
-                return false;
-            }
+        Entity* entity = entities[i].second;
 
-            if (listmodify)
-            {
-                entitiesleft = true;
-                break;
-            }
+        if (!entity->Update(dt))
+        {
+            game->Log("EntityManager Update -> Bad Thing, Error in entity " + entity->name);
+            return false;
         }
     }
+
+    for (int i = deleteindex.size() - 1; i >= 0; --i)
+    {
+        delete entities[deleteindex[i]].second;
+        entities.erase(entities.begin() + deleteindex[i]);
+    }
+
+    size_t i = 0;
+    for (i; i < addentities.size(); ++i)
+        entities.push_back(std::make_pair(true, addentities[i]));
+    if (i > 0)
+        addentities.clear();
 
     return true;
 }
@@ -58,31 +65,16 @@ bool EntityManager::CleanUp()
 void EntityManager::AddEntity(Entity* entity)
 {
     if (entity)
-    {
-        entities.push_back(entity);
-        listmodify = true;
-    }
+        addentities.push_back(entity);
 }
 
 void EntityManager::EraseEntity(Entity* entity)
 {
     for (size_t i = 0; i < entities.size(); ++i)
-        if (entities[i] == entity)
+        if (entity == entities[i].second)
         {
-            entities.erase(entities.begin() + i);
-
-            listmodify = true;
-        }
-}
-
-void EntityManager::EraseEntity(Entity*& entity)
-{
-    for (size_t i = 0; i < entities.size(); ++i)
-        if (entities[i] == entity)
-        {
-            entities.erase(entities.begin() + i);
+            entities[i].first = false;
             entity = nullptr;
-
-            listmodify = true;
+            break;
         }
 }

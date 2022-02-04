@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config version="0.1" framecap="240">
-	<render width="1920" height="1080">
+	<render width="720" height="405">
 		<vsync value="false" />
 	</render>
 	<window width="1280" height="720">

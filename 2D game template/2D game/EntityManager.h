@@ -22,12 +22,11 @@ private:
 
 	void AddEntity(Entity*);
 	void EraseEntity(Entity*);
-	void EraseEntity(Entity*&);
 
 private:
 
-	bool listmodify;
-	std::vector<Entity*> entities;
+	std::vector<std::pair<bool, Entity*>> entities;
+	std::vector<Entity*> addentities;
 
 	friend class Entity;
 };

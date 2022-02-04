@@ -61,9 +61,11 @@ bool UIManager::Update(float dt)
 		elements.erase(elements.begin() + deleteindex[i]);
 	}
 
-	for (size_t i = 0; i < addelems.size(); ++i)
+	size_t i = 0;
+	for (i; i < addelems.size(); ++i)
 		elements.push_back(std::make_pair(true, addelems[i]));
-	addelems.clear();
+	if (i > 0)
+		addelems.clear();
 
 	if (focused)
 	{
@@ -170,7 +172,7 @@ std::map<unsigned int, bool> UIManager::DisableAll()
 
 void UIManager::EnableAll(std::map<unsigned int, bool>& list)
 {
-	bool todisable;
+	bool todisable = false;
 	for (size_t i = 0; i < elements.size(); ++i)
 	{
 		if (elements[i].first)
