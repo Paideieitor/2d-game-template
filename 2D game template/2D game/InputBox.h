@@ -11,7 +11,7 @@ class InputBox : public UIElement
 private:
 
 	InputBox() = delete;
-	InputBox(const fpoint& position,
+	InputBox(const int id, const fpoint& position,
 		bool worldposition = false, const Observer& observer = Observer());
 	~InputBox();
 
@@ -42,7 +42,7 @@ private:
 	std::string lastrendered;
 	TexturePtr text;
 
-	Button* frame;
+	Button* frame = nullptr;
 
 	friend class UIManager;
 };

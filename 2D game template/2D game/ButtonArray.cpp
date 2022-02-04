@@ -4,10 +4,10 @@
 #include "Render.h"
 #include "UIManager.h"
 
-ButtonArray::ButtonArray(const std::vector<std::string>& options, const fpoint& position,
+ButtonArray::ButtonArray(const int id, const std::vector<std::string>& options, const fpoint& position,
 	const UIGraphics& graphics, const UIGraphics& unfoldgraphics, bool worldposition, 
 	const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), graphics(graphics), unfoldgraphics(unfoldgraphics),
+	: UIElement(id, UIElement::Type::BUTTON, position, worldposition, observer), graphics(graphics), unfoldgraphics(unfoldgraphics),
 	options(options), change("")
 {
 }

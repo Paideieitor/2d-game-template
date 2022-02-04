@@ -8,8 +8,8 @@
 #define SBAR_DEFAULT_SIZE_X 500
 #define SBAR_DEFAULT_SIZE_Y 20
 
-Scrollbar::Scrollbar(const fpoint& position, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
+Scrollbar::Scrollbar(const int id, const fpoint& position, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
+	: UIElement(id, UIElement::Type::SCROLLBAR, position, worldposition, observer), datatype(datatype), value(0.0f)
 {
 }
 

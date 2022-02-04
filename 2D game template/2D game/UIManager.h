@@ -3,8 +3,6 @@
 
 #include "Module.h"
 
-class UIElement;
-
 #include "Button.h"
 #include "ButtonArray.h"
 #include "InputBox.h"
@@ -38,18 +36,21 @@ public:
 
 	void EraseElement(UIElement* element);
 
-	void DisableAll();
-	void EnableAll();
+	std::map<unsigned int, bool> DisableAll();
+	void EnableAll(std::map<unsigned int, bool>& list);
 
 private:
 
 	bool IsFocused(UIElement*);
+	unsigned int GetID() { return nextid++; }
 
 private:
 
 	std::vector<std::pair<bool, UIElement*>> elements;
 
 	std::vector<UIElement*> addelems;
+
+	unsigned int nextid = 0;
 
 	friend class UIElement;
 };

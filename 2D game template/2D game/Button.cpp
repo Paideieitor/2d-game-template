@@ -5,9 +5,9 @@
 #include "Render.h"
 #include "UIManager.h"
 
-Button::Button(const fpoint& position, const UIGraphics& graphics,
+Button::Button(const int id, const fpoint& position, const UIGraphics& graphics,
 	Button::Type presstype, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false), 
+	: UIElement(id, UIElement::Type::BUTTON, position, worldposition, observer), presstype(presstype), label(nullptr), locked(false), repeat(false), 
 	graphics(graphics), current(graphics.idle)
 {
 }

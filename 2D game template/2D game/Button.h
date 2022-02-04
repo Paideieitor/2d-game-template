@@ -21,7 +21,7 @@ public:
 private:
 
 	Button() = delete;
-	Button(const fpoint& position, const UIGraphics& graphics = UIGraphics(),
+	Button(const int id, const fpoint& position, const UIGraphics& graphics = UIGraphics(),
 		Button::Type presstype = Button::Type::SINGLECLICK, bool worldposition = false, const Observer& observer = Observer());
 	~Button();
 
@@ -61,7 +61,7 @@ private:
 	bool locked;
 	bool repeat;
 
-	Label* label;
+	Label* label = nullptr;
 
 	UIGraphics graphics;
 	Animation current; // important current is declared after graphics

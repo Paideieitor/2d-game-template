@@ -31,6 +31,8 @@ private:
 	Scrollbar* music = nullptr;
 	Scrollbar* sfx = nullptr;
 	Button* tomenu = nullptr;
+
+	std::map<unsigned int, bool> disablelist;
 };
 
 #endif

@@ -8,8 +8,6 @@
 #include "BoxCollider.h"
 
 #include <cmath>
-#include <cassert>
-#include <iostream>
 
 Player::Player(const std::string& name, const fpoint& position, float rotation)
     : Entity(Entity::Type::PLAYER, name, position, rotation)
@@ -19,7 +17,7 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	current = idle;
 
 	fpoint size = fpoint((float)current->GetCurrentSize().x * 0.5f, (float)current->GetCurrentSize().y * 0.5f);
-	collider = new BoxCollider(position, {25,60},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
+	collider = new BoxCollider(position, {50,120},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
 	game->physics->AddPhysicsObject(collider);
 }
 

@@ -35,7 +35,7 @@ public:
 
 protected:
 
-	UIElement(const Type& type, const fpoint& position, bool worldposition, const Observer& observer);
+	UIElement(const int id, const Type& type, const fpoint& position, bool worldposition, const Observer& observer);
 	virtual ~UIElement();
 
 	virtual bool Update(float dt) = 0;
@@ -94,6 +94,7 @@ public:
 public:
 
 	const Type type;
+	const unsigned int id;
 	bool todelete = false;
 
 protected:
@@ -109,6 +110,11 @@ protected:
 	State state;
 
 	Observer observer;
+
+private:
+
+	// This function is to allow the UIManager to disable an element without disabling his childs, very niche i know
+	void ElementDisable(bool disable) { disabled = disable; }
 
 private:
 

@@ -3,8 +3,8 @@
 #include "Textures.h"
 #include "Render.h"
 
-Label::Label(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition)
-	: UIElement(UIElement::Type::LABEL, position, worldposition, Observer()), text(text), font(font), color(color)
+Label::Label(const int id, const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition)
+	: UIElement(id, UIElement::Type::LABEL, position, worldposition, Observer()), text(text), font(font), color(color)
 {
 	ChangeText(text, font, color);
 }

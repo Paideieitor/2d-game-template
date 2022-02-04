@@ -20,7 +20,7 @@ public:
 private:
 
 	Scrollbar() = delete;
-	Scrollbar(const fpoint& position, Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false, 
+	Scrollbar(const int id, const fpoint& position, Scrollbar::Type datatype = Scrollbar::Type::FLOAT, bool worldposition = false,
 		const Observer& observer = Observer());
 	~Scrollbar();
 
@@ -56,11 +56,11 @@ private:
 
 	Scrollbar::Type datatype;
 
-	Label* text;
-	InputBox* valuetext;
+	Label* text = nullptr;
+	InputBox* valuetext = nullptr;
 
-	Button* scroll;
-	Button* bar;
+	Button* scroll = nullptr;
+	Button* bar = nullptr;
 
 	float value;
 

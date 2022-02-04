@@ -8,7 +8,7 @@ class Label : public UIElement
 private:
 
 	Label() = delete;
-	Label(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
+	Label(const int id, const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition = false);
 	~Label();
 
 	bool Update(float dt) override;

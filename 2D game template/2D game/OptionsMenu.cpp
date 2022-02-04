@@ -12,7 +12,7 @@
 
 OptionsMenu::OptionsMenu() : Scene("Options Menu")
 {
-	game->ui->DisableAll();
+	disablelist = game->ui->DisableAll();
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
@@ -58,7 +58,7 @@ OptionsMenu::~OptionsMenu()
 	game->ui->EraseElement(sfx);
 	game->ui->EraseElement(tomenu);
 
-	game->ui->EnableAll();
+	game->ui->EnableAll(disablelist);
 }
 
 bool OptionsMenu::Update(float dt)

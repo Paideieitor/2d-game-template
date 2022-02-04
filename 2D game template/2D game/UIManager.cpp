@@ -96,7 +96,7 @@ bool UIManager::CleanUp()
 
 Button* UIManager::AddButton(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, Button::Type presstype, bool worldposition, const Observer& observer)
 {
-	Button* output = new Button(position, graphics, presstype, worldposition, observer);
+	Button* output = new Button(GetID(), position, graphics, presstype, worldposition, observer);
 	addelems.push_back(output);
 
 	output->Start(text, font, fontcolor);
@@ -106,7 +106,7 @@ Button* UIManager::AddButton(const std::string& text, FontPtr font, const Color&
 
 ButtonArray* UIManager::AddButtonArray(const std::string& text, FontPtr font, const Color& fontcolor, const std::vector<std::string>& options, const fpoint& position, const UIGraphics& graphics, const UIGraphics& togglegraphics, const UIGraphics& unfoldgraphics, bool worldposition, const Observer& observer)
 {
-	ButtonArray* output = new ButtonArray(options, position, graphics, unfoldgraphics, worldposition, observer);
+	ButtonArray* output = new ButtonArray(GetID(), options, position, graphics, unfoldgraphics, worldposition, observer);
 	addelems.push_back(output);
 
 	output->Start(text, font, fontcolor, togglegraphics);
@@ -116,7 +116,7 @@ ButtonArray* UIManager::AddButtonArray(const std::string& text, FontPtr font, co
 
 InputBox* UIManager::AddInputBox(FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& graphics, bool worldposition, const Observer& observer)
 {
-	InputBox* output = new InputBox(position, worldposition, observer);
+	InputBox* output = new InputBox(GetID(), position, worldposition, observer);
 	addelems.push_back(output);
 
 	output->Start(font, fontcolor, graphics);
@@ -126,7 +126,7 @@ InputBox* UIManager::AddInputBox(FontPtr font, const Color& fontcolor, const fpo
 
 Label* UIManager::AddLabel(const std::string& text, FontPtr font, const Color& color, const fpoint& position, bool worldposition)
 {
-	Label* output = new Label(text, font, color, position, worldposition);
+	Label* output = new Label(GetID(), text, font, color, position, worldposition);
 	addelems.push_back(output);
 
 	return output;
@@ -134,7 +134,7 @@ Label* UIManager::AddLabel(const std::string& text, FontPtr font, const Color& c
 
 Scrollbar* UIManager::AddScrollbar(const std::string& text, FontPtr font, const Color& fontcolor, const fpoint& position, const UIGraphics& scrollgraphics, const UIGraphics& bargraphics, const UIGraphics& valuegraphics, Scrollbar::Type datatype, bool worldposition, const Observer& observer)
 {
-	Scrollbar* output = new Scrollbar(position, datatype, worldposition, observer);
+	Scrollbar* output = new Scrollbar(GetID(), position, datatype, worldposition, observer);
 	addelems.push_back(output);
 
 	output->Start(text, font, fontcolor, scrollgraphics, bargraphics, valuegraphics);
@@ -153,21 +153,31 @@ void UIManager::EraseElement(UIElement* element)
 		}
 }
 
-void UIManager::DisableAll()
+std::map<unsigned int, bool> UIManager::DisableAll()
 {
+	std::map<unsigned int, bool> list;
+
 	for (size_t i = 0; i < elements.size(); ++i)
 		if (elements[i].first)
 		{
+			list.insert(std::make_pair(elements[i].second->id, elements[i].second->IsDisabled()));
 			elements[i].second->SetIdle();
-			elements[i].second->Disable(true);
+			elements[i].second->ElementDisable(true);
 		}
+
+	return list;
 }
 
-void UIManager::EnableAll()
+void UIManager::EnableAll(std::map<unsigned int, bool>& list)
 {
+	bool todisable;
 	for (size_t i = 0; i < elements.size(); ++i)
+	{
 		if (elements[i].first)
-			elements[i].second->Disable(false);
+			elements[i].second->ElementDisable(list[elements[i].second->id]);
+	}
+
+	list.clear();
 }
 
 bool UIManager::IsFocused(UIElement* element)

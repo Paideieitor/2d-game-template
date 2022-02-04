@@ -11,7 +11,7 @@ class ButtonArray : public UIElement
 private:
 
 	ButtonArray() = delete;
-	ButtonArray(const std::vector<std::string>& options, const fpoint& position,
+	ButtonArray(const int id, const std::vector<std::string>& options, const fpoint& position,
 		const UIGraphics& graphics = UIGraphics(),
 		const UIGraphics& unfoldgraphics = UIGraphics(), bool worldposition = false, const Observer& observer = Observer());
 	~ButtonArray();
@@ -47,10 +47,10 @@ private:
 	UIGraphics graphics;
 	UIGraphics unfoldgraphics;
 
-	Label* text;
+	Label* text = nullptr;
 	ipoint textsize; // size of the non-clickable part
 
-	Button* current;
+	Button* current = nullptr;
 
 	const std::vector<std::string> options;
 	std::vector<Button*> buttons;

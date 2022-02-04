@@ -9,8 +9,8 @@
 #define IBOX_DEFAULT_SIZE_X 700
 #define IBOX_DEFAULT_SIZE_Y 100
 
-InputBox::InputBox(const fpoint& position, bool worldposition, const Observer& observer)
-	: UIElement(UIElement::Type::BUTTON, position, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
+InputBox::InputBox(const int id, const fpoint& position, bool worldposition, const Observer& observer)
+	: UIElement(id, UIElement::Type::BUTTON, position, worldposition, observer), text(nullptr), content(""), current(0), lastrendered(content)
 {
 }
 
