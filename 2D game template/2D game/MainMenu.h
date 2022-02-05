@@ -8,6 +8,7 @@ class InputBox;
 class Label;
 
 class Player;
+class Camera;
 
 class MainMenu : public Scene
 {
@@ -36,6 +37,7 @@ private:
 	InputBox* box;
 
 	Player* player;
+	Camera* camera;
 };
 
 #endif

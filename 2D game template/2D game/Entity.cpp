@@ -5,12 +5,10 @@
 Entity::Entity(Entity::Type type, const std::string& name, const fpoint& position, float rotation)
 	: type(type), name(name), position(position), rotation(rotation)
 {
-	game->entities->AddEntity(this);
 }
 
 Entity::~Entity()
 {
-	game->entities->EraseEntity(this);
 }
 
 void Entity::SetPosition(const fpoint& position)

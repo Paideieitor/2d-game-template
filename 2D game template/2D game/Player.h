@@ -7,7 +7,7 @@ class PhysicsComponent;
 
 class Player : public Entity
 {
-public:
+private:
 
 	Player() = delete;
 	Player(const std::string& name, const fpoint& position, float rotation);
@@ -15,16 +15,12 @@ public:
 
 	bool Update(float dt);
 
-private:
-
-	void PositionChanged();
-	void RotationChanged();
-	float Lerp(float a, float b, float f);
+	void PositionChanged() override;
+	void RotationChanged() override;
 
 private:
 
 	float velocity = 500;
-	//craaaaaazy number
 	float jumpForce = 400;
 	bool playerIsMoving;
 
@@ -34,6 +30,8 @@ private:
 	Animation idle;
 
 	PhysicsComponent* collider;
+
+	friend class EntityManager;
 };
 
 #endif

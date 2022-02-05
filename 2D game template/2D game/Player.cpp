@@ -16,7 +16,6 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
 	current = idle;
 
-	fpoint size = fpoint((float)current->GetCurrentSize().x * 0.5f, (float)current->GetCurrentSize().y * 0.5f);
 	collider = new BoxCollider(position, {60,80},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
 	game->physics->AddPhysicsObject(collider);
 }
@@ -54,14 +53,6 @@ bool Player::Update(float dt)
 	position = collider->GetPosition();
 	rotation = collider->GetRotation();
 
-
-	float playerPosition = (float)(-(int)position.x + game->render->GetResolution(false).x / 2);
-	float cameraPosition = (float)game->render->GetCameraPosition().x;
-
-	float k = Lerp(playerPosition, cameraPosition, 1.0f);
-
-	game->render->SetCameraPosition({(int)k,0/*-(int)position.y + game->render->GetResolution().y/2*/});
-
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
 
@@ -76,9 +67,4 @@ void Player::PositionChanged()
 
 void Player::RotationChanged()
 {
-}
-
-float Player::Lerp(float a, float b, float f)
-{
-	return a + f * (b - a);
 }

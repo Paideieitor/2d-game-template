@@ -59,13 +59,35 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::CleanUp()
 {
+    while (entities.size() != 0)
+    {
+        delete entities.begin()->second;
+        entities.erase(entities.begin());
+    }
+
+    while (addentities.size() != 0)
+    {
+        delete *addentities.begin();
+        addentities.erase(addentities.begin());
+    }
+
     return true;
 }
 
-void EntityManager::AddEntity(Entity* entity)
+Player* EntityManager::AddPlayer(const std::string& name, const fpoint& position, float rotation)
 {
-    if (entity)
-        addentities.push_back(entity);
+    Player* output = new Player(name, position, rotation);
+    addentities.push_back(output);
+
+    return output;
+}
+
+Camera* EntityManager::AddCamara(const fpoint& position)
+{
+    Camera* output = new Camera(position);
+    addentities.push_back(output);
+
+    return output;
 }
 
 void EntityManager::EraseEntity(Entity* entity)
@@ -74,7 +96,6 @@ void EntityManager::EraseEntity(Entity* entity)
         if (entity == entities[i].second)
         {
             entities[i].first = false;
-            entity = nullptr;
             break;
         }
 }

@@ -3,7 +3,8 @@
 
 #include "Module.h"
 
-class Entity;
+#include "Player.h"
+#include "Camera.h"
 
 class EntityManager : public Module
 {
@@ -18,17 +19,14 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-private:
-
-	void AddEntity(Entity*);
+	Player* AddPlayer(const std::string& name, const fpoint& position, float rotation);
+	Camera* AddCamara(const fpoint& position);
 	void EraseEntity(Entity*);
 
 private:
 
 	std::vector<std::pair<bool, Entity*>> entities;
 	std::vector<Entity*> addentities;
-
-	friend class Entity;
 };
 
 #endif

@@ -9,10 +9,10 @@
 #include "Textures.h"
 #include "Fonts.h"
 #include "UIManager.h"
+#include "EntityManager.h"
 
 //TEST
 #include "Physics.h"
-#include "Player.h"
 
 MainMenu::MainMenu() : Scene("Main Menu"), test(nullptr)
 {
@@ -43,7 +43,10 @@ bool MainMenu::Start()
 
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
-	player = new Player("Ron", { 50,0 }, 0);
+	player = game->entities->AddPlayer("Ron", { 50,0 }, 0);
+
+	camera = game->entities->AddCamara(fpoint(0, 0));
+	camera->Follow(player, 1.0f, 10.0f);
 	
 	return true;
 }
@@ -69,7 +72,8 @@ bool MainMenu::CleanUp()
 	game->ui->EraseElement(exit);
 	game->ui->EraseElement(box);
 
-	delete player;
+	game->entities->EraseEntity(camera);
+	game->entities->EraseEntity(player);
 
 	return true;
 }

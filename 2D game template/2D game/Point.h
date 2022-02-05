@@ -34,6 +34,11 @@ struct point
 		if(y)
 			this->y = -this->y;
 	}
+	point Normalize()
+	{
+		float length = sqrtf(x * x + y * y);
+		return point(x / length, y / length);
+	}
 	//EQUALITAZION
 	void operator=(const point& p)
 	{
@@ -180,6 +185,12 @@ struct point
 	data DistanceManhattan(const point& p) const
 	{
 		return abs(p.x - x) + abs(p.y - y);
+	}
+	// CONVERSION
+	template<class other>
+	operator point<other>() const
+	{
+		return point<other>((other)x, (other)y);
 	}
 };
 

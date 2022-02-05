@@ -19,11 +19,15 @@ public:
 		CAMERA
 	};
 
+protected:
+
 	Entity() = delete;
 	Entity(Entity::Type type, const std::string& name, const fpoint& position, float rotation);
 	virtual ~Entity();
 
 	virtual bool Update(float dt) = 0;
+
+public:
 
 	const fpoint GetPosition() const { return position; }
 	void SetPosition(const fpoint& position);
@@ -47,6 +51,8 @@ protected:
 
 	fpoint position;
 	float rotation;
+
+	friend class EntityManager;
 };
 
 #endif

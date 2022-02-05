@@ -82,8 +82,7 @@ bool UIManager::CleanUp()
 {
 	while (elements.size() != 0)
 	{
-		if (elements.begin()->first)
-			delete elements.begin()->second;
+		delete elements.begin()->second;
 		elements.erase(elements.begin());
 	}
 
@@ -150,7 +149,6 @@ void UIManager::EraseElement(UIElement* element)
 		if (element == elements[i].second)
 		{
 			elements[i].first = false;
-			element = nullptr;
 			break;
 		}
 }
