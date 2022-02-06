@@ -39,20 +39,24 @@ void Camera::Lerp()
 {
 	fpoint position = GetPosition();
 
-	if (abs(position.DistanceNoSqrt(destination)) <= stopdistance)
+	float distance = abs(position.DistanceNoSqrt(destination));
+	if (distance <= stopdistance)
 	{
 		if (mode == Mode::MOVE)
 			mode = Mode::IDLE;
 		return;
 	}
 
-	
 	fpoint direction = (destination - position).Normalize();
 
-	SetPosition(position + direction * speed);
+	float currentspeed = speed;
+	if (acceleration)
+		currentspeed = speed + speed * distance * 0.001f;
+
+	SetPosition(position + direction * currentspeed);
 }
 
-void Camera::Follow(Entity* entity, float speed, float stopdistance)
+void Camera::Follow(Entity* entity, float speed, float stopdistance, bool acceleration)
 {
 	if (!entity)
 		return;
@@ -62,9 +66,10 @@ void Camera::Follow(Entity* entity, float speed, float stopdistance)
 	follow = entity;
 	this->speed = speed;
 	this->stopdistance = stopdistance * stopdistance; // to use distance with no square root
+	this->acceleration = acceleration;
 }
 
-void Camera::Move(fpoint position, float speed, float stopdistance)
+void Camera::Move(fpoint position, float speed, float stopdistance, bool acceleration)
 {
 	mode = Mode::MOVE;
 
@@ -74,6 +79,7 @@ void Camera::Move(fpoint position, float speed, float stopdistance)
 	destination = position;
 	this->speed = speed;
 	this->stopdistance = stopdistance * stopdistance; // to use distance with no square root
+	this->acceleration = acceleration;
 }
 
 void Camera::Stop()

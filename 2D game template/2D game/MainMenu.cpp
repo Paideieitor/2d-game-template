@@ -46,14 +46,14 @@ bool MainMenu::Start()
 	player = game->entities->AddPlayer("Ron", { 50,0 }, 0);
 
 	camera = game->entities->AddCamara(fpoint(0, 0));
-	camera->Follow(player, 1.0f, 10.0f);
+	camera->Follow(player, 1.5f, 10.0f, true);
 	
 	return true;
 }
 
 bool MainMenu::Update(float dt)
 {
-	game->render->RenderTexture(false, 5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, false);
+	game->render->RenderTexture(false, 5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, true);
 
 	game->physics->PhysicsDebugDraw();
 

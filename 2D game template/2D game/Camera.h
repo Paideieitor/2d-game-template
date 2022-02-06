@@ -29,8 +29,8 @@ private:
 
 public:
 
-	void Follow(Entity* entity, float speed, float stopdistance);
-	void Move(fpoint position, float speed, float stopdistance);
+	void Follow(Entity* entity, float speed, float stopdistance, bool acceleration);
+	void Move(fpoint position, float speed, float stopdistance, bool acceleration);
 
 	void Stop();
 
@@ -44,6 +44,8 @@ private:
 
 	float speed = 0.0f;
 	float stopdistance = 0.0f;
+
+	bool acceleration = false;
 
 	friend class EntityManager;
 };

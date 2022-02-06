@@ -205,48 +205,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="Capa de Objetos 1" offsetx="1" offsety="0">
-  <object id="147" x="-233.667" y="370.66" width="1102.55" height="17.3393">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="148" x="533.007" y="318.497" width="16.9623" height="53.1485"/>
-  <object id="149" x="621.211" y="316.235" width="18.0931" height="54.2794"/>
-  <object id="150" x="508.694" y="294.184" width="158.88" height="18.0931"/>
-  <object id="151" x="529.615" y="241.035" width="21.4856" height="49.7561"/>
-  <object id="152" x="617.253" y="241.601" width="25.4434" height="50.3215"/>
-  <object id="153" x="506.433" y="215.027" width="155.488" height="24.3126"/>
-  <object id="154" x="513.783" y="137" width="34.49" height="75.1995"/>
-  <object id="155" x="611.034" y="139.262" width="38.4479" height="72.9379"/>
-  <object id="156" x="560.712" y="184.494" width="13.0044" height="13.0044">
-   <ellipse/>
-  </object>
-  <object id="157" x="572.02" y="163.574" width="14.7007" height="14.7007">
-   <ellipse/>
-  </object>
-  <object id="158" x="583.894" y="188.452" width="11.3082" height="11.3082">
-   <ellipse/>
-  </object>
-  <object id="159" x="575.413" y="144.916" width="13.5698" height="13.5698">
-   <ellipse/>
-  </object>
-  <object id="160" x="593.506" y="168.663" width="11.8736" height="11.8736">
-   <ellipse/>
-  </object>
-  <object id="161" x="559.581" y="145.481" width="10.7428" height="10.7428">
-   <ellipse/>
-  </object>
-  <object id="168" x="706.725" y="-30.6696" width="32.55" height="461.339">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="169" x="-55.275" y="-8.66965" width="1102.55" height="17.3393">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="170" x="-16.275" y="-36.6695" width="32.55" height="461.339">
+  <object id="147" x="-225.667" y="387.999" width="6854.55" height="30">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
