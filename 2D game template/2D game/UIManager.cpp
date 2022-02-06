@@ -186,12 +186,12 @@ bool UIManager::IsFocused(UIElement* element)
 		return false;
 
 	fpoint mousepos = game->input->GetMousePos(element->IsWorldPos());
-	ipoint camera = game->render->GetCameraPosition();
 
 	fpoint eposition = element->GetPosition();
 	ipoint esize = element->GetSize();
-	if (eposition.x < camera.x + mousepos.x && camera.x + mousepos.x < eposition.x + esize.x &&
-		eposition.y < camera.y + mousepos.y && camera.y + mousepos.y < eposition.y + esize.y)
+
+	if (eposition.x < mousepos.x && mousepos.x < eposition.x + esize.x &&
+		eposition.y <  mousepos.y && mousepos.y < eposition.y + esize.y)
 		return true;
 
 	return false;
