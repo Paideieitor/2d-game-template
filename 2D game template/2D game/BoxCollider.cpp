@@ -26,6 +26,13 @@ BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation,BodyType t
 	bodyDef.fixedRotation = fixedRotation;
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
 	b2PolygonShape boxShape;
+
+	if (size.x <= 0.0f || size.y <= 0.0f) 
+	{
+		size.x = 3.0f;
+		size.y = 3.0f;
+	}
+
 	boxShape.SetAsBox(size.x/2, size.y/2);
 
 	b2FixtureDef fixtureDef;

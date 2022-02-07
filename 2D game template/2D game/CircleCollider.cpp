@@ -24,6 +24,8 @@ CircleCollider::CircleCollider(fpoint position, float radius, float rotation, Bo
 		break;
 	}
 
+	if (radius <= 0)
+		radius = 1.0f;
 
 	bodyDef.position.Set(position.x + radius / 2, position.y - radius / 2);
 	body = game->physics->GetWorld()->CreateBody(&bodyDef);
