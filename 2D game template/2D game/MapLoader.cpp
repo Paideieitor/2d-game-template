@@ -76,29 +76,52 @@ void MapLoader::LoadMap(const char* mapName)
 			fpoint position = { child.attribute("x").as_float(),-child.attribute("y").as_float() };
 			float radius = child.attribute("width").as_float();
 
-			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f,BodyType::DYNAMIC));
+			BodyType type = BodyType::DYNAMIC;
+
+			//CHECKING FOR PROPERTIES
+			if (child.child("properties"))
+			{
+				for (const auto& child : child.child("properties"))
+				{
+					if (!std::strcmp(child.attribute("name").as_string(), "static"))
+					{
+						if (child.attribute("value").as_bool())
+						{
+							type = BodyType::STATIC;
+						}
+					}
+
+				}
+			}
+			/////////////////////////
+
+			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f, type));
 		}
 
 		//POLYGON COLLIDER
 		if (child.child("polygon"))
 		{
-			fpoint position = { child.attribute("x").as_float(),child.attribute("y").as_float() };
+			fpoint position = { child.attribute("x").as_float(),- child.attribute("y").as_float() };
 
-			//Thats rough, 
 			std::string polygon = child.child("polygon").attribute("points").as_string();
 		
 			int polygonCounter = 0;
 
+			//Get size
 			for (int i = 0; i < polygon.length(); i++) {
 				if (polygon.at(i) == ',')
 				{
 					polygonCounter++;
 				}
 			}
-
-			const int size = polygonCounter;
 			
-			b2Vec2 vertices[20];
+			//Check for size
+			if (polygonCounter <= 8 && polygonCounter >= 3)
+			{
+
+			b2Vec2 vertices[8];
+
+			//Helper variables
 			int numberOne = 0;
 			int numberTwo = 0;
 			int iterationNum = 0;
@@ -106,13 +129,13 @@ void MapLoader::LoadMap(const char* mapName)
 
 			for (int i = 0; i < polygon.length(); i++) {
 
-				//Check if last number
+				//Get vertex from string
 				if (i == polygon.length() - 1)
 				{
 					numberHelper.push_back(polygon.at(i));
 					numberTwo = std::stoi(numberHelper);
 					numberHelper = "";
-					vertices[iterationNum] = b2Vec2(numberOne + position.x, numberTwo - position.y);
+					vertices[iterationNum] = b2Vec2(numberOne, (-numberTwo));
 					numberTwo = 0;
 					numberOne = 0;
 					iterationNum++;
@@ -122,7 +145,7 @@ void MapLoader::LoadMap(const char* mapName)
 				{
 					numberTwo = std::stoi(numberHelper);
 					numberHelper = "";
-					vertices[iterationNum] = b2Vec2(numberOne + position.x, numberTwo - position.y);
+					vertices[iterationNum] = b2Vec2(numberOne, (-numberTwo));
 					numberTwo = 0;
 					numberOne = 0;
 					iterationNum++;
@@ -135,19 +158,35 @@ void MapLoader::LoadMap(const char* mapName)
 					
 				}
 
-				//if its a number
 				if (polygon.at(i) != ' ' && polygon.at(i) != ',' && i != polygon.length() - 1)
 				{
 					numberHelper.push_back(polygon.at(i));
 				}
 			}
 
-			for (int i = 0; i < polygonCounter; i++) 
-			{
-				std::cout << vertices[i].x << " " << vertices[i].y << std::endl;
-			}
+			BodyType type = BodyType::DYNAMIC;
 
-			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,BodyType::STATIC,1.0f,1.0f,0.0f,false));
+			//CHECKING FOR PROPERTIES
+			if (child.child("properties"))
+			{
+				for (const auto& child : child.child("properties"))
+				{
+					if (!std::strcmp(child.attribute("name").as_string(), "static"))
+					{
+						if (child.attribute("value").as_bool())
+						{
+							type = BodyType::STATIC;
+						}
+					}
+
+				}
+			}
+			/////////////////////////
+
+
+			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,1.0f,0.0f,false));
+
+			}
 		}
 
 		//POINT
