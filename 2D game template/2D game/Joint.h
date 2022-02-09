@@ -4,7 +4,7 @@
 class b2DistanceJoint;
 class b2Body;
 enum b2JointType;
-
+#include "Point.h"
 
 class Joint
 {

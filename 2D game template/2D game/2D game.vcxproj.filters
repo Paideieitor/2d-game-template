@@ -121,6 +121,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="WeldJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -248,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="WeldJoint.h">
+      <Filter>Physics\Joints</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

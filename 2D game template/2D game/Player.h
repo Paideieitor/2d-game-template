@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 class PhysicsComponent;
+class Joint;
 
 class Player : public Entity
 {
@@ -30,6 +31,9 @@ private:
 	Animation idle;
 
 	PhysicsComponent* collider;
+	PhysicsComponent* circleCollider;
+	Joint* joint;
+
 
 	friend class EntityManager;
 };

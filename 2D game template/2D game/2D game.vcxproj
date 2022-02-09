@@ -184,6 +184,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="WeldJoint.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="WeldJoint.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

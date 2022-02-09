@@ -6,6 +6,8 @@
 #include "Input.h"
 
 #include "BoxCollider.h"
+#include "CircleCollider.h"
+#include "WeldJoint.h"
 
 #include <cmath>
 
@@ -16,13 +18,21 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
 	current = idle;
 
-	collider = new BoxCollider(position, {60,80},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
+	collider = new BoxCollider(position, {60,50},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
+	circleCollider = new CircleCollider(position,60,0.0f,BodyType::DYNAMIC);
+
+	joint = new WeldJoint(collider->GetBody(), circleCollider->GetBody(), { 0,20 }, {0,40}, 0.0f, 5.0f, 0.0f,true);
+
+	game->physics->AddJoint(joint);
 	game->physics->AddPhysicsObject(collider);
+	game->physics->AddPhysicsObject(circleCollider);
 }
 
 Player::~Player()
-{
+{	
+	game->physics->DestroyJoint(joint);
 	game->physics->DestroyPhysicsObject(collider);
+	game->physics->DestroyPhysicsObject(circleCollider);
 }
 
 bool Player::Update(float dt)
