@@ -74,7 +74,7 @@ void Scrollbar::UIEvent(UIElement* element)
 {
 	if (element != valuetext)
 	{
-		float mouseposx = game->input->GetMousePos(IsWorldPos()).x + (float)game->render->GetCameraPosition().x;
+		float mouseposx = game->input->GetMousePos(IsWorldPos()).x;
 		if (mouseposx < GetPosition().x)
 			mouseposx = GetPosition().x;
 		else if (mouseposx > GetPosition().x + (float)GetSize().x)

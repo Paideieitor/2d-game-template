@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<config version="0.1" framecap="240">
+<config version="0.1" framecap="300">
 	<render width="720" height="405">
 		<vsync value="false" />
 	</render>
