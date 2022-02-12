@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="171">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="213">
  <layer id="1" name="Capa de patrones 1" width="200" height="200">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -206,6 +206,40 @@
  </layer>
  <objectgroup id="2" name="Capa de Objetos 1" offsetx="1" offsety="0">
   <object id="147" x="-225.667" y="387.999" width="6854.55" height="30">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="platform"/>
+   </properties>
+  </object>
+  <object id="186" x="-638.333" y="166.667" width="1.33333" height="1.33333">
+   <ellipse/>
+  </object>
+  <object id="207" x="1285.67" y="142.667" width="154.667" height="28">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="208" x="627" y="328" width="125.333" height="34.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="209" x="969.667" y="234.667" width="156" height="25.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="210" x="1061.67" y="169.333" width="126.667" height="32">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="211" x="1176.33" y="234.667" width="138.667" height="28">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="212" x="800.333" y="290.667" width="142.667" height="30.6667">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>

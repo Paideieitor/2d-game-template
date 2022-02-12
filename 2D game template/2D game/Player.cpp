@@ -7,6 +7,7 @@
 
 #include "BoxCollider.h"
 #include "CircleCollider.h"
+#include "ContactListener.h"
 #include "WeldJoint.h"
 
 #include <cmath>
@@ -20,12 +21,16 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 
 	collider = new BoxCollider(position, {60,50},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false, "player");
 	circleCollider = new CircleCollider(position,60,0.0f,BodyType::DYNAMIC,1.0f,0.0f,0.0f,false,"player_feet");
+	playerSensor = new BoxCollider(position, { 40,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
 
 	joint = new WeldJoint(collider->GetBody(), circleCollider->GetBody(), { 0,20 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
+	jointTwo = new WeldJoint(circleCollider->GetBody(), playerSensor->GetBody(), { 0,0 }, { 0,28 }, 0.0f, 5.0f, 0.0f, false);
 
 	game->physics->AddJoint(joint);
+	game->physics->AddJoint(jointTwo);
 	game->physics->AddPhysicsObject(collider);
 	game->physics->AddPhysicsObject(circleCollider);
+	game->physics->AddPhysicsObject(playerSensor);
 }
 
 Player::~Player()
@@ -38,7 +43,7 @@ Player::~Player()
 bool Player::Update(float dt)
 {
 
-	if (game->input->CheckState(Key::W) == Input::State::DOWN)
+	if (!playerSensor->inAir && game->input->CheckState(Key::W) == Input::State::DOWN)
 		collider->SetLinearVelocity(collider->GetLinearVelocity().x,jumpForce);
 
 	playerIsMoving = false;

@@ -15,6 +15,7 @@ public:
 private:
 	void UpdateVertex();
 	std::vector<b2Vec2> vertices;
+
 };
 
 

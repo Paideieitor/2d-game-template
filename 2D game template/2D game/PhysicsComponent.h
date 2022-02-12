@@ -52,6 +52,8 @@ public:
 
 	virtual void DebugDraw();
 
+	bool inAir;
+
 protected:	
 
 	const char* tag;

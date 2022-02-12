@@ -22,7 +22,7 @@ private:
 private:
 
 	float velocity = 500;
-	float jumpForce = 400;
+	float jumpForce = 450;
 	bool playerIsMoving;
 	bool jumping = false;
 
@@ -33,7 +33,10 @@ private:
 
 	PhysicsComponent* collider;
 	PhysicsComponent* circleCollider;
+	PhysicsComponent* playerSensor;
+
 	Joint* joint;
+	Joint* jointTwo;
 
 
 	friend class EntityManager;
