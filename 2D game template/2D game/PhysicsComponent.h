@@ -44,7 +44,8 @@ public:
 	void SetRotationAngle(float rotation);
 	void ApplyForce(fpoint force, bool wake);
 	void ApplyLinearImpulse(fpoint linearImpulse, bool wake);
-
+	void SetTag(const char* tag);
+	const char* GetTag();
 	b2Body* GetBody();
 
 	ColliderType colliderType = ColliderType::NONE;
@@ -53,6 +54,7 @@ public:
 
 protected:	
 
+	const char* tag;
 	b2Body* body;
 	b2Fixture* fixture;
 };

@@ -67,6 +67,16 @@ void PhysicsComponent::ApplyLinearImpulse(fpoint linearImpulse, bool wake)
 	body->ApplyLinearImpulse(b2Vec2(linearImpulse.x, linearImpulse.y), body->GetWorldCenter(), wake);
 }
 
+void PhysicsComponent::SetTag(const char* tag)
+{
+	this->tag = tag;
+}
+
+const char* PhysicsComponent::GetTag()
+{
+	return tag;
+}
+
 b2Body* PhysicsComponent::GetBody()
 {
 	return body;

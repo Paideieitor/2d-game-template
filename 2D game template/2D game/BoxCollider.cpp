@@ -5,8 +5,9 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation,BodyType type, float density, float friction, float restitution,bool fixedRotation, bool isSensor)
+BoxCollider::BoxCollider(fpoint position, fpoint size, float rotation,BodyType type, float density, float friction, float restitution,bool fixedRotation, bool isSensor, const char* tag)
 {
+	this->tag = tag;
 	colliderType = ColliderType::BOX_COLLIDER;
 	b2BodyDef bodyDef;
 	switch (type)

@@ -24,6 +24,7 @@ private:
 	float velocity = 500;
 	float jumpForce = 400;
 	bool playerIsMoving;
+	bool jumping = false;
 
 	TexturePtr texture;
 

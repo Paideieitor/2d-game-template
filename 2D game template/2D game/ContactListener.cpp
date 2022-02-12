@@ -12,7 +12,10 @@ void ContactListener::BeginContact(b2Contact* contact)
     b2Body* body1 = fixtureA->GetBody();
     b2Body* body2 = fixtureB->GetBody();
 
-    //std::cout << "BeginContact: " << fixtureA->GetUserData() << " <- and -> " << fixtureB->GetUserData() << "\n";
+    PhysicsComponent* PhysObjA = (PhysicsComponent*)fixtureA->GetUserData();
+    PhysicsComponent* PhysObjB = (PhysicsComponent*)fixtureB->GetUserData();
+
+    std::cout << "BeginContact: " << PhysObjA->GetTag() << " <- and -> " << PhysObjB->GetTag() << "\n";
 }
 
 void ContactListener::EndContact(b2Contact* contact)
@@ -22,5 +25,8 @@ void ContactListener::EndContact(b2Contact* contact)
     b2Body* body1 = fixtureA->GetBody();
     b2Body* body2 = fixtureB->GetBody();
 
-    //std::cout << "EndContact: " << fixtureA->GetUserData() << " <- and -> " << fixtureB->GetUserData() << "\n";
+    PhysicsComponent* PhysObjA = (PhysicsComponent*)fixtureA->GetUserData();
+    PhysicsComponent* PhysObjB = (PhysicsComponent*)fixtureB->GetUserData();
+
+    std::cout << "EndContact: " << PhysObjA->GetTag() << " <- and -> " << PhysObjB->GetTag() << "\n";
 }

@@ -18,10 +18,10 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
 	current = idle;
 
-	collider = new BoxCollider(position, {60,50},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false);
-	circleCollider = new CircleCollider(position,60,0.0f,BodyType::DYNAMIC);
+	collider = new BoxCollider(position, {60,50},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false, "player");
+	circleCollider = new CircleCollider(position,60,0.0f,BodyType::DYNAMIC,1.0f,0.0f,0.0f,false,"player_feet");
 
-	joint = new WeldJoint(collider->GetBody(), circleCollider->GetBody(), { 0,20 }, {0,40}, 0.0f, 5.0f, 0.0f,true);
+	joint = new WeldJoint(collider->GetBody(), circleCollider->GetBody(), { 0,20 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
 
 	game->physics->AddJoint(joint);
 	game->physics->AddPhysicsObject(collider);
