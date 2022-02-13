@@ -39,6 +39,8 @@ public:
 	std::map<unsigned int, bool> DisableAll();
 	void EnableAll(std::map<unsigned int, bool>& list);
 
+	bool IsHovering() { return hovering; }
+
 private:
 
 	bool IsFocused(UIElement*);
@@ -50,6 +52,7 @@ private:
 	std::vector<UIElement*> addelems;
 
 	unsigned int nextid = 0;
+	bool hovering = false;
 
 	friend class UIElement;
 };

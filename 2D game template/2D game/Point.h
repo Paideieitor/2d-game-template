@@ -51,6 +51,12 @@ struct point
 			return true;
 		return false;
 	}
+	bool operator!=(const point& p) const
+	{
+		if (x != p.x || y != p.y)
+			return true;
+		return false;
+	}
 	//ADDITION
 	point operator+(const point& p) const
 	{

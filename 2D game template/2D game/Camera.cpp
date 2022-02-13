@@ -4,6 +4,7 @@
 
 Camera::Camera(const fpoint& position) : Entity(Entity::Type::CAMERA, "Camera", position, 0)
 {
+	SetPosition(GetPosition());
 }
 
 Camera::~Camera()

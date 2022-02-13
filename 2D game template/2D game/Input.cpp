@@ -149,8 +149,9 @@ fpoint Input::GetMousePos(bool worldposition) const
 {
 	if (worldposition)
 	{
-		ipoint campos = game->render->GetCameraPosition();
-		return  mouse + fpoint((float)campos.x, (float)campos.y);
+		fpoint mousepos = (mouse / (fpoint)game->render->GetResolution(true)) * (fpoint)game->render->GetResolution(false);
+		return  mousepos + (fpoint)game->render->GetCameraPosition();
 	}
+
 	return mouse;
 }

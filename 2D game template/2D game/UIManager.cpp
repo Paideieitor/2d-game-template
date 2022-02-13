@@ -73,7 +73,11 @@ bool UIManager::Update(float dt)
 			focused->SetClicked();
 		else
 			focused->SetHover();
+
+		hovering = true;
 	}
+	else
+		hovering = false;
 
 	return true;
 }
