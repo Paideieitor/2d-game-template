@@ -9,12 +9,13 @@ class BoxCollider : public PhysicsComponent
 {
 public:
 
-	 BoxCollider(fpoint position, fpoint size, float rotation,BodyType type, float density, float friction, float restitution,bool fixedRotation, bool isSensor);
+	 BoxCollider(fpoint position, fpoint size, float rotation,BodyType type, float density, float friction, float restitution,bool fixedRotation, bool isSensor, const char* tag);
 	 void DebugDraw() override;
 
 private:
 	void UpdateVertex();
 	std::vector<b2Vec2> vertices;
+
 };
 
 

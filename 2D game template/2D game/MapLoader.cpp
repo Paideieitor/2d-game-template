@@ -49,6 +49,7 @@ void MapLoader::LoadMap(const char* mapName)
 			fpoint position = { child.attribute("x").as_float(),-(child.attribute("y").as_float())};
 			fpoint size = { child.attribute("width").as_float(),child.attribute("height").as_float() };
 			BodyType type = BodyType::DYNAMIC;
+			const char* tag = "none";
 
 			//CHECKING FOR PROPERTIES
 			if (child.child("properties")) 
@@ -62,12 +63,17 @@ void MapLoader::LoadMap(const char* mapName)
 							type = BodyType::STATIC;
 						}
 					}
+
+					if (!std::strcmp(child.attribute("name").as_string(), "tag"))
+					{
+						tag = child.attribute("value").as_string();
+					}
 					
 				}
 			}
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.5f, 0.25f, false, false));
+			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.5f, 0.25f, false, false, tag));
 		}
 
 		//CIRCLE COLLIDER
@@ -75,7 +81,11 @@ void MapLoader::LoadMap(const char* mapName)
 		{
 			fpoint position = { child.attribute("x").as_float(),-child.attribute("y").as_float() };
 			float radius = child.attribute("width").as_float();
-
+			float density = 1.0f;
+			float friction = 1.0f;
+			float restitution = 0.15f;
+			bool isSensor = false;
+			const char* tag = "none";
 			BodyType type = BodyType::DYNAMIC;
 
 			//CHECKING FOR PROPERTIES
@@ -89,13 +99,20 @@ void MapLoader::LoadMap(const char* mapName)
 						{
 							type = BodyType::STATIC;
 						}
+
+					}
+
+					if (!std::strcmp(child.attribute("name").as_string(), "tag"))
+					{
+						tag = child.attribute("value").as_string();
 					}
 
 				}
 			}
+
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f, type));
+			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f, type,density,friction,restitution,isSensor,tag));
 		}
 
 		//POLYGON COLLIDER
@@ -165,7 +182,7 @@ void MapLoader::LoadMap(const char* mapName)
 			}
 
 			BodyType type = BodyType::DYNAMIC;
-
+			const char* tag = "none";
 			//CHECKING FOR PROPERTIES
 			if (child.child("properties"))
 			{
@@ -179,12 +196,17 @@ void MapLoader::LoadMap(const char* mapName)
 						}
 					}
 
+					if (!std::strcmp(child.attribute("name").as_string(), "tag"))
+					{
+						tag = child.attribute("value").as_string();
+					}
+
 				}
 			}
 			/////////////////////////
 
 
-			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,1.0f,0.0f,false));
+			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,1.0f,0.0f,false, tag));
 
 			}
 		}

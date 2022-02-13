@@ -5,8 +5,9 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-CircleCollider::CircleCollider(fpoint position, float radius, float rotation, BodyType type, float density, float friction, float restitution, bool isSensor)
+CircleCollider::CircleCollider(fpoint position, float radius, float rotation, BodyType type, float density, float friction, float restitution, bool isSensor, const char* tag)
 {
+	this->tag = tag;
 	colliderType = ColliderType::CIRCLE_COLLIDER;
 	b2BodyDef bodyDef;
 

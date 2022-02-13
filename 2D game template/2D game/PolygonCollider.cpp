@@ -5,8 +5,9 @@
 #include "Render.h"
 #include "BOX2D/Box2D/Box2D.h"
 
-PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex[], float rotation, BodyType type, float density, float friction, float restitution, bool isSensor)
+PolygonCollider::PolygonCollider(fpoint position, int numOfVertex, b2Vec2 vertex[], float rotation, BodyType type, float density, float friction, float restitution, bool isSensor, const char* tag)
 {
+	this->tag = tag;
 	colliderType = ColliderType::POLYGON_COLLIDER;
 
 	b2BodyDef bodyDef;
