@@ -170,6 +170,7 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsComponent.h" />

@@ -58,7 +58,7 @@ bool MainMenu::Update(float dt)
 
 	game->physics->PhysicsDebugDraw();
 
-	if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN)
+	if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN && !game->ui->IsHovering())
 		camera->Move(game->input->GetMousePos(true), 1.0f, 1.0f, false);
 
 	return true;

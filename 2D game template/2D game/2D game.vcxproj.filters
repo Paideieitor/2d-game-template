@@ -124,6 +124,9 @@
     <ClCompile Include="WeldJoint.cpp">
       <Filter>Physics\Joints</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Modules\Image &amp; Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -254,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="WeldJoint.h">
       <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Modules\Image &amp; Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
