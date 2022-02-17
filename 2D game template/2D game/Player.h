@@ -21,8 +21,14 @@ private:
 
 private:
 
-	float velocity = 500;
-	float jumpForce = 450;
+	float lerp(float a, float b, float f);
+
+	float velocity = 280;
+	float jumpForce = 430;
+	float maxYvelocity = 700;
+	float maxXvelocity = 280;
+	float acceleration = 5;
+
 	bool playerIsMoving;
 	bool jumping = false;
 

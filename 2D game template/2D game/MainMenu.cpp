@@ -47,7 +47,7 @@ bool MainMenu::Start()
 	player = game->entities->AddPlayer("Ron", { 50,0 }, 0);
 
 	camera = game->entities->AddCamara(fpoint(0, 0));
-	//camera->Follow(player, 0.1f, 10.0f, true);
+	camera->Follow(player, 0.1f, 10.0f, true);
 	
 	return true;
 }
@@ -58,8 +58,8 @@ bool MainMenu::Update(float dt)
 
 	game->physics->PhysicsDebugDraw();
 
-	if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN && !game->ui->IsHovering())
-		camera->Move(game->input->GetMousePos(true), 1.0f, 1.0f, false);
+	//if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN && !game->ui->IsHovering())
+		//camera->Move(game->input->GetMousePos(true), 1.0f, 1.0f, false);
 
 	return true;
 } 

@@ -10,7 +10,6 @@
 #include "ContactListener.h"
 #include "WeldJoint.h"
 
-#include <cmath>
 
 Player::Player(const std::string& name, const fpoint& position, float rotation)
     : Entity(Entity::Type::PLAYER, name, position, rotation)
@@ -51,17 +50,28 @@ bool Player::Update(float dt)
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT) 
 	{
 		playerIsMoving = true;
-		collider->SetLinearVelocity(-velocity, collider->GetLinearVelocity().y);
+		collider->SetLinearVelocity(lerp(collider->GetLinearVelocity().x, -velocity, acceleration / 100.0f), collider->GetLinearVelocity().y);
 	}
 
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 	{
 		playerIsMoving = true;
-		collider->SetLinearVelocity(velocity, collider->GetLinearVelocity().y);
+		collider->SetLinearVelocity(lerp(collider->GetLinearVelocity().x,velocity ,acceleration/100.0f), collider->GetLinearVelocity().y);
 	}
 
-		
+	if (playerSensor->inAir && collider->GetLinearVelocity().y < 0)
+		collider->SetLinearVelocity(collider->GetLinearVelocity().x, collider->GetLinearVelocity().y *1.01f);
+
+	if(collider->GetLinearVelocity().y < -maxYvelocity)
+		collider->SetLinearVelocity(collider->GetLinearVelocity().x, -maxYvelocity);
+
+	if(collider->GetLinearVelocity().x > maxXvelocity)
+		collider->SetLinearVelocity(maxXvelocity, collider->GetLinearVelocity().y);
+
+	if (collider->GetLinearVelocity().x < -maxXvelocity)
+		collider->SetLinearVelocity(-maxXvelocity, collider->GetLinearVelocity().y);
+
 	if(!playerIsMoving)
 		collider->SetLinearVelocity(0, collider->GetLinearVelocity().y);
 
@@ -82,4 +92,9 @@ void Player::PositionChanged()
 
 void Player::RotationChanged()
 {
+}
+
+float Player::lerp(float a, float b, float f)
+{
+	return (a * (1.0 - f)) + (b * f);
 }
