@@ -73,7 +73,7 @@ void MapLoader::LoadMap(const char* mapName)
 			}
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.5f, 0.25f, false, false, tag));
+			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.0f, 0.25f, false, false, tag));
 		}
 
 		//CIRCLE COLLIDER
