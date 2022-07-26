@@ -29,7 +29,7 @@ bool MainMenu::Start()
 	game->render->background = Color(255,255,0,255);
 
 	test = game->textures->Load("images/Chadkino.png");
-	backgroundImg = game->textures->Load("images/BG12.png");
+	backgroundImg = game->textures->Load("images/MarioTestMap.png");
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
@@ -55,6 +55,7 @@ bool MainMenu::Start()
 bool MainMenu::Update(float dt)
 {
 	game->render->RenderTexture(false, 5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, true);
+	game->render->RenderTexture(false, 5, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize(), false, 255, true);
 
 	game->physics->PhysicsDebugDraw();
 
