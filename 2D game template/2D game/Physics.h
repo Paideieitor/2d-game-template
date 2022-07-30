@@ -1,4 +1,5 @@
 #include "Module.h"
+#include "Timer.h"
 
 struct b2Vec2;
 class b2World;
@@ -37,5 +38,5 @@ private:
 
 	b2World* world;
 	float gravity = -695.0f;
-
+	Timer time;
 };

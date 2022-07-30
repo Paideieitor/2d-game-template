@@ -18,10 +18,8 @@ void ContactListener::BeginContact(b2Contact* contact)
 
     if (!std::strcmp(PhysObjB->GetTag(), "player_sensor"))
     {
-        std::cout << "FLOOR" << "\n";
-        PhysObjB->inAir = false;
+        PhysObjB->contacts.push_back(PhysObjA);
     }
-    //std::cout << "BeginContact: " << PhysObjA->GetTag() << " <- and -> " << PhysObjB->GetTag() << "\n";
 }
 
 void ContactListener::EndContact(b2Contact* contact)
@@ -36,9 +34,12 @@ void ContactListener::EndContact(b2Contact* contact)
 
     if (!std::strcmp(PhysObjB->GetTag(), "player_sensor"))
     {
-        std::cout << "AIR" << "\n";
-        PhysObjB->inAir = true;
+        for (int i = 0; i < PhysObjB->contacts.size(); i++) 
+        {
+            if (PhysObjB->contacts[i] == PhysObjA) 
+            {
+                PhysObjB->contacts.erase(PhysObjB->contacts.begin() + i);
+            }
+        }
     }
-
-    //std::cout << "EndContact: " << PhysObjA->GetTag() << " <- and -> " << PhysObjB->GetTag() << "\n";
 }

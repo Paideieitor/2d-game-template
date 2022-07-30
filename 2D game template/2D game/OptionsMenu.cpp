@@ -16,10 +16,10 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	//fpscap = game->ui->AddScrollbar("FPS Cap", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
-	//fpscap->SetPosition(game->Center(fpscap->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
-	//fpscap->SetMinMax(30.0f, 300.0f);
-	//fpscap->SetValue((float)game->GetFPSCap());
+	fpscap = game->ui->AddScrollbar("FPS Cap", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), UIGraphics(), UIGraphics(), Scrollbar::Type::INT, false, this);
+	fpscap->SetPosition(game->Center(fpscap->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
+	fpscap->SetMinMax(5.0f, 300.0f);
+	fpscap->SetValue((float)game->GetFPSCap());
 
 	fullscreen = game->ui->AddButton("Fullscreen", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK, false, this);
 	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,200 }, true, false));

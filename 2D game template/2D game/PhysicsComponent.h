@@ -42,6 +42,7 @@ public:
 	void SetLinearVelocity(float x, float y);
 	void SetAngularVelocity(float velocity);
 	void SetRotationAngle(float rotation);
+	void SetLinearDump(float dump);
 	void ApplyForce(fpoint force, bool wake);
 	void ApplyLinearImpulse(fpoint linearImpulse, bool wake);
 	void SetTag(const char* tag);
@@ -53,6 +54,8 @@ public:
 	virtual void DebugDraw();
 
 	bool inAir;
+
+	std::vector<PhysicsComponent*> contacts;
 
 protected:	
 

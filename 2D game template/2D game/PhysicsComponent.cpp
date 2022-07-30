@@ -57,6 +57,11 @@ void PhysicsComponent::SetRotationAngle(float rotation)
 	body->SetTransform({ body->GetPosition().x,body->GetPosition().y}, rotation / 57.2958f);
 }
 
+void PhysicsComponent::SetLinearDump(float dump)
+{
+	body->SetLinearDamping(dump);
+}
+
 void PhysicsComponent::ApplyForce(fpoint force, bool wake)
 {
 	body->ApplyForceToCenter(b2Vec2(force.x, force.y), wake);

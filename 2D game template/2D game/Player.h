@@ -21,16 +21,19 @@ private:
 
 private:
 
+	void ManageGroundedState();
+
 	float lerp(float a, float b, float f);
 
-	float velocity = 280;
-	float jumpForce = 430;
+	float velocity = 230;
+	float jumpForce = 400;
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
 	float acceleration = 5;
 
 	bool playerIsMoving;
 	bool jumping = false;
+	bool canDoubleJump = false;
 
 	TexturePtr texture;
 
@@ -44,7 +47,7 @@ private:
 	Joint* joint;
 	Joint* jointTwo;
 
-
+	bool grounded = false;
 	friend class EntityManager;
 };
 

@@ -18,17 +18,14 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
 	current = idle;
 
-	collider = new BoxCollider(position, {40,50},rotation, BodyType::DYNAMIC, 3.0f, 1, 0, true, false, "player");
-	circleCollider = new CircleCollider(position,40,0.0f,BodyType::DYNAMIC,1.0f,0.0f,0.0f,false,"player_feet");
-	playerSensor = new BoxCollider(position, { 30,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	collider = new BoxCollider(position, {40,65},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
+	playerSensor = new BoxCollider(position, { 40,7 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
 
-	joint = new WeldJoint(collider->GetBody(), circleCollider->GetBody(), { 0,20 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
-	jointTwo = new WeldJoint(circleCollider->GetBody(), playerSensor->GetBody(), { 0,0 }, { 0,20 }, 0.0f, 5.0f, 0.0f, false);
+	joint = new WeldJoint(collider->GetBody(), playerSensor->GetBody(), { 0,0 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
 
 	game->physics->AddJoint(joint);
 	game->physics->AddJoint(jointTwo);
 	game->physics->AddPhysicsObject(collider);
-	game->physics->AddPhysicsObject(circleCollider);
 	game->physics->AddPhysicsObject(playerSensor);
 }
 
@@ -41,27 +38,37 @@ Player::~Player()
 
 bool Player::Update(float dt)
 {
+	ManageGroundedState();
 
-	if (!playerSensor->inAir && game->input->CheckState(Key::W) == Input::State::DOWN)
+	if (grounded && game->input->CheckState(Key::W) == Input::State::DOWN) 
+	{
 		collider->SetLinearVelocity(collider->GetLinearVelocity().x,jumpForce);
+		canDoubleJump = true;
+	}
 
+	if (canDoubleJump && game->input->CheckState(Key::W) == Input::State::DOWN)
+	{
+		collider->SetLinearVelocity(collider->GetLinearVelocity().x, jumpForce);
+		canDoubleJump = false;
+	}
+		
 	playerIsMoving = false;
 
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT) 
 	{
 		playerIsMoving = true;
-		collider->SetLinearVelocity(lerp(collider->GetLinearVelocity().x, -velocity, acceleration / 100.0f), collider->GetLinearVelocity().y);
+		collider->SetLinearVelocity(-velocity, collider->GetLinearVelocity().y);
 	}
 
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 	{
 		playerIsMoving = true;
-		collider->SetLinearVelocity(lerp(collider->GetLinearVelocity().x,velocity ,acceleration/100.0f), collider->GetLinearVelocity().y);
+		collider->SetLinearVelocity(velocity, collider->GetLinearVelocity().y);
 	}
 
 	if (playerSensor->inAir && collider->GetLinearVelocity().y < 0)
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x, collider->GetLinearVelocity().y *1.01f);
+		collider->SetLinearVelocity(collider->GetLinearVelocity().x, collider->GetLinearVelocity().y);
 
 	if(collider->GetLinearVelocity().y < -maxYvelocity)
 		collider->SetLinearVelocity(collider->GetLinearVelocity().x, -maxYvelocity);
@@ -92,6 +99,19 @@ void Player::PositionChanged()
 
 void Player::RotationChanged()
 {
+}
+
+void Player::ManageGroundedState()
+{
+	if (playerSensor->contacts.size() > 0)
+	{
+		grounded = true;
+		canDoubleJump = true;
+	}
+	else
+	{
+		grounded = false;
+	}
 }
 
 float Player::lerp(float a, float b, float f)

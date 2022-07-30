@@ -42,12 +42,14 @@ bool Physics::SetUp(pugi::xml_node&)
 
 bool Physics::Update(float dt)
 {
+
 	float p = dt/(1.0f / 1000.0f);
 	for(int x= 0; x < (int)p; x++)
 	{
-		world->Step(1.0f / 1000.0f, 10, 5);
+		world->Step(1.0f / 1000.0f, 6, 2);
 	}
-		
+
+
 	return true;
 }
 
