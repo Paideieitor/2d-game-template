@@ -6,6 +6,22 @@
 class PhysicsComponent;
 class Joint;
 
+enum PlayerState 
+{
+	IDLE,
+	WALKING,
+	SLOW_WALKING,
+	CROUCHING,
+	IDLE_CROUCH,
+	DEATH,
+
+	// AIR
+	JUMPING,
+	FALLING,
+	CONTACT
+};
+
+
 class Player : public Entity
 {
 private:
@@ -22,27 +38,29 @@ private:
 private:
 
 	void ManageGroundedState();
+	void ManageCrouchStandState();
 
 	float lerp(float a, float b, float f);
 
-	float velocity = 230;
+	PlayerState playerState = PlayerState::IDLE;
+
+	float velocity = 150;
 	float jumpForce = 400;
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
 	float acceleration = 5;
 
-	bool playerIsMoving;
 	bool jumping = false;
-	bool canDoubleJump = false;
 
 	TexturePtr texture;
 
 	Animation current;
 	Animation idle;
 
-	PhysicsComponent* collider;
-	PhysicsComponent* circleCollider;
-	PhysicsComponent* playerSensor;
+	PhysicsComponent* bodyCollider;
+	PhysicsComponent* crouchBodyCollider;
+
+	PhysicsComponent* footSensor;
 
 	Joint* joint;
 	Joint* jointTwo;

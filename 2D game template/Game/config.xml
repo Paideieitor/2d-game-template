@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<config version="0.1" framecap="300">
+<config version="0.1" framecap="60">
 	<render width="720" height="405">
 		<vsync value="false" />
 	</render>
@@ -8,7 +8,7 @@
 		<borderless value="false" />
 		<grabbed value="false" />
 	</window>
-	<audio music="17" sfx="0" />
+	<audio music="0" sfx="0" />
 	<scenemanager>
 		<menu />
 		<options>

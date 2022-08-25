@@ -29,7 +29,7 @@ bool MainMenu::Start()
 	game->render->background = Color(255,255,0,255);
 
 	test = game->textures->Load("images/Chadkino.png");
-	backgroundImg = game->textures->Load("images/MarioTestMap.png");
+	backgroundImg = game->textures->Load("images/forest.png");
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 

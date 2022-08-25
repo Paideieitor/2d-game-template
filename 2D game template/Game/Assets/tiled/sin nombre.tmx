@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="3" nextobjectid="36">
+ <tileset firstgid="1" source="MAPA_MUNDO_DEL_BOSQUE_PARTE_1_-_pixel_perfect.tsx"/>
+ <layer id="1" name="Capa de patrones 1" width="5" height="1">
+  <data encoding="csv">
+1,2,3,4,5
+</data>
+ </layer>
+ <objectgroup id="2" name="Capa de Objetos 1">
+  <object id="4" x="15" y="1139">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 242,-88 525,-88 712,-28 717,135 -4,131"/>
+  </object>
+  <object id="5" x="727" y="1272">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 0,-161 264,-115 269,-6"/>
+  </object>
+  <object id="6" x="989" y="1161">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 372,-35 496,-25 497,106 -8,106"/>
+  </object>
+  <object id="11" x="1484" y="1136" width="72" height="133">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="18" x="1846" y="1158" width="56.6667" height="25.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="19" x="1922" y="1138" width="80" height="32.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="21" x="2078" y="1131.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 9.33333,-54.6667 58.6667,-52 70.6667,-3.33333"/>
+  </object>
+  <object id="22" x="1558" y="1150.67">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 248,30 245.333,115.333 -4,112.667"/>
+  </object>
+  <object id="23" x="1807.33" y="1180">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 122.667,-14.6667 128.667,79.3333 -10,82.6667"/>
+  </object>
+  <object id="24" x="1930.67" y="1165.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 89.3333,-24.6667 171.333,-35.3333 167.333,104 -8,96.6667"/>
+  </object>
+  <object id="25" x="2146" y="1127.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 114,24 234.667,62 237.333,141.333 -16,141.333"/>
+  </object>
+  <object id="26" x="2382" y="1191.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -0.666667,-14 58,-0.666667 59.3333,15.3333"/>
+  </object>
+  <object id="27" x="2440.67" y="1208.67">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 48,12 50.6667,46 -4.66667,46.6667"/>
+  </object>
+  <object id="28" x="2491.33" y="1221.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -2.66667,-67.3333 42.6667,-68.6667 52.6667,-46.6667 62.6667,12.6667"/>
+  </object>
+  <object id="29" x="2552.67" y="1234.67">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 72,4 69.3333,30.6667 -4,28.6667"/>
+  </object>
+  <object id="30" x="2624" y="1238.67">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 50.6667,-5.33333 50.6667,22 -4,26"/>
+  </object>
+  <object id="31" x="2674.67" y="1233.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -3.33333,-21.3333 58,-26 222.667,-26 228.667,28.6667 8,30"/>
+  </object>
+  <object id="33" x="2728.67" y="1172.67" width="169.333" height="10">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" x="2729.33" y="1178.67">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -13.3333,-10.6667 -5.33333,-20.6667 11.3333,-7.33333"/>
+  </object>
+ </objectgroup>
+</map>

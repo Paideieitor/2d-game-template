@@ -15,6 +15,7 @@
 
 #define CONFIG_FILE "config.xml"
 #define CURRENT_VERSION 0.1f
+#define EXPECTED_FRAMERATE 60
 
 class Module;
 

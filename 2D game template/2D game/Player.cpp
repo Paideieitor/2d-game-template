@@ -18,77 +18,128 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
 	current = idle;
 
-	collider = new BoxCollider(position, {40,65},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
-	playerSensor = new BoxCollider(position, { 40,7 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	bodyCollider = new BoxCollider(position, {40,65},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
+	footSensor = new BoxCollider(position, { 40,7 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
 
-	joint = new WeldJoint(collider->GetBody(), playerSensor->GetBody(), { 0,0 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
+	crouchBodyCollider = new BoxCollider(position, { 40,30 }, rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player_crouch");
+
+	joint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,40}, 0.0f, 5.0f, 0.0f,false);
 
 	game->physics->AddJoint(joint);
-	game->physics->AddJoint(jointTwo);
-	game->physics->AddPhysicsObject(collider);
-	game->physics->AddPhysicsObject(playerSensor);
+	game->physics->AddPhysicsObject(bodyCollider);
+	game->physics->AddPhysicsObject(footSensor);
 }
 
 Player::~Player()
 {	
 	game->physics->DestroyJoint(joint);
-	game->physics->DestroyPhysicsObject(collider);
-	game->physics->DestroyPhysicsObject(circleCollider);
+	game->physics->DestroyPhysicsObject(bodyCollider);
+	game->physics->DestroyPhysicsObject(footSensor);
 }
 
 bool Player::Update(float dt)
 {
 	ManageGroundedState();
 
-	if (grounded && game->input->CheckState(Key::W) == Input::State::DOWN) 
+	bool playerMoved = false;
+
+	if (grounded && game->input->CheckState(Key::W) == Input::State::REPEAT) 
 	{
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x,jumpForce);
-		canDoubleJump = true;
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x,jumpForce);
+		playerState = PlayerState::JUMPING;
+		playerMoved = true;
 	}
 
-	if (canDoubleJump && game->input->CheckState(Key::W) == Input::State::DOWN)
-	{
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x, jumpForce);
-		canDoubleJump = false;
-	}
-		
-	playerIsMoving = false;
-
+	
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT) 
 	{
-		playerIsMoving = true;
-		collider->SetLinearVelocity(-velocity, collider->GetLinearVelocity().y);
+		playerState = PlayerState::WALKING;
+		bodyCollider->SetLinearVelocity(-velocity, bodyCollider->GetLinearVelocity().y);
+		playerMoved = true;
 	}
-
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 	{
-		playerIsMoving = true;
-		collider->SetLinearVelocity(velocity, collider->GetLinearVelocity().y);
+		playerState = PlayerState::WALKING;
+		bodyCollider->SetLinearVelocity(velocity, bodyCollider->GetLinearVelocity().y);
+		playerMoved = true;
 	}
 
-	if (playerSensor->inAir && collider->GetLinearVelocity().y < 0)
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x, collider->GetLinearVelocity().y);
+	if (game->input->CheckState(Key::C) == Input::State::DOWN)
+	{
+		if (playerState != PlayerState::CROUCHING)
+		{
+			playerState = PlayerState::CROUCHING;
+			playerMoved = true;
+		}
+		else 
+		{
+			playerState = PlayerState::IDLE;
+		}
+		ManageCrouchStandState();
+	}
 
-	if(collider->GetLinearVelocity().y < -maxYvelocity)
-		collider->SetLinearVelocity(collider->GetLinearVelocity().x, -maxYvelocity);
 
-	if(collider->GetLinearVelocity().x > maxXvelocity)
-		collider->SetLinearVelocity(maxXvelocity, collider->GetLinearVelocity().y);
+	if (!playerMoved && playerState != PlayerState::CROUCHING) 
+	{
+		playerState = PlayerState::IDLE;
+	}
 
-	if (collider->GetLinearVelocity().x < -maxXvelocity)
-		collider->SetLinearVelocity(-maxXvelocity, collider->GetLinearVelocity().y);
+	if (footSensor->inAir && bodyCollider->GetLinearVelocity().y < 0)
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, bodyCollider->GetLinearVelocity().y);
 
-	if(!playerIsMoving)
-		collider->SetLinearVelocity(0, collider->GetLinearVelocity().y);
+	if(bodyCollider->GetLinearVelocity().y < -maxYvelocity)
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, -maxYvelocity);
 
-	position = collider->GetPosition();
-	rotation = collider->GetRotation();
+	if(bodyCollider->GetLinearVelocity().x > maxXvelocity)
+		bodyCollider->SetLinearVelocity(maxXvelocity, bodyCollider->GetLinearVelocity().y);
+
+	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
+		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
+
+	if(playerState == PlayerState::IDLE)
+		bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
+
+	position = bodyCollider->GetPosition();
+	rotation = bodyCollider->GetRotation();
 
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
 
 	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, false, 255, true);
+
+
+	switch (playerState) 
+	{
+	case PlayerState::IDLE:
+		std::cout << "IDLE" << "\n";
+		break;
+	case PlayerState::WALKING:
+		std::cout << "WALKING" << "\n";
+		break;
+	case PlayerState::JUMPING:
+		std::cout << "JUMPING" << "\n";
+		break;
+	case PlayerState::CROUCHING:
+		std::cout << "CROUCHING" << "\n";
+		break;
+	case PlayerState::DEATH:
+		std::cout << "DEATH" << "\n";
+		break;
+	case PlayerState::CONTACT:
+		std::cout << "CONTACT" << "\n";
+		break;
+	case PlayerState::SLOW_WALKING:
+		std::cout << "SLOW_WALKING" << "\n";
+		break;
+	case PlayerState::IDLE_CROUCH:
+		std::cout << "IDLE_CROUCH" << "\n";
+		break;
+	default:
+		std::cout << "error" << "\n";
+		break;
+	}
+	//std::cout << "X: " << position.x << "Y:" << position.y << "\n";
 
     return true;
 }
@@ -103,10 +154,9 @@ void Player::RotationChanged()
 
 void Player::ManageGroundedState()
 {
-	if (playerSensor->contacts.size() > 0)
+	if (footSensor->contacts.size() > 0)
 	{
 		grounded = true;
-		canDoubleJump = true;
 	}
 	else
 	{
@@ -114,7 +164,42 @@ void Player::ManageGroundedState()
 	}
 }
 
+void Player::ManageCrouchStandState()
+{
+	if (playerState == PlayerState::CROUCHING) 
+	{
+		game->physics->DestroyJoint(joint);
+		game->physics->DestroyPhysicsObject(bodyCollider);
+		//game->physics->DestroyPhysicsObject(footSensor);
+
+		crouchBodyCollider = new BoxCollider(position, { 40,30 }, rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player_crouch");
+		//footSensor = new BoxCollider(position, { 40,7 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true, true, "player_sensor");
+
+		joint = new WeldJoint(crouchBodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, { 0,40 }, 0.0f, 5.0f, 0.0f, false);
+
+		game->physics->AddJoint(joint);
+		game->physics->AddPhysicsObject(crouchBodyCollider);
+		//game->physics->AddPhysicsObject(footSensor);
+	}
+	else if (playerState == PlayerState::IDLE) 
+	{
+		game->physics->DestroyJoint(joint);
+		game->physics->DestroyPhysicsObject(crouchBodyCollider);
+		//game->physics->DestroyPhysicsObject(footSensor);
+
+		bodyCollider = new BoxCollider(position, { 40,65 }, rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
+		//footSensor = new BoxCollider(position, { 40,7 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true, true, "player_sensor");
+
+		joint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, { 0,40 }, 0.0f, 5.0f, 0.0f, false);
+
+		game->physics->AddJoint(joint);
+		game->physics->AddPhysicsObject(bodyCollider);
+		//game->physics->AddPhysicsObject(footSensor);
+	}
+}
+
 float Player::lerp(float a, float b, float f)
 {
 	return (a * (1.0 - f)) + (b * f);
 }
+

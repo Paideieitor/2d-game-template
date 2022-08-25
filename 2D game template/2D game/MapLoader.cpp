@@ -18,7 +18,7 @@ MapLoader::~MapLoader()
 
 bool MapLoader::SetUp(pugi::xml_node&)
 {
-	LoadMap("tiled/mario_map.tmx");
+	LoadMap("tiled/sin nombre.tmx");
 	return true;
 }
 
