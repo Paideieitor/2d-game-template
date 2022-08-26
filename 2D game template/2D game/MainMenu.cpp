@@ -44,9 +44,9 @@ bool MainMenu::Start()
 
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
-	player = game->entities->AddPlayer("Ron", { 50,0 }, 0);
+	player = game->entities->AddPlayer("Ron", { 400,-500 }, 0);
 
-	camera = game->entities->AddCamara(fpoint(0, 0));
+	camera = game->entities->AddCamara(fpoint(400, -500));
 	camera->Follow(player, 0.1f, 10.0f, true);
 	
 	return true;

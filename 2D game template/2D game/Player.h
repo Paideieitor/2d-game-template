@@ -46,16 +46,23 @@ private:
 
 	float velocity = 150;
 	float jumpForce = 400;
+	float currentVelocity = 0.0f;
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
-	float acceleration = 5;
+
+
+	float acceleration = 950;
+	float deceleration = 500;
 
 	bool jumping = false;
+	bool Xinput = false;
 
 	TexturePtr texture;
+	TexturePtr textureTest;
 
 	Animation current;
 	Animation idle;
+	Animation idleTest;
 
 	PhysicsComponent* bodyCollider;
 	PhysicsComponent* crouchBodyCollider;
