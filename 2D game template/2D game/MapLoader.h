@@ -10,10 +10,6 @@ public:
 	MapLoader();
 	~MapLoader();
 
-	bool SetUp(pugi::xml_node&);
-	bool Update(float dt);
-	bool CleanUp();
-
 	void LoadMap(const char* mapName);
 	
 

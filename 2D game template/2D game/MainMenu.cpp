@@ -11,6 +11,7 @@
 #include "Fonts.h"
 #include "UIManager.h"
 #include "EntityManager.h"
+#include "MapLoader.h"
 
 //TEST
 #include "Physics.h"
@@ -27,6 +28,8 @@ MainMenu::~MainMenu()
 bool MainMenu::Start()
 {
 	game->render->background = Color(255,255,0,255);
+
+	game->maploader->LoadMap("tiled/forest.tmx");
 
 	test = game->textures->Load("images/Chadkino.png");
 	backgroundImg = game->textures->Load("images/forest.png");

@@ -16,22 +16,6 @@ MapLoader::~MapLoader()
 {
 }
 
-bool MapLoader::SetUp(pugi::xml_node&)
-{
-	LoadMap("tiled/sin nombre.tmx");
-	return true;
-}
-
-bool MapLoader::Update(float dt)
-{
-	return true;
-}
-
-bool MapLoader::CleanUp()
-{
-	return true;
-}
-
 void MapLoader::LoadMap(const char* mapName)
 {
 	pugi::xml_parse_result result = game->assets->LoadXML(document, mapName);

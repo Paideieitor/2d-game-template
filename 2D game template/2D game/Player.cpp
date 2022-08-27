@@ -195,7 +195,7 @@ void Player::ManageCrouchStandState()
 {
 	if (playerState == PlayerState::IDLE_CROUCH)
 	{
-		bodyCollider->ChangeFixture({20,15}, 0.5f, 1, 0, false);
+		bodyCollider->ChangeFixture({20,15},0.5f, 1, 0, false);
 	}
 	else if (playerState == PlayerState::IDLE) 
 	{

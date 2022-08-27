@@ -8,6 +8,8 @@
 #include "Textures.h"
 #include "Render.h"
 
+#include<thread>
+
 SceneManager::SceneManager()
 {
 	name = "scenemanager";
