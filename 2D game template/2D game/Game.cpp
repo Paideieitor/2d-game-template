@@ -14,13 +14,16 @@
 #include "Physics.h"
 #include "EntityManager.h"
 #include "MapLoader.h"
+#include "TransitionManager.h"
 
 #include <sstream>
 
 Game::Game()
 {
 	input = new Input();
+
 	fonts = new Fonts();
+	transition = new TransitionManager();
 	window = new Window();
 	scenes = new SceneManager();
 	ui = new UIManager();
@@ -47,6 +50,7 @@ Game::Game()
 	AddModule(physics);
 	AddModule(maploader);
 	AddModule(entities);
+	AddModule(transition);
 	//LAST  v
 	AddModule(render);
 }

@@ -127,6 +127,9 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Modules\Image &amp; Audio</Filter>
     </ClCompile>
+    <ClCompile Include="TransitionManager.cpp">
+      <Filter>Modules\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -260,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Modules\Image &amp; Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionManager.h">
+      <Filter>Modules\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

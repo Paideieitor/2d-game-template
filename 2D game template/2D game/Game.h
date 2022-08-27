@@ -32,6 +32,7 @@ class Console;
 class Physics;
 class EntityManager;
 class MapLoader;
+class TransitionManager;
 
 class Render;
 
@@ -50,6 +51,7 @@ public:
 
 	Input* input;
 
+	TransitionManager* transition;
 	Fonts* fonts;
 	Window* window;
 	SceneManager* scenes;

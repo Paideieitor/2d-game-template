@@ -8,8 +8,6 @@
 #include "Textures.h"
 #include "Render.h"
 
-#include<thread>
-
 SceneManager::SceneManager()
 {
 	name = "scenemanager";
@@ -39,9 +37,6 @@ bool SceneManager::Start()
 
 bool SceneManager::Update(float dt)
 {
-	if (game->input->CheckState(Key::F1) == Input::State::DOWN)
-		ChangeScene("Main Menu");
-
 	if (nextscene != currentscene)
 	{
 		if (currentscene != nullptr)
