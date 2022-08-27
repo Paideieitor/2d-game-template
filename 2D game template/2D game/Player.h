@@ -5,20 +5,24 @@
 
 class PhysicsComponent;
 class Joint;
+class BoxCollider;
 
 enum PlayerState 
 {
 	IDLE,
 	WALKING,
 	SLOW_WALKING,
-	CROUCHING,
-	IDLE_CROUCH,
 	DEATH,
 
 	// AIR
 	JUMPING,
 	FALLING,
-	CONTACT
+	CONTACT,
+
+	//CROUCH
+	CROUCHING,
+	IDLE_CROUCH,
+	CROUCH_WALK
 };
 
 
@@ -45,7 +49,7 @@ private:
 	PlayerState playerState = PlayerState::IDLE;
 
 	float velocity = 150;
-	float jumpForce = 400;
+	float jumpForce = 490;
 	float currentVelocity = 0.0f;
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
@@ -56,21 +60,19 @@ private:
 
 	bool jumping = false;
 	bool Xinput = false;
+	bool crouching = false;
 
 	TexturePtr texture;
-	TexturePtr textureTest;
 
 	Animation current;
 	Animation idle;
 	Animation idleTest;
 
-	PhysicsComponent* bodyCollider;
-	PhysicsComponent* crouchBodyCollider;
+	BoxCollider* bodyCollider;
 
 	PhysicsComponent* footSensor;
 
 	Joint* joint;
-	Joint* jointTwo;
 
 	bool grounded = false;
 	friend class EntityManager;

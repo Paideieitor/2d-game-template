@@ -84,3 +84,34 @@ void BoxCollider::UpdateVertex()
 	}
 
 }
+
+void BoxCollider::ChangeFixture(fpoint size, float density, float friction, float restitution, bool isSensor)
+{
+	b2PolygonShape boxShape;
+
+	if (size.x <= 0.0f || size.y <= 0.0f)
+	{
+		size.x = 3.0f;
+		size.y = 3.0f;
+	}
+
+	boxShape.SetAsBox(size.x / 2, size.y / 2);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &boxShape;
+	fixtureDef.density = density;
+	fixtureDef.friction = friction;
+	fixtureDef.restitution = restitution;
+	fixtureDef.isSensor = isSensor;
+	fixtureDef.userData = this;
+	body->DestroyFixture(fixture);
+	fixture = body->CreateFixture(&fixtureDef);
+
+	vertices.clear();
+
+	for (int i = 0; i < boxShape.GetVertexCount(); i++)
+	{
+		vertices.push_back(body->GetWorldPoint({ boxShape.GetVertex(i).x, boxShape.GetVertex(i).y }));
+	}
+}
+
