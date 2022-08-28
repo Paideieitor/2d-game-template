@@ -90,6 +90,14 @@ Camera* EntityManager::AddCamara(const fpoint& position)
     return output;
 }
 
+Rock* EntityManager::AddRock(const std::string& name, const fpoint& position, const ipoint& size, float rotation)
+{
+    Rock* output = new Rock(name, position, size, rotation);
+    addentities.push_back(output);
+
+	return nullptr;
+}
+
 void EntityManager::EraseEntity(Entity* entity)
 {
     for (size_t i = 0; i < entities.size(); ++i)

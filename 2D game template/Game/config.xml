@@ -3,7 +3,7 @@
 	<render width="720" height="405">
 		<vsync value="false" />
 	</render>
-	<window width="1280" height="720">
+	<window width="1920" height="1080">
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<grabbed value="false" />
@@ -12,7 +12,7 @@
 	<scenemanager>
 		<menu />
 		<options>
-			<resolution current="1">
+			<resolution current="2">
 				<button name="720x405" />
 				<button name="1280x720" />
 				<button name="1920x1080" />

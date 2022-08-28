@@ -15,7 +15,6 @@ TransitionManager::~TransitionManager()
 
 bool TransitionManager::SetUp(pugi::xml_node&)
 {
-	FadeToBlack(4.5f, true);
 	return true;
 }
 
@@ -36,7 +35,7 @@ bool TransitionManager::Update(float dt)
 		Color a = { 0,0,0,transparency };
 		if (transitionTime <= 0.0f) 
 		{
-			state = TransitionState::TRANSITION_END;
+			state = TransitionState::TRANSITION_END_FADE_IN;
 		}
 		game->render->RenderRectangle(true, 100, game->render->GetCameraPosition(), { 1920, 1080 }, a);
 		}
@@ -47,10 +46,15 @@ bool TransitionManager::Update(float dt)
 			Color a = { 0,0,0,transparency };
 			if (transitionTime <= 0.0f)
 			{
-				state = TransitionState::TRANSITION_END;
+				state = TransitionState::TRANSITION_END_FADE_OUT;
 			}
 			game->render->RenderRectangle(true, 100, game->render->GetCameraPosition(), { 1920, 1080 }, a);
 		}
+	}
+
+	if (state == TransitionState::TRANSITION_END_FADE_OUT) 
+	{
+		game->render->RenderRectangle(true, 100, game->render->GetCameraPosition(), { 1920, 1080 }, {0,0,0,255});
 	}
 	return true;
 }
@@ -65,4 +69,9 @@ void TransitionManager::FadeToBlack(float duration, bool fadeIn)
 	this->duration = duration;
 	this->fadeIn = fadeIn;
 	state = TransitionState::TRANSITION_BEGIN;
+}
+
+TransitionState TransitionManager::GetState()
+{
+	return state;
 }

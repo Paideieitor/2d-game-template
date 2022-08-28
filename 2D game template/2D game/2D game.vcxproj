@@ -179,8 +179,10 @@
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RevoluteJoint.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Scrollbar.cpp" />
+    <ClCompile Include="StudioScene.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TransitionManager.cpp" />
@@ -224,9 +226,11 @@
     <ClInclude Include="PolygonCollider.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="RevoluteJoint.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scrollbar.h" />
+    <ClInclude Include="StudioScene.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TransitionManager.h" />

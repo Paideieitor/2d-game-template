@@ -44,8 +44,14 @@ bool Player::Update(float dt)
 
 	bool playerMoved = false;
 
-	if (grounded && game->input->CheckState(Key::W) == Input::State::DOWN) 
+	if (grounded && (game->input->CheckState(Key::W) == Input::State::DOWN || game->input->CheckState(Key::SPACE) == Input::State::DOWN))
 	{
+		if (playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::CROUCH_WALK) 
+		{
+			playerState = PlayerState::IDLE;
+			crouching = false;
+			ManageCrouchStandState();
+		}
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x,jumpForce);
 		playerState = PlayerState::JUMPING;
 		playerMoved = true;
@@ -121,7 +127,7 @@ bool Player::Update(float dt)
 	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
 		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
 
-	if(playerState == PlayerState::IDLE)
+	if(playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH)
 		bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
 
 	position = bodyCollider->GetPosition();

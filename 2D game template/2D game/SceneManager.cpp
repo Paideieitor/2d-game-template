@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 
 #include "MainMenu.h"
+#include "StudioScene.h"
 #include "OptionsMenu.h"
 
 #include "Input.h"
@@ -28,9 +29,10 @@ bool SceneManager::SetUp(pugi::xml_node& node)
 
 bool SceneManager::Start()
 {
+	scenes.emplace_back(new StudioScene(5.0f));
 	scenes.emplace_back(new MainMenu());
 
-	ChangeScene("Main Menu");
+	ChangeScene("Studio Scene");
 
 	return true;
 }

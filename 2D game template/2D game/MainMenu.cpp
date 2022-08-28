@@ -27,6 +27,8 @@ MainMenu::~MainMenu()
 
 bool MainMenu::Start()
 {
+	game->transition->FadeToBlack(3.5f, true);
+
 	game->render->background = Color(255,255,0,255);
 
 	game->maploader->LoadMap("tiled/forest.tmx");
@@ -48,6 +50,8 @@ bool MainMenu::Start()
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
 
 	player = game->entities->AddPlayer("Ron", { 400,-500 }, 0);
+
+	game->entities->AddRock("Rock", { 100,10 }, { 64,64 }, 0.0f);
 
 	camera = game->entities->AddCamara(fpoint(400, -500));
 	camera->Follow(player, 0.1f, 10.0f, true);

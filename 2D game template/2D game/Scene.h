@@ -2,6 +2,7 @@
 #define SCENES_H
 
 #include "Game.h"
+#include "TransitionManager.h"
 
 class Texture;
 typedef std::shared_ptr<Texture> TexturePtr;

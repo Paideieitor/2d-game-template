@@ -10,7 +10,8 @@ enum TransitionState
 {
 	TRANSITION_BEGIN,
 	MID_TRANSITION,
-	TRANSITION_END
+	TRANSITION_END_FADE_OUT,
+	TRANSITION_END_FADE_IN
 };
 
 class TransitionManager : public Module
@@ -25,7 +26,7 @@ public:
 	bool CleanUp();
 	
 	void FadeToBlack(float duration, bool fadeIn);
-
+	TransitionState GetState();
 private:
 	TransitionState state;
 	float transitionTime;
