@@ -22,7 +22,9 @@ enum PlayerState
 	//CROUCH
 	CROUCHING,
 	IDLE_CROUCH,
-	CROUCH_WALK
+	CROUCH_WALK,
+
+	CONTACT_VINE
 };
 
 
@@ -41,6 +43,7 @@ private:
 
 private:
 
+	void LogState();
 	void ManageGroundedState();
 	void ManageCrouchStandState();
 

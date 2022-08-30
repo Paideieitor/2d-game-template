@@ -2,6 +2,7 @@
 #define PHYSICSCOMPONENT_H
 
 #include "Point.h"
+#include "Color.h"
 #include <vector>
 
 class b2Body;
@@ -10,6 +11,7 @@ class Texture;
 class b2PolygonShape;
 enum  b2BodyType;
 struct b2Vec2;
+struct Color;
 
 enum ColliderType
 {
@@ -53,12 +55,12 @@ public:
 
 	virtual void DebugDraw();
 
-	bool inAir;
+	bool inVine;
 
 	std::vector<PhysicsComponent*> contacts;
 
 protected:	
-
+	Color color = { 0,255,255,255 };
 	const char* tag;
 	b2Body* body;
 	b2Fixture* fixture;

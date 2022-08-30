@@ -20,6 +20,14 @@ void ContactListener::BeginContact(b2Contact* contact)
     {
         PhysObjB->contacts.push_back(PhysObjA);
     }
+
+    if (!std::strcmp(PhysObjB->GetTag(), "player"))
+    {
+        if (!std::strcmp(PhysObjA->GetTag(), "vine")) 
+        {
+            PhysObjB->inVine = true;
+        }
+    }
 }
 
 void ContactListener::EndContact(b2Contact* contact)
@@ -40,6 +48,14 @@ void ContactListener::EndContact(b2Contact* contact)
             {
                 PhysObjB->contacts.erase(PhysObjB->contacts.begin() + i);
             }
+        }
+    }
+
+    if (!std::strcmp(PhysObjB->GetTag(), "player"))
+    {
+        if (!std::strcmp(PhysObjA->GetTag(), "vine"))
+        {
+            PhysObjB->inVine = false;
         }
     }
 }

@@ -136,6 +136,9 @@
     <ClCompile Include="StudioScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Vine.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -278,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="StudioScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Vine.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

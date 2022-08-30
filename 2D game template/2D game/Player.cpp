@@ -22,7 +22,7 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 
 
 	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
-	footSensor = new BoxCollider(position, { 20,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	footSensor = new BoxCollider(position, { 18,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
 
 	joint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,20}, 0.0f, 5.0f, 0.0f,false);
 
@@ -115,9 +115,6 @@ bool Player::Update(float dt)
 	}
 
 
-	if (footSensor->inAir && bodyCollider->GetLinearVelocity().y < 0)
-		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, bodyCollider->GetLinearVelocity().y);
-
 	if(bodyCollider->GetLinearVelocity().y < -maxYvelocity)
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, -maxYvelocity);
 
@@ -139,8 +136,25 @@ bool Player::Update(float dt)
 
 	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, false, 255, true);
 
+	if (bodyCollider->inVine)
+		playerState = PlayerState::CONTACT_VINE;
 	
-	switch (playerState) 
+	LogState();
+
+    return true;
+}
+
+void Player::PositionChanged()
+{
+}
+
+void Player::RotationChanged()
+{
+}
+
+void Player::LogState()
+{
+	switch (playerState)
 	{
 	case PlayerState::IDLE:
 		std::cout << "IDLE" << "\n";
@@ -169,20 +183,13 @@ bool Player::Update(float dt)
 	case PlayerState::IDLE_CROUCH:
 		std::cout << "IDLE_CROUCH" << "\n";
 		break;
+	case PlayerState::CONTACT_VINE:
+		std::cout << "CONTACT_VINE" << "\n";
+		break;
 	default:
 		std::cout << "error" << "\n";
 		break;
 	}
-
-    return true;
-}
-
-void Player::PositionChanged()
-{
-}
-
-void Player::RotationChanged()
-{
 }
 
 void Player::ManageGroundedState()

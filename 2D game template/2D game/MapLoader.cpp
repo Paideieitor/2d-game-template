@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include "BoxCollider.h"
 #include "CircleCollider.h"
+#include "EntityManager.h"
 #include "PolygonCollider.h"
 #include "AssetManager.h"
 #include "BOX2D/Box2D/Box2D.h"
@@ -33,6 +34,7 @@ void MapLoader::LoadMap(const char* mapName)
 			fpoint position = { child.attribute("x").as_float(),-(child.attribute("y").as_float())};
 			fpoint size = { child.attribute("width").as_float(),child.attribute("height").as_float() };
 			BodyType type = BodyType::DYNAMIC;
+			bool isSensor = false;
 			const char* tag = "none";
 
 			//CHECKING FOR PROPERTIES
@@ -48,6 +50,19 @@ void MapLoader::LoadMap(const char* mapName)
 						}
 					}
 
+					if (!std::strcmp(child.attribute("name").as_string(), "static"))
+					{
+						if (child.attribute("value").as_bool())
+						{
+							type = BodyType::STATIC;
+						}
+					}
+
+					if (!std::strcmp(child.attribute("name").as_string(), "sensor"))
+					{
+						isSensor = child.attribute("value").as_bool();
+					}
+
 					if (!std::strcmp(child.attribute("name").as_string(), "tag"))
 					{
 						tag = child.attribute("value").as_string();
@@ -57,7 +72,7 @@ void MapLoader::LoadMap(const char* mapName)
 			}
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.0f, 0.0f, false, false, tag));
+			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.0f, 0.0f, false, isSensor, tag));
 		}
 
 		//CIRCLE COLLIDER
