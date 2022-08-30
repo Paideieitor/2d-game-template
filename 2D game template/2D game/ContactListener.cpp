@@ -18,7 +18,15 @@ void ContactListener::BeginContact(b2Contact* contact)
 
     if (!std::strcmp(PhysObjB->GetTag(), "player_sensor"))
     {
-        PhysObjB->contacts.push_back(PhysObjA);
+            PhysObjB->contacts.push_back(PhysObjA);
+    }
+    
+    if(!std::strcmp(PhysObjB->GetTag(), "grab_sensor"))
+    {
+        if (!std::strcmp(PhysObjA->GetTag(), "block"))
+        {
+            PhysObjB->contacts.push_back(PhysObjA);
+        }
     }
 
     if (!std::strcmp(PhysObjB->GetTag(), "player"))
@@ -45,6 +53,17 @@ void ContactListener::EndContact(b2Contact* contact)
         for (int i = 0; i < PhysObjB->contacts.size(); i++) 
         {
             if (PhysObjB->contacts[i] == PhysObjA) 
+            {
+                PhysObjB->contacts.erase(PhysObjB->contacts.begin() + i);
+            }
+        }
+    }
+
+    if (!std::strcmp(PhysObjB->GetTag(), "grab_sensor"))
+    {
+        for (int i = 0; i < PhysObjB->contacts.size(); i++)
+        {
+            if (PhysObjB->contacts[i] == PhysObjA)
             {
                 PhysObjB->contacts.erase(PhysObjB->contacts.begin() + i);
             }

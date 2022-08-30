@@ -98,13 +98,6 @@ Rock* EntityManager::AddRock(const std::string& name, const fpoint& position, co
 	return nullptr;
 }
 
-Vine* EntityManager::AddVine(const std::string& name, const fpoint& position, const ipoint& size)
-{
-    Vine* output = new Vine(name, position, size);
-    addentities.push_back(output);
-
-    return nullptr;
-}
 
 void EntityManager::EraseEntity(Entity* entity)
 {

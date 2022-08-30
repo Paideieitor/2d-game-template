@@ -72,7 +72,7 @@ void MapLoader::LoadMap(const char* mapName)
 			}
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 1.0f, 0.0f, 0.0f, false, isSensor, tag));
+			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 3.0f, 0.0f, 0.0f, false, isSensor, tag));
 		}
 
 		//CIRCLE COLLIDER
@@ -205,7 +205,7 @@ void MapLoader::LoadMap(const char* mapName)
 			/////////////////////////
 
 
-			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,1.0f,0.0f,false, tag));
+			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,0.05f,0.0f,false, tag));
 
 			}
 		}

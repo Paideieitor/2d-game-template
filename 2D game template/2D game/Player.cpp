@@ -23,27 +23,33 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 
 	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
 	footSensor = new BoxCollider(position, { 18,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	grabSensor = new BoxCollider(position, { 30, 20 }, rotation, BodyType::DYNAMIC, 0.0f,0.0f, 0.0f,true,true, "grab_sensor");
 
-	joint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,20}, 0.0f, 5.0f, 0.0f,false);
+	footJoint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,20}, 0.0f, 5.0f, 0.0f,false);
+	grabJoint = new WeldJoint(bodyCollider->GetBody(), grabSensor->GetBody(), { 0,0 }, { 0,0 }, 0.0f, 5.0f, 0.0f, false);
 
-	game->physics->AddJoint(joint);
+	game->physics->AddJoint(footJoint);
 	game->physics->AddPhysicsObject(bodyCollider);
 	game->physics->AddPhysicsObject(footSensor);
+	game->physics->AddPhysicsObject(grabSensor);
+	game->physics->AddJoint(grabJoint);
 }
 
 Player::~Player()
 {	
-	game->physics->DestroyJoint(joint);
+	game->physics->DestroyJoint(footJoint);
 	game->physics->DestroyPhysicsObject(bodyCollider);
 	game->physics->DestroyPhysicsObject(footSensor);
 }
 
 bool Player::Update(float dt)
 {
+	//CHECK GOUNDED STATE
 	ManageGroundedState();
-
+	ManagerGrabingBlock();
 	bool playerMoved = false;
 
+	//JUMPING
 	if (grounded && (game->input->CheckState(Key::W) == Input::State::DOWN || game->input->CheckState(Key::SPACE) == Input::State::DOWN))
 	{
 		if (playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::CROUCH_WALK) 
@@ -57,7 +63,7 @@ bool Player::Update(float dt)
 		playerMoved = true;
 	}
 
-	
+	//MOVEMENT
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT) 
 	{
 		currentVelocity -= dt * acceleration;
@@ -71,7 +77,6 @@ bool Player::Update(float dt)
 
 		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		playerMoved = true;
-		Xinput = true;
 	}
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
@@ -86,9 +91,10 @@ bool Player::Update(float dt)
 			playerState = PlayerState::CROUCH_WALK;
 		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		playerMoved = true;
-		Xinput = true;
 	}
 
+
+	//CROUCH
 	if (game->input->CheckState(Key::C) == Input::State::DOWN)
 	{
 		if (playerState != PlayerState::IDLE_CROUCH && playerState != PlayerState::CROUCH_WALK)
@@ -105,7 +111,7 @@ bool Player::Update(float dt)
 		ManageCrouchStandState();
 	}
 
-
+	//SET STATE TO IDLE IF NO MOVEMENT DETECTED
 	if (!playerMoved && playerState != PlayerState::CROUCHING) 
 	{
 		if(!crouching)
@@ -114,7 +120,14 @@ bool Player::Update(float dt)
 			playerState = PlayerState::IDLE_CROUCH;
 	}
 
+	//VINE MOVEMENT
+	if (bodyCollider->inVine)
+	{
+		ManageVineMovement();
+	}
+		
 
+	//VELOCITY CHECKERS
 	if(bodyCollider->GetLinearVelocity().y < -maxYvelocity)
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, -maxYvelocity);
 
@@ -127,6 +140,8 @@ bool Player::Update(float dt)
 	if(playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH)
 		bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
 
+
+	//RENDERING
 	position = bodyCollider->GetPosition();
 	rotation = bodyCollider->GetRotation();
 
@@ -136,10 +151,9 @@ bool Player::Update(float dt)
 
 	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, false, 255, true);
 
-	if (bodyCollider->inVine)
-		playerState = PlayerState::CONTACT_VINE;
-	
-	LogState();
+	//LogState();
+
+	//std::cout << grabSensor->contacts.size() << "\n";
 
     return true;
 }
@@ -213,6 +227,51 @@ void Player::ManageCrouchStandState()
 	else if (playerState == PlayerState::IDLE) 
 	{
 		bodyCollider->ChangeFixture({ 20,33 }, 0.5f, 1, 0, false);
+	}
+}
+
+void Player::ManageVineMovement()
+{
+	playerState = PlayerState::CONTACT_VINE;
+	bodyCollider->SetLinearVelocity(0, 0);
+
+	if (game->input->CheckState(Key::A) == Input::State::REPEAT)
+	{
+		bodyCollider->SetLinearVelocity(-vineVelocity, bodyCollider->GetLinearVelocity().y);
+	}
+
+	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
+	{
+		bodyCollider->SetLinearVelocity(vineVelocity, bodyCollider->GetLinearVelocity().y);
+	}
+
+	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
+	{
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, vineVelocity);
+	}
+
+	if (game->input->CheckState(Key::S) == Input::State::REPEAT)
+	{
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, -vineVelocity);
+	}
+}
+
+void Player::ManagerGrabingBlock()
+{
+	if(objectGrabbed && game->input->CheckState(Key::E) == Input::State::DOWN)
+	{
+		objectGrabbed = false;
+		game->physics->DestroyJoint(grabberJoint);
+	}
+
+	if(grabSensor->contacts.size() && game->input->CheckState(Key::E) == Input::State::DOWN)
+	{
+		ipoint boxPos = grabSensor->contacts[0]->GetPosition();
+		ipoint playerPos = bodyCollider->GetPosition();
+		ipoint jointPos = boxPos - playerPos;
+		grabberJoint = new WeldJoint(grabSensor->contacts[0]->GetBody(), grabSensor->GetBody(), jointPos, { 0,0 }, 0.0f, 5.0f, 0.0f, false);
+		game->physics->AddJoint(grabberJoint);
+		objectGrabbed = true;
 	}
 }
 

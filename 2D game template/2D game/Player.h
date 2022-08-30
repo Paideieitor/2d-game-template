@@ -46,12 +46,15 @@ private:
 	void LogState();
 	void ManageGroundedState();
 	void ManageCrouchStandState();
+	void ManageVineMovement();
+	void ManagerGrabingBlock();
 
 	float lerp(float a, float b, float f);
 
 	PlayerState playerState = PlayerState::IDLE;
 
 	float velocity = 150;
+	float vineVelocity = 100;
 	float jumpForce = 490;
 	float currentVelocity = 0.0f;
 	float maxYvelocity = 700;
@@ -62,8 +65,8 @@ private:
 	float deceleration = 500;
 
 	bool jumping = false;
-	bool Xinput = false;
 	bool crouching = false;
+	bool objectGrabbed = false;
 
 	TexturePtr texture;
 
@@ -72,10 +75,12 @@ private:
 	Animation idleTest;
 
 	BoxCollider* bodyCollider;
-
+	BoxCollider* grabSensor;
 	PhysicsComponent* footSensor;
 
-	Joint* joint;
+	Joint* footJoint;
+	Joint* grabJoint;
+	Joint* grabberJoint;
 
 	bool grounded = false;
 	friend class EntityManager;

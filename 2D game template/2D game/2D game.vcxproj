@@ -188,7 +188,6 @@
     <ClCompile Include="TransitionManager.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="Vine.cpp" />
     <ClCompile Include="WeldJoint.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -238,7 +237,6 @@
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="Vine.h" />
     <ClInclude Include="WeldJoint.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Rock.h"
-#include "Vine.h"
 
 class EntityManager : public Module
 {
@@ -24,7 +23,6 @@ public:
 	Player* AddPlayer(const std::string& name, const fpoint& position, float rotation);
 	Camera* AddCamara(const fpoint& position);
 	Rock* AddRock(const std::string& name, const fpoint& position, const ipoint& size, float rotation);
-	Vine* AddVine(const std::string& name, const fpoint& position, const ipoint& size);
 	void EraseEntity(Entity*);
 
 private:

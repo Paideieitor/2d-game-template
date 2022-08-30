@@ -53,8 +53,6 @@ bool MainMenu::Start()
 
 	game->entities->AddRock("Rock", { 100,10 }, { 64,64 }, 0.0f);
 
-	game->entities->AddVine("Vine", { 100,-800 }, { 64,64 });
-
 	camera = game->entities->AddCamara(fpoint(400, -500));
 	camera->Follow(player, 0.1f, 10.0f, true);
 	

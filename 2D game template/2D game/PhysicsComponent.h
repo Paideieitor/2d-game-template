@@ -60,7 +60,7 @@ public:
 	std::vector<PhysicsComponent*> contacts;
 
 protected:	
-	Color color = { 0,255,255,255 };
+	Color color = { 255,0,255,255 };
 	const char* tag;
 	b2Body* body;
 	b2Fixture* fixture;
