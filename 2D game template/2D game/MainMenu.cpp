@@ -51,7 +51,7 @@ bool MainMenu::Start()
 
 	player = game->entities->AddPlayer("Ron", { 400,-500 }, 0);
 
-	game->entities->AddRock("Rock", { 100,10 }, { 64,64 }, 0.0f);
+	//game->entities->AddRock("Rock", { 100,10 }, { 64,64 }, 0.0f);
 
 	camera = game->entities->AddCamara(fpoint(400, -500));
 	camera->Follow(player, 0.1f, 10.0f, true);

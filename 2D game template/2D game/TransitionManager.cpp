@@ -30,14 +30,18 @@ bool TransitionManager::Update(float dt)
 	{
 		if (fadeIn) 
 		{
-		transitionTime -= dt;
-		unsigned int transparency = transitionTime / duration * 255;
-		Color a = { 0,0,0,transparency };
+		transitionTime -= dt;		
 		if (transitionTime <= 0.0f) 
 		{
 			state = TransitionState::TRANSITION_END_FADE_IN;
-		}
+		}else
+		{
+				unsigned int transparency = transitionTime / duration * 255;
+		Color a = { 0,0,0,transparency };
+
 		game->render->RenderRectangle(true, 100, game->render->GetCameraPosition(), { 1920, 1080 }, a);
+		}
+
 		}
 		else 
 		{

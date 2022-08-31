@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="3" nextobjectid="143">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="3" nextobjectid="144">
  <tileset firstgid="1" source="MAPA_MUNDO_DEL_BOSQUE_PARTE_1_-_pixel_perfect.tsx"/>
  <layer id="1" name="Capa de patrones 1" width="5" height="1">
   <data encoding="csv">
@@ -7,12 +7,6 @@
 </data>
  </layer>
  <objectgroup id="2" name="Capa de Objetos 1">
-  <object id="5" x="727" y="1272">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-   <polygon points="0,0 0,-161 264,-115 269,-6"/>
-  </object>
   <object id="6" x="989" y="1161">
    <properties>
     <property name="static" type="bool" value="true"/>
@@ -458,14 +452,7 @@
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="130" x="876" y="840" width="21" height="181">
-   <properties>
-    <property name="sensor" type="bool" value="true"/>
-    <property name="static" type="bool" value="true"/>
-    <property name="tag" value="vine"/>
-   </properties>
-  </object>
-  <object id="131" x="5203.5" y="537.5" width="10" height="231">
+  <object id="131" x="5203.5" y="433.5" width="10" height="335">
    <properties>
     <property name="sensor" type="bool" value="true"/>
     <property name="static" type="bool" value="true"/>
@@ -511,6 +498,12 @@
    <properties>
     <property name="tag" value="block"/>
    </properties>
+  </object>
+  <object id="143" x="729" y="1111.33">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 268,49 267,100.333 -13,52.6667"/>
   </object>
  </objectgroup>
 </map>
