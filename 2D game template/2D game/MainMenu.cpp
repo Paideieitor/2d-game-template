@@ -33,7 +33,6 @@ bool MainMenu::Start()
 
 	game->maploader->LoadMap("tiled/forest.tmx");
 
-	test = game->textures->Load("images/Chadkino.png");
 	backgroundImg = game->textures->Load("images/forest.png");
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
@@ -51,8 +50,6 @@ bool MainMenu::Start()
 
 	player = game->entities->AddPlayer("Ron", { 400,-500 }, 0);
 
-	//game->entities->AddRock("Rock", { 100,10 }, { 64,64 }, 0.0f);
-
 	camera = game->entities->AddCamara(fpoint(400, -500));
 	camera->Follow(player, 0.1f, 10.0f, true);
 	
@@ -61,7 +58,6 @@ bool MainMenu::Start()
 
 bool MainMenu::Update(float dt)
 {
-	game->render->RenderTexture(false, 5, test, { 50,100 }, 0, 0, test->GetSize(), false, 255, true);
 	game->render->RenderTexture(false, 5, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize(), false, 255, true);
 
 	game->physics->PhysicsDebugDraw();

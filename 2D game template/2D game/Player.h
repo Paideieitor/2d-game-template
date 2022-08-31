@@ -24,7 +24,10 @@ enum PlayerState
 	IDLE_CROUCH,
 	CROUCH_WALK,
 
-	CONTACT_VINE
+	CONTACT_VINE,
+
+	IDLE_GRABBING,
+	GRABBING_WALK,
 };
 
 
@@ -48,6 +51,8 @@ private:
 	void ManageCrouchStandState();
 	void ManageVineMovement();
 	void ManagerGrabingBlock();
+
+	void DetachGrabJoint();
 
 	float lerp(float a, float b, float f);
 

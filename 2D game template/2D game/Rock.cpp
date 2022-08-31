@@ -12,7 +12,7 @@ Rock::Rock(const std::string& name, const fpoint& position, const ipoint& size, 
 {
 	texture = game->textures->Load("images/rock2.png");
 
-	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 0.5f, 1, 0, false, false, "rock");
+	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 0.5f, 0.15, 0, false, false, "block");
 
 	game->physics->AddPhysicsObject(rockCollider);
 }
@@ -27,7 +27,7 @@ bool Rock::Update(float dt)
 	position = rockCollider->GetPosition();
 	rotation = rockCollider->GetRotation();
 
-	game->render->RenderTexture(false, 5, texture, { position.x - texture->GetSize().x * 0.5f , position.y - texture->GetSize().y * 0.5f }, 0, 0, texture->GetSize(), false, 255, true, 1.0f, -rotation);
+	game->render->RenderTexture(false, 5, texture, { position.x - texture->GetSize().x * 0.5f , position.y - texture->GetSize().y * 0.5f }, 0, 0, texture->GetSize(), false, 255, true, 1.0f, -rotation, { 24,24});
 
 	return true;
 }

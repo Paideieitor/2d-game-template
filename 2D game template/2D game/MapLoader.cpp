@@ -71,8 +71,16 @@ void MapLoader::LoadMap(const char* mapName)
 				}
 			}
 			/////////////////////////
-
-			game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 3.0f, 0.0f, 0.0f, false, isSensor, tag));
+			if(!std::strcmp(tag, "block"))
+			{
+				game->entities->AddRock("Rock",position,size,0.0f);
+			}
+			else
+			{
+				game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 3.0f, 0.15f, 0.0f, false, isSensor, tag));
+			}
+				
+				
 		}
 
 		//CIRCLE COLLIDER

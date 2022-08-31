@@ -57,8 +57,13 @@ bool Player::Update(float dt)
 			playerState = PlayerState::IDLE;
 			crouching = false;
 			ManageCrouchStandState();
-		}
+		}	
+
+		if (objectGrabbed) 
+			DetachGrabJoint();
+		
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x,jumpForce);
+
 		playerState = PlayerState::JUMPING;
 		playerMoved = true;
 	}
@@ -114,10 +119,15 @@ bool Player::Update(float dt)
 	//SET STATE TO IDLE IF NO MOVEMENT DETECTED
 	if (!playerMoved && playerState != PlayerState::CROUCHING) 
 	{
-		if(!crouching)
-			playerState = PlayerState::IDLE;
-		else
+		if(crouching)
 			playerState = PlayerState::IDLE_CROUCH;
+		else if(objectGrabbed)
+			playerState = PlayerState::IDLE_GRABBING;
+		else
+			playerState = PlayerState::IDLE;
+
+
+
 	}
 
 	//VINE MOVEMENT
@@ -153,7 +163,7 @@ bool Player::Update(float dt)
 
 	//LogState();
 
-	//std::cout << grabSensor->contacts.size() << "\n";
+	std::cout << grabSensor->contacts.size() << "\n";
 
     return true;
 }
@@ -200,6 +210,12 @@ void Player::LogState()
 	case PlayerState::CONTACT_VINE:
 		std::cout << "CONTACT_VINE" << "\n";
 		break;
+	case PlayerState::IDLE_GRABBING:
+		std::cout << "GRABBING" << "\n";
+		break;
+	case PlayerState::GRABBING_WALK:
+		std::cout << "GRABBING_WALK" << "\n";
+		break;
 	default:
 		std::cout << "error" << "\n";
 		break;
@@ -215,6 +231,7 @@ void Player::ManageGroundedState()
 	else
 	{
 		grounded = false;
+		DetachGrabJoint();
 	}
 }
 
@@ -260,8 +277,7 @@ void Player::ManagerGrabingBlock()
 {
 	if(objectGrabbed && game->input->CheckState(Key::E) == Input::State::DOWN)
 	{
-		objectGrabbed = false;
-		game->physics->DestroyJoint(grabberJoint);
+		DetachGrabJoint();
 	}
 
 	if(grabSensor->contacts.size() && game->input->CheckState(Key::E) == Input::State::DOWN)
@@ -273,6 +289,12 @@ void Player::ManagerGrabingBlock()
 		game->physics->AddJoint(grabberJoint);
 		objectGrabbed = true;
 	}
+}
+
+void Player::DetachGrabJoint()
+{
+	objectGrabbed = false;
+	game->physics->DestroyJoint(grabberJoint);
 }
 
 float Player::lerp(float a, float b, float f)
