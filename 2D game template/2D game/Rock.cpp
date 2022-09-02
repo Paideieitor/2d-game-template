@@ -12,7 +12,7 @@ Rock::Rock(const std::string& name, const fpoint& position, const ipoint& size, 
 {
 	texture = game->textures->Load("images/rock2.png");
 
-	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 0.5f, 0.15, 0, false, false, "block");
+	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 0.5f, 0.65, 0, false, false, "block");
 
 	game->physics->AddPhysicsObject(rockCollider);
 }

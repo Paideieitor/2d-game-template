@@ -38,6 +38,8 @@ private:
 
 	Player* player;
 	Camera* camera;
+
+	float time;
 };
 
 #endif

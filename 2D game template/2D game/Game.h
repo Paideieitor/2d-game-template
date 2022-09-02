@@ -81,7 +81,7 @@ public:
 
 	const int GetFPSCap() { return frameCap; }
 	void SetFPSCap(int fpsCap);
-
+	bool showCollier = false;
 private:
 
 	void AddModule(Module* module, bool active = true);
@@ -91,6 +91,7 @@ private:
 	int timeToDelay;
 	int frameCap = 60;
 	float dt = 0;
+
 	Timer time;
 };
 

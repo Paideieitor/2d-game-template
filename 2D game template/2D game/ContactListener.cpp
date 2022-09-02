@@ -29,6 +29,14 @@ void ContactListener::BeginContact(b2Contact* contact)
         }
     }
 
+    if (!std::strcmp(PhysObjB->GetTag(), "grab_sensor"))
+    {
+        if (!std::strcmp(PhysObjA->GetTag(), "end"))
+        {
+            PhysObjB->inVine = true;
+        }
+    }
+
     if (!std::strcmp(PhysObjB->GetTag(), "player"))
     {
         if (!std::strcmp(PhysObjA->GetTag(), "vine")) 

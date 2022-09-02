@@ -25,6 +25,10 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 	fullscreen->SetPosition(game->Center(fullscreen->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,200 }, true, false));
 	fullscreen->Lock(game->window->IsFullscreen());
 
+	showCollider = game->ui->AddButton("Colliders", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK, false, this);
+	showCollider->SetPosition(1620,10);
+	showCollider->Lock(false);
+
 	borderless = game->ui->AddButton("Borderless", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
 	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,350 }, true, false));
 
@@ -57,6 +61,7 @@ OptionsMenu::~OptionsMenu()
 	game->ui->EraseElement(music);
 	game->ui->EraseElement(sfx);
 	game->ui->EraseElement(tomenu);
+	game->ui->EraseElement(showCollider);
 
 	game->ui->EnableAll(disablelist);
 }
@@ -92,4 +97,6 @@ void OptionsMenu::UIEvent(UIElement* element)
 		game->audio->SetSfxVolume((int)sfx->GetValue());
 	else if (element == tomenu)
 		delete this;
+	else if (element == showCollider)
+		game->showCollier = !game->showCollier;
 }

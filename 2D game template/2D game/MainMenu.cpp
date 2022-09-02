@@ -37,17 +37,17 @@ bool MainMenu::Start()
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 
-	play = game->ui->AddButton("Play", buttonfont, Color::black, { 0.0f, 0.0f });
-	play->SetPosition(game->Center(play->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
+	//play = game->ui->AddButton("Play", buttonfont, Color::black, { 0.0f, 0.0f });
+	//play->SetPosition(game->Center(play->GetSize(), { 800,0 }, game->render->GetResolution(true), { 0,100 }, true, false));
 
 	tooptions = game->ui->AddButton("Options", buttonfont, Color::black, { 0.0f, 0.0f });
-	tooptions->SetPosition(game->Center(tooptions->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,250 }, true, false));
+	tooptions->SetPosition(game->Center(tooptions->GetSize(), { 800,0 }, game->render->GetResolution(true), { 0,250 }, true, false));
 
 	exit = game->ui->AddButton("Exit", buttonfont, Color::black, {0.0f, 0.0f});
-	exit->SetPosition(game->Center(exit->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,400 }, true, false));
+	exit->SetPosition(game->Center(exit->GetSize(), { 800,0 }, game->render->GetResolution(true), { 0,400 }, true, false));
 
 	box = game->ui->AddInputBox(buttonfont, Color::black, fpoint(20.0f, 20.0f));
-
+	
 	player = game->entities->AddPlayer("Ron", { 400,-500 }, 0);
 
 	camera = game->entities->AddCamara(fpoint(400, -500));
@@ -60,10 +60,13 @@ bool MainMenu::Update(float dt)
 {
 	game->render->RenderTexture(false, 5, backgroundImg, { 0,0 }, 0, 0, backgroundImg->GetSize(), false, 255, true);
 
-	game->physics->PhysicsDebugDraw();
+	if(game->showCollier)
+		game->physics->PhysicsDebugDraw();
 
-	//if (game->input->CheckState(Key::MOUSE_LEFT) == Input::State::DOWN && !game->ui->IsHovering())
-		//camera->Move(game->input->GetMousePos(true), 1.0f, 1.0f, false);
+	if(!player->end)
+		time += dt;
+
+	box->SetContent(std::to_string(time));
 
 	return true;
 } 

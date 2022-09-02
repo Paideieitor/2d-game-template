@@ -33,7 +33,7 @@ enum PlayerState
 
 class Player : public Entity
 {
-private:
+public:
 
 	Player() = delete;
 	Player(const std::string& name, const fpoint& position, float rotation);
@@ -43,7 +43,7 @@ private:
 
 	void PositionChanged() override;
 	void RotationChanged() override;
-
+	bool end = false;
 private:
 
 	void LogState();
@@ -73,6 +73,8 @@ private:
 	bool crouching = false;
 	bool objectGrabbed = false;
 
+
+
 	TexturePtr texture;
 
 	Animation current;
@@ -88,6 +90,7 @@ private:
 	Joint* grabberJoint;
 
 	bool grounded = false;
+	bool left = false;
 	friend class EntityManager;
 };
 

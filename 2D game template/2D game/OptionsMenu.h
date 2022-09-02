@@ -26,6 +26,7 @@ private:
 
 	Scrollbar* fpscap = nullptr;
 	Button* fullscreen = nullptr;
+	Button* showCollider = nullptr;
 	Button* borderless = nullptr;
 	ButtonArray* resolution = nullptr;
 	Scrollbar* music = nullptr;

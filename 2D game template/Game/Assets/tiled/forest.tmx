@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="3" nextobjectid="147">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="3" nextobjectid="199">
  <tileset firstgid="1" source="MAPA_MUNDO_DEL_BOSQUE_PARTE_1_-_pixel_perfect.tsx"/>
  <layer id="1" name="Capa de patrones 1" width="5" height="1">
   <data encoding="csv">
@@ -139,13 +139,13 @@
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
-   <polygon points="0,0 49,-5 49,9 -16,18"/>
+   <polygon points="0,0 53,-8.45455 49,9 -16,18"/>
   </object>
   <object id="42" x="3786" y="1139">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
-   <polygon points="0,0 86,-31 86,-2 -10,17"/>
+   <polygon points="3.81818,-4.36364 86,-31 86,-2 -10,17"/>
   </object>
   <object id="43" x="3870" y="1116">
    <properties>
@@ -193,7 +193,7 @@
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
-   <polygon points="0,0 115,-50 111,81 -15,108"/>
+   <polygon points="4.25,-2.5 114.75,-47.5 111,81 -15,108"/>
   </object>
   <object id="53" x="252" y="1054">
    <properties>
@@ -240,14 +240,14 @@
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
-   <polygon points="0,0 593,112 594,262 1,119"/>
+   <polygon points="3,0.0625 593,112 595,245 5,73"/>
   </object>
   <object id="82" x="6122" y="942" width="142" height="17">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="83" x="6259" y="796" width="147" height="167">
+  <object id="83" x="6257.67" y="799.667" width="147" height="167">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
@@ -501,6 +501,237 @@
    <polygon points="0,0 268,49 267,100.333 -13,52.6667"/>
   </object>
   <object id="145" x="-21" y="912" width="20" height="335">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="147" x="10304" y="519.5" width="13" height="177">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="vine"/>
+   </properties>
+  </object>
+  <object id="148" x="11452.2" y="284.833" width="13" height="319.667">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="vine"/>
+   </properties>
+  </object>
+  <object id="149" x="11220" y="433.333" width="157.333" height="132">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="150" x="11380.7" y="348.667" width="22.6667" height="169.333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="151" x="11520" y="423.333" width="22.6667" height="234.667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="152" x="11510.7" y="385.333" width="32" height="37.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="153" x="11498.7" y="366.667" width="100.667" height="18.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="156" x="11595.3" y="353.333" width="414" height="20.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="157" x="11692" y="373.333" width="300.667" height="15.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="158" x="12011.3" y="370.667" width="70.6667" height="7.33333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="159" x="12035.3" y="408.667" width="84.6667" height="7.33333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="160" x="11983.3" y="459.333" width="104.667" height="7.33333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="161" x="12334.7" y="270" width="119.333" height="25.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="162" x="12450.7" y="250" width="112.667" height="24">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="163" x="12562" y="221.333" width="128.667" height="30">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="164" x="12690.7" y="250.667" width="196.667" height="22.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="165" x="12362.7" y="294.667" width="34.6667" height="18.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="166" x="12390.7" y="312.667" width="397.333" height="7.33333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="167" x="12783.3" y="320.667" width="62.6667" height="136.667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="168" x="12845.3" y="337.333" width="28" height="55.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="169" x="12864.7" y="274" width="18" height="65.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="170" x="12881.3" y="417.333" width="54.6667" height="11.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="171" x="12929.3" y="462" width="38.6667" height="8.66667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="172" x="12968.7" y="277.333" width="32.6667" height="227.333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="174" x="12959.3" y="224" width="342" height="53.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="175" x="13355.3" y="220.667" width="49.3333" height="123.333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="176" x="13276" y="278" width="26.6667" height="70">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="177" x="13464.7" y="222" width="54" height="124">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="178" x="13584.7" y="240" width="63.3333" height="110">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="179" x="13722" y="412">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 946,762 926,780 -16,16"/>
+  </object>
+  <object id="180" x="14668" y="1172" width="420" height="28.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="181" x="15088.7" y="1150.67" width="47.3333" height="26">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="182" x="15132.7" y="1130" width="169.333" height="33.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="183" x="15301.3" y="1150" width="46.6667" height="22.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="184" x="15346" y="1166" width="103.333" height="29.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="185" x="11653.3" y="501.333" width="1322.67" height="30.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="186" x="11625.3" y="378.667" width="30.6667" height="120">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="187" x="11650.7" y="378.667" width="38.6667" height="21.3333">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="188" x="11642.7" y="398.667" width="28" height="14.6667">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="189" x="12265.2" y="138.651" width="13" height="234.334">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="vine"/>
+   </properties>
+  </object>
+  <object id="190" x="12917.5" y="169.5" width="13" height="234.334">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="vine"/>
+   </properties>
+  </object>
+  <object id="195" x="15176.8" y="1037.83" width="79" height="71">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+    <property name="static" type="bool" value="true"/>
+    <property name="tag" value="end"/>
+   </properties>
+  </object>
+  <object id="196" x="8364.5" y="769" width="48" height="48">
+   <properties>
+    <property name="tag" value="block"/>
+   </properties>
+  </object>
+  <object id="197" x="5354.33" y="694.917" width="72.25" height="7">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>

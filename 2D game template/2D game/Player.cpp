@@ -38,8 +38,11 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 Player::~Player()
 {	
 	game->physics->DestroyJoint(footJoint);
-	game->physics->DestroyPhysicsObject(bodyCollider);
+	game->physics->DestroyJoint(grabJoint);
+	game->physics->DestroyPhysicsObject(bodyCollider);	
 	game->physics->DestroyPhysicsObject(footSensor);
+	game->physics->DestroyPhysicsObject(grabSensor);
+
 }
 
 bool Player::Update(float dt)
@@ -82,6 +85,7 @@ bool Player::Update(float dt)
 
 		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		playerMoved = true;
+		left = true;
 	}
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
@@ -96,11 +100,12 @@ bool Player::Update(float dt)
 			playerState = PlayerState::CROUCH_WALK;
 		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		playerMoved = true;
+		left = false;
 	}
 
 
 	//CROUCH
-	if (game->input->CheckState(Key::C) == Input::State::DOWN)
+	if (game->input->CheckState(Key::C) == Input::State::DOWN || game->input->CheckState(Key::LCTRL) == Input::State::DOWN)
 	{
 		if (playerState != PlayerState::IDLE_CROUCH && playerState != PlayerState::CROUCH_WALK)
 		{
@@ -125,9 +130,6 @@ bool Player::Update(float dt)
 			playerState = PlayerState::IDLE_GRABBING;
 		else
 			playerState = PlayerState::IDLE;
-
-
-
 	}
 
 	//VINE MOVEMENT
@@ -159,11 +161,14 @@ bool Player::Update(float dt)
 	ipoint size = current->GetCurrentSize();
 	currentVelocity = bodyCollider->GetLinearVelocity().x;
 
-	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, false, 255, true);
+	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, left, 255, true);
 
-	//LogState();
+	LogState();
 
-	std::cout << grabSensor->contacts.size() << "\n";
+	if (grabSensor->inVine)
+		end = true;
+
+	//std::cout << grabSensor->contacts.size() << "\n";
 
     return true;
 }
