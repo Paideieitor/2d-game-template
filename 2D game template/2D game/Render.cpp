@@ -7,6 +7,7 @@
 
 #include "SDL/include/SDL_render.h"
 
+
 Render::Render()
 {
 	name = "render";
