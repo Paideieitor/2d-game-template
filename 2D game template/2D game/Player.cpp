@@ -21,11 +21,11 @@ Player::Player(const std::string& name, const fpoint& position, float rotation)
 	current = idleTest;
 
 
-	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, 0.5f, 1, 0, true, false, "player");
-	footSensor = new BoxCollider(position, { 18,10 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, 0.5f, 0, 0, true, false, "player");
+	footSensor = new BoxCollider(position, { 18,2 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
 	grabSensor = new BoxCollider(position, { 30, 20 }, rotation, BodyType::DYNAMIC, 0.0f,0.0f, 0.0f,true,true, "grab_sensor");
 
-	footJoint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,20}, 0.0f, 5.0f, 0.0f,false);
+	footJoint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,17}, 0.0f, 5.0f, 0.0f,false);
 	grabJoint = new WeldJoint(bodyCollider->GetBody(), grabSensor->GetBody(), { 0,0 }, { 0,0 }, 0.0f, 5.0f, 0.0f, false);
 
 	game->physics->AddJoint(footJoint);
@@ -79,11 +79,17 @@ bool Player::Update(float dt)
 			currentVelocity = -velocity;
 
 		if(!crouching)
+		{
 			playerState = PlayerState::WALKING;
-		else
+			bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
+		}
+		else 
+		{	
 			playerState = PlayerState::CROUCH_WALK;
+			bodyCollider->SetLinearVelocity(currentVelocity/crouchVel, bodyCollider->GetLinearVelocity().y);
+		}
+		
 
-		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		playerMoved = true;
 		left = true;
 	}
@@ -94,18 +100,24 @@ bool Player::Update(float dt)
 		if (currentVelocity > velocity)
 			currentVelocity = velocity;
 
-		if (!crouching)
+		if (!crouching) 
+		{
 			playerState = PlayerState::WALKING;
-		else
+			bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
+		}
+		else 
+		{
 			playerState = PlayerState::CROUCH_WALK;
-		bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
+			bodyCollider->SetLinearVelocity(currentVelocity/crouchVel, bodyCollider->GetLinearVelocity().y);
+		}
+
 		playerMoved = true;
 		left = false;
 	}
 
 
 	//CROUCH
-	if (game->input->CheckState(Key::C) == Input::State::DOWN || game->input->CheckState(Key::LCTRL) == Input::State::DOWN)
+	if ((game->input->CheckState(Key::C) == Input::State::DOWN || game->input->CheckState(Key::LCTRL) == Input::State::DOWN) && grounded)
 	{
 		if (playerState != PlayerState::IDLE_CROUCH && playerState != PlayerState::CROUCH_WALK)
 		{
@@ -124,7 +136,17 @@ bool Player::Update(float dt)
 	//SET STATE TO IDLE IF NO MOVEMENT DETECTED
 	if (!playerMoved && playerState != PlayerState::CROUCHING) 
 	{
-		if(crouching)
+		if (!grounded)
+		{
+			float yVelocity = bodyCollider->GetLinearVelocity().y;
+			if (yVelocity > 100)
+				playerState = PlayerState::JUMPING;
+			else if (yVelocity < 100 && yVelocity > 0)
+				playerState = PlayerState::TOP_REACHING;
+			else
+				playerState = PlayerState::FALLING;
+		}
+		else if(crouching)
 			playerState = PlayerState::IDLE_CROUCH;
 		else if(objectGrabbed)
 			playerState = PlayerState::IDLE_GRABBING;
@@ -149,9 +171,8 @@ bool Player::Update(float dt)
 	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
 		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
 
-	if(playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH)
-		bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
-
+	if(playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING)
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x/deceleration, bodyCollider->GetLinearVelocity().y);
 
 	//RENDERING
 	position = bodyCollider->GetPosition();
@@ -221,6 +242,15 @@ void Player::LogState()
 	case PlayerState::GRABBING_WALK:
 		std::cout << "GRABBING_WALK" << "\n";
 		break;
+	case PlayerState::FALLING:
+		std::cout << "FALLING" << "\n";
+		break;
+	case PlayerState::TOP_REACHING:
+		std::cout << "TOP_REACHING" << "\n";
+		break; 
+	case PlayerState::VINE_MOVEMENT:
+		std::cout << "VINE_MOVEMENT" << "\n";
+		break;
 	default:
 		std::cout << "error" << "\n";
 		break;
@@ -260,21 +290,25 @@ void Player::ManageVineMovement()
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT)
 	{
 		bodyCollider->SetLinearVelocity(-vineVelocity, bodyCollider->GetLinearVelocity().y);
+		playerState = PlayerState::VINE_MOVEMENT;
 	}
 
 	if (game->input->CheckState(Key::D) == Input::State::REPEAT)
 	{
 		bodyCollider->SetLinearVelocity(vineVelocity, bodyCollider->GetLinearVelocity().y);
+		playerState = PlayerState::VINE_MOVEMENT;
 	}
 
 	if (game->input->CheckState(Key::W) == Input::State::REPEAT)
 	{
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, vineVelocity);
+		playerState = PlayerState::VINE_MOVEMENT;
 	}
 
 	if (game->input->CheckState(Key::S) == Input::State::REPEAT)
 	{
 		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, -vineVelocity);
+		playerState = PlayerState::VINE_MOVEMENT;
 	}
 }
 

@@ -27,7 +27,7 @@ OptionsMenu::OptionsMenu() : Scene("Options Menu")
 
 	showCollider = game->ui->AddButton("Colliders", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::LOCKONCLICK, false, this);
 	showCollider->SetPosition(1620,10);
-	showCollider->Lock(false);
+	showCollider->Lock(true);
 
 	borderless = game->ui->AddButton("Borderless", buttonfont, Color::black, { 0.0f, 0.0f }, UIGraphics(), Button::Type::SINGLECLICK, false, this);
 	borderless->SetPosition(game->Center(borderless->GetSize(), { 0,0 }, game->render->GetResolution(true), { 0,350 }, true, false));

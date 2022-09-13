@@ -17,6 +17,7 @@ enum PlayerState
 	// AIR
 	JUMPING,
 	FALLING,
+	TOP_REACHING,
 	CONTACT,
 
 	//CROUCH
@@ -24,8 +25,11 @@ enum PlayerState
 	IDLE_CROUCH,
 	CROUCH_WALK,
 
+	//VINE
 	CONTACT_VINE,
+	VINE_MOVEMENT,
 
+	//GRAB
 	IDLE_GRABBING,
 	GRABBING_WALK,
 };
@@ -59,15 +63,16 @@ private:
 	PlayerState playerState = PlayerState::IDLE;
 
 	float velocity = 150;
+	float crouchVel = 1.2;
 	float vineVelocity = 100;
-	float jumpForce = 490;
+	float jumpForce = 340;
 	float currentVelocity = 0.0f;
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
 
 
 	float acceleration = 950;
-	float deceleration = 500;
+	float deceleration = 1.2;
 
 	bool jumping = false;
 	bool crouching = false;
