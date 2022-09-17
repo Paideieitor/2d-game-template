@@ -50,6 +50,7 @@ bool Player::Update(float dt)
 	//CHECK GOUNDED STATE
 	ManageGroundedState();
 	ManagerGrabingBlock();
+	ManageAirJumpThreshold(dt);
 	bool playerMoved = false;
 
 	//JUMPING
@@ -70,6 +71,10 @@ bool Player::Update(float dt)
 		playerState = PlayerState::JUMPING;
 		playerMoved = true;
 	}
+
+	//CHECK JUMP IN AIR
+	if (!grounded && (game->input->CheckState(Key::W) == Input::State::DOWN || game->input->CheckState(Key::SPACE) == Input::State::DOWN))
+		jumpThresholdCounter = jumpThreshold;
 
 	//MOVEMENT
 	if (game->input->CheckState(Key::A) == Input::State::REPEAT) 
@@ -171,8 +176,18 @@ bool Player::Update(float dt)
 	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
 		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
 
-	if(playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING)
-		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x/deceleration, bodyCollider->GetLinearVelocity().y);
+	if (playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING || playerState == PlayerState::IDLE_GRABBING)
+	{
+		if(bodyCollider->GetLinearVelocity().x > 0.0f)
+			bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x - deceleration *dt, bodyCollider->GetLinearVelocity().y);
+		else if (bodyCollider->GetLinearVelocity().x < 0.0f)
+			bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x + deceleration *dt, bodyCollider->GetLinearVelocity().y);
+		
+		if(bodyCollider->GetLinearVelocity().x < 40.0f && bodyCollider->GetLinearVelocity().x > -40.0f)
+			bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
+
+	}
+
 
 	//RENDERING
 	position = bodyCollider->GetPosition();
@@ -188,8 +203,6 @@ bool Player::Update(float dt)
 
 	if (grabSensor->inVine)
 		end = true;
-
-	//std::cout << grabSensor->contacts.size() << "\n";
 
     return true;
 }
@@ -280,6 +293,13 @@ void Player::ManageCrouchStandState()
 	{
 		bodyCollider->ChangeFixture({ 20,33 }, 0.5f, 1, 0, false);
 	}
+}
+
+void Player::ManageAirJumpThreshold(float dt)
+{
+	jumpThresholdCounter -= dt;
+	if(grounded && jumpThresholdCounter > 0.0f)
+		bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x, jumpForce);
 }
 
 void Player::ManageVineMovement()

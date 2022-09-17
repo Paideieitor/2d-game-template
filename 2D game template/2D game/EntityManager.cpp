@@ -90,9 +90,9 @@ Camera* EntityManager::AddCamara(const fpoint& position)
     return output;
 }
 
-Rock* EntityManager::AddRock(const std::string& name, const fpoint& position, const ipoint& size, float rotation)
+Rock* EntityManager::AddRock(const std::string& name, const fpoint& position, const ipoint& size, float rotation, float friction)
 {
-    Rock* output = new Rock(name, position, size, rotation);
+    Rock* output = new Rock(name, position, size, rotation, friction);
     addentities.push_back(output);
 
 	return nullptr;

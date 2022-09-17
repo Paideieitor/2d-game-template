@@ -8,11 +8,11 @@
 #include "BoxCollider.h"
 
 
-Rock::Rock(const std::string& name, const fpoint& position, const ipoint& size, float rotation) : Entity(Entity::Type::ENTITY, name, position, rotation)
+Rock::Rock(const std::string& name, const fpoint& position, const ipoint& size, float rotation, float friction) : Entity(Entity::Type::ENTITY, name, position, rotation)
 {
 	texture = game->textures->Load("images/rock2.png");
 
-	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 0.5f, 0.65, 0, false, false, "block");
+	rockCollider = new BoxCollider(position, size, rotation, BodyType::DYNAMIC, 3.5f, friction, 0, false, false, "block");
 
 	game->physics->AddPhysicsObject(rockCollider);
 }

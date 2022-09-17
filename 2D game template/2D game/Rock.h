@@ -10,7 +10,7 @@ class Rock : public Entity
 {
 public:
 
-	Rock(const std::string& name, const fpoint& position, const ipoint& size, float rotation);
+	Rock(const std::string& name, const fpoint& position, const ipoint& size, float rotation, float friction);
 	~Rock();
 
 	bool Update(float dt);

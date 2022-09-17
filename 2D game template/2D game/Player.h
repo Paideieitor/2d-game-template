@@ -53,6 +53,7 @@ private:
 	void LogState();
 	void ManageGroundedState();
 	void ManageCrouchStandState();
+	void ManageAirJumpThreshold(float dt);
 	void ManageVineMovement();
 	void ManagerGrabingBlock();
 
@@ -70,9 +71,12 @@ private:
 	float maxYvelocity = 700;
 	float maxXvelocity = 280;
 
+	//Air jump threshhold
+	float jumpThreshold = 0.45f;
+	float jumpThresholdCounter = 0.0f;
 
 	float acceleration = 950;
-	float deceleration = 1.2;
+	float deceleration = 700;
 
 	bool jumping = false;
 	bool crouching = false;

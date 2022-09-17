@@ -19,13 +19,13 @@ MapLoader::~MapLoader()
 
 void MapLoader::LoadMap(const char* mapName)
 {
-	pugi::xml_parse_result result = game->assets->LoadXML(document, mapName);
+	pugi::xml_parse_result result = game->assets->LoadXML(map, mapName);
 
-	pugi::xml_node physicsObjects = document.first_child().child("objectgroup");
+	pugi::xml_node physicsObjects = map.first_child().child("objectgroup");
 
 	//std::cout << physicsObjects.attribute("name").as_string() << "\n";
 
-	for (const auto& child : document.first_child().child("objectgroup")) {
+	for (const auto& child : map.first_child().child("objectgroup")) {
 
 		//BOX COLLIDER
 		if (!child.child("polygon") && !child.child("ellipse")&& !child.child("point"))
@@ -73,11 +73,11 @@ void MapLoader::LoadMap(const char* mapName)
 			/////////////////////////
 			if(!std::strcmp(tag, "block"))
 			{
-				game->entities->AddRock("Rock",position,size,0.0f);
+				game->entities->AddRock("Rock",position,size,0.0f, boxesFrition);
 			}
 			else
 			{
-				game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 3.0f, 0.15f, 0.0f, false, isSensor, tag));
+				game->physics->AddPhysicsObject(new BoxCollider(position, size, 0.0f, type, 3.0f, objectFriction, 0.0f, false, isSensor, tag));
 			}
 				
 				
@@ -119,7 +119,7 @@ void MapLoader::LoadMap(const char* mapName)
 
 			/////////////////////////
 
-			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f, type,density,friction,restitution,isSensor,tag));
+			game->physics->AddPhysicsObject(new CircleCollider(position,radius,0.0f, type,density, objectFriction,restitution,isSensor,tag));
 		}
 
 		//POLYGON COLLIDER
@@ -213,7 +213,7 @@ void MapLoader::LoadMap(const char* mapName)
 			/////////////////////////
 
 
-			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f,0.05f,0.0f,false, tag));
+			game->physics->AddPhysicsObject( new PolygonCollider(position, polygonCounter,vertices,0.0f,type,1.0f, objectFriction,0.0f,false, tag));
 
 			}
 		}
