@@ -50,7 +50,7 @@ public:
 	bool end = false;
 private:
 
-	void LogState();
+	void SetAnimationStateAndLog();
 	void ManageGroundedState();
 	void ManageCrouchStandState();
 	void ManageAirJumpThreshold(float dt);
@@ -62,6 +62,9 @@ private:
 	float lerp(float a, float b, float f);
 
 	PlayerState playerState = PlayerState::IDLE;
+
+	float playerFriction = 0.1f;
+	float playerWeight = 1.5f;
 
 	float velocity = 150;
 	float crouchVel = 1.2;
@@ -78,7 +81,7 @@ private:
 	float acceleration = 950;
 	float deceleration = 700;
 
-	bool jumping = false;
+	bool jumpingAnimation = false;
 	bool crouching = false;
 	bool objectGrabbed = false;
 
@@ -88,7 +91,11 @@ private:
 
 	Animation current;
 	Animation idle;
-	Animation idleTest;
+	Animation walking;
+	Animation jumpingAn;
+	Animation falling;
+	Animation vineIdle;
+
 
 	BoxCollider* bodyCollider;
 	BoxCollider* grabSensor;

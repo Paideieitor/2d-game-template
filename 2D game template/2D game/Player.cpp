@@ -14,15 +14,18 @@
 Player::Player(const std::string& name, const fpoint& position, float rotation)
     : Entity(Entity::Type::PLAYER, name, position, rotation)
 {
-	texture = game->textures->Load("images/spritesheet.png");
+	texture = game->textures->Load("images/sam_atlas.png");
 
-	idle = MakeAnimation(true, 0.15f, 4u, ipoint(0, 0), ipoint(80, 100), 4u, 1u);
-	idleTest = MakeAnimation(true, 0.15f, 6u, ipoint(0, 0), ipoint(48, 49), 6u, 1u);
-	current = idleTest;
+	idle = MakeAnimation(true, 0.15f, 6u, ipoint(0, 0), ipoint(32, 35), 6u, 1u);
+	walking = MakeAnimation(true, 0.15f, 6u, ipoint(0, 35), ipoint(32, 35), 8u, 1u);
+	jumpingAn = MakeAnimation(true, 0.15f, 6u, ipoint(0, 70), ipoint(32, 35), 8u, 1u);
+	falling = MakeAnimation(true, 0.15f, 6u, ipoint(0, 105), ipoint(32, 35), 7u, 1u);
+	vineIdle = MakeAnimation(true, 0.15f, 6u, ipoint(192, 140), ipoint(32, 35), 1u, 1u);
+	current = idle;
 
 
-	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, 0.5f, 0, 0, true, false, "player");
-	footSensor = new BoxCollider(position, { 18,2 }, rotation, BodyType::DYNAMIC, 1.0f, 0.0f, 0.0f, true,true, "player_sensor");
+	bodyCollider = new BoxCollider(position, {20,33},rotation, BodyType::DYNAMIC, playerWeight, playerFriction, 0, true, false, "player");
+	footSensor = new BoxCollider(position, { 18,2 }, rotation, BodyType::DYNAMIC, 0.0f, 0.0f, 0.0f, true,true, "player_sensor");
 	grabSensor = new BoxCollider(position, { 30, 20 }, rotation, BodyType::DYNAMIC, 0.0f,0.0f, 0.0f,true,true, "grab_sensor");
 
 	footJoint = new WeldJoint(bodyCollider->GetBody(), footSensor->GetBody(), { 0,0 }, {0,17}, 0.0f, 5.0f, 0.0f,false);
@@ -85,7 +88,10 @@ bool Player::Update(float dt)
 
 		if(!crouching)
 		{
-			playerState = PlayerState::WALKING;
+			if(grounded)
+			{
+				playerState = PlayerState::WALKING;
+			}
 			bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		}
 		else 
@@ -107,7 +113,10 @@ bool Player::Update(float dt)
 
 		if (!crouching) 
 		{
-			playerState = PlayerState::WALKING;
+			if (grounded)
+			{
+				playerState = PlayerState::WALKING;
+			}
 			bodyCollider->SetLinearVelocity(currentVelocity, bodyCollider->GetLinearVelocity().y);
 		}
 		else 
@@ -141,22 +150,24 @@ bool Player::Update(float dt)
 	//SET STATE TO IDLE IF NO MOVEMENT DETECTED
 	if (!playerMoved && playerState != PlayerState::CROUCHING) 
 	{
-		if (!grounded)
-		{
-			float yVelocity = bodyCollider->GetLinearVelocity().y;
-			if (yVelocity > 100)
-				playerState = PlayerState::JUMPING;
-			else if (yVelocity < 100 && yVelocity > 0)
-				playerState = PlayerState::TOP_REACHING;
-			else
-				playerState = PlayerState::FALLING;
-		}
-		else if(crouching)
+		if(crouching)
 			playerState = PlayerState::IDLE_CROUCH;
 		else if(objectGrabbed)
 			playerState = PlayerState::IDLE_GRABBING;
 		else
 			playerState = PlayerState::IDLE;
+	}
+
+	//AIR STATE
+	if (!grounded)
+	{
+		float yVelocity = bodyCollider->GetLinearVelocity().y;
+		if (yVelocity > 100)
+			playerState = PlayerState::JUMPING;
+		else if (yVelocity < 100 && yVelocity > 0)
+			playerState = PlayerState::TOP_REACHING;
+		else
+			playerState = PlayerState::FALLING;
 	}
 
 	//VINE MOVEMENT
@@ -176,7 +187,7 @@ bool Player::Update(float dt)
 	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
 		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
 
-	if (playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING || playerState == PlayerState::IDLE_GRABBING)
+	if (!playerMoved)//playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING || playerState == PlayerState::IDLE_GRABBING || playerState == PlayerState::JUMPING || playerState == PlayerState::TOP_REACHING)
 	{
 		if(bodyCollider->GetLinearVelocity().x > 0.0f)
 			bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x - deceleration *dt, bodyCollider->GetLinearVelocity().y);
@@ -192,14 +203,14 @@ bool Player::Update(float dt)
 	//RENDERING
 	position = bodyCollider->GetPosition();
 	rotation = bodyCollider->GetRotation();
-
+	SetAnimationStateAndLog();
 	Frame frame = current->GetFrame();
 	ipoint size = current->GetCurrentSize();
 	currentVelocity = bodyCollider->GetLinearVelocity().x;
 
 	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, left, 255, true);
 
-	LogState();
+	
 
 	if (grabSensor->inVine)
 		end = true;
@@ -215,17 +226,20 @@ void Player::RotationChanged()
 {
 }
 
-void Player::LogState()
+void Player::SetAnimationStateAndLog()
 {
 	switch (playerState)
 	{
 	case PlayerState::IDLE:
+		current = idle;
 		std::cout << "IDLE" << "\n";
 		break;
 	case PlayerState::WALKING:
+		current = walking;
 		std::cout << "WALKING" << "\n";
 		break;
 	case PlayerState::JUMPING:
+		current = jumpingAn;
 		std::cout << "JUMPING" << "\n";
 		break;
 	case PlayerState::CROUCHING:
@@ -247,6 +261,7 @@ void Player::LogState()
 		std::cout << "IDLE_CROUCH" << "\n";
 		break;
 	case PlayerState::CONTACT_VINE:
+		current = vineIdle;
 		std::cout << "CONTACT_VINE" << "\n";
 		break;
 	case PlayerState::IDLE_GRABBING:
@@ -256,12 +271,14 @@ void Player::LogState()
 		std::cout << "GRABBING_WALK" << "\n";
 		break;
 	case PlayerState::FALLING:
+		current = falling;
 		std::cout << "FALLING" << "\n";
 		break;
 	case PlayerState::TOP_REACHING:
 		std::cout << "TOP_REACHING" << "\n";
 		break; 
 	case PlayerState::VINE_MOVEMENT:
+		current = vineIdle;
 		std::cout << "VINE_MOVEMENT" << "\n";
 		break;
 	default:

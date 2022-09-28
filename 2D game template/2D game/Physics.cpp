@@ -18,7 +18,7 @@
 
 Physics::Physics()
 {
-	CreateWorld(&b2Vec2(0.0f, gravity));
+	CreateWorld(new b2Vec2(0.0f, gravity));
 
 	//Collider listener
 	listener = new ContactListener();
@@ -32,11 +32,6 @@ Physics::~Physics()
 
 bool Physics::SetUp(pugi::xml_node&)
 {
-	b2Vec2 vertices[3];
-	vertices[0] = { 0,0 };
-	vertices[1] = { 50,0 };
-	vertices[2] = { 25,50 };
-
 	return true; 
 }
 
