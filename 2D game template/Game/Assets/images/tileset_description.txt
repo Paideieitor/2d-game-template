@@ -1,0 +1,13 @@
+Tileset description:
+- Tile height: 35
+- Tile width: 32
+- Left spacing: mostly 3 px
+- Right spacing: mostly 4 px
+- Bottom spacing: none
+- Top spacing: varies
+
+1st row: Idle
+2nd row: Walk
+3rd row: Jump
+4th row: Fall
+5th row: Turning
