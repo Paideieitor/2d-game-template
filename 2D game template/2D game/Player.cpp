@@ -56,13 +56,17 @@ bool Player::Update(float dt)
 	ManageAirJumpThreshold(dt);
 	bool playerMoved = false;
 
+	//Save current velocity
+	currentVelocity = bodyCollider->GetLinearVelocity().x;
+
+
+
 	//JUMPING
-	if (grounded && (game->input->CheckState(Key::W) == Input::State::DOWN || game->input->CheckState(Key::SPACE) == Input::State::DOWN))
+	if (grounded && (game->input->CheckState(Key::W) == Input::State::REPEAT || game->input->CheckState(Key::SPACE) == Input::State::REPEAT))
 	{
 		if (playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::CROUCH_WALK) 
 		{
 			playerState = PlayerState::IDLE;
-			crouching = false;
 			ManageCrouchStandState();
 		}	
 
@@ -187,7 +191,7 @@ bool Player::Update(float dt)
 	if (bodyCollider->GetLinearVelocity().x < -maxXvelocity)
 		bodyCollider->SetLinearVelocity(-maxXvelocity, bodyCollider->GetLinearVelocity().y);
 
-	if (!playerMoved)//playerState == PlayerState::IDLE || playerState == PlayerState::IDLE_CROUCH || playerState == PlayerState::FALLING || playerState == PlayerState::IDLE_GRABBING || playerState == PlayerState::JUMPING || playerState == PlayerState::TOP_REACHING)
+	if (!playerMoved)
 	{
 		if(bodyCollider->GetLinearVelocity().x > 0.0f)
 			bodyCollider->SetLinearVelocity(bodyCollider->GetLinearVelocity().x - deceleration *dt, bodyCollider->GetLinearVelocity().y);
@@ -198,23 +202,14 @@ bool Player::Update(float dt)
 			bodyCollider->SetLinearVelocity(0, bodyCollider->GetLinearVelocity().y);
 
 	}
-
-
-	//RENDERING
-	position = bodyCollider->GetPosition();
-	rotation = bodyCollider->GetRotation();
-	SetAnimationStateAndLog();
-	Frame frame = current->GetFrame();
-	ipoint size = current->GetCurrentSize();
-	currentVelocity = bodyCollider->GetLinearVelocity().x;
-
-	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f  }, frame.position.x, frame.position.y, frame.size, left, 255, true);
-
 	
 
-	if (grabSensor->inVine)
-		end = true;
-
+	SetAnimationStateAndLog();
+	
+	
+	//RENDERING
+	Rendering();
+	
     return true;
 }
 
@@ -305,10 +300,12 @@ void Player::ManageCrouchStandState()
 	if (playerState == PlayerState::IDLE_CROUCH)
 	{
 		bodyCollider->ChangeFixture({20,15},0.5f, 1, 0, false);
+		crouching = true;
 	}
 	else if (playerState == PlayerState::IDLE) 
 	{
 		bodyCollider->ChangeFixture({ 20,33 }, 0.5f, 1, 0, false);
+		crouching = false;
 	}
 }
 
@@ -365,6 +362,17 @@ void Player::ManagerGrabingBlock()
 		game->physics->AddJoint(grabberJoint);
 		objectGrabbed = true;
 	}
+}
+
+void Player::Rendering()
+{
+	position = bodyCollider->GetPosition();
+	rotation = bodyCollider->GetRotation();
+
+	Frame frame = current->GetFrame();
+	ipoint size = current->GetCurrentSize();
+
+	game->render->RenderTexture(false, 5, texture, { position.x - frame.size.x * 0.5f ,position.y - frame.size.y * 0.5f }, frame.position.x, frame.position.y, frame.size, left, 255, true);
 }
 
 void Player::DetachGrabJoint()

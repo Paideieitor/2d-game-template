@@ -63,9 +63,6 @@ bool MainMenu::Update(float dt)
 	if(game->showCollier)
 		game->physics->PhysicsDebugDraw();
 
-	if(!player->end)
-		time += dt;
-
 	box->SetContent(std::to_string(time));
 
 	return true;
