@@ -31,9 +31,9 @@ bool MainMenu::Start()
 
 	game->render->background = Color(255,255,0,255);
 
-	game->maploader->LoadMap("tiled/forest.tmx");
+	game->maploader->LoadMap("tiled/forest_1.tmx");
 
-	backgroundImg = game->textures->Load("images/forest.png");
+	backgroundImg = game->textures->Load("images/forest_3rd_iteration.png");
 
 	buttonfont = game->fonts->Load("fonts/overpass/regular.ttf", 45);
 

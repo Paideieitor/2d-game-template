@@ -1,0 +1,10 @@
+Tiled tags:
+
+bool static //does the object have gravity?
+
+string tag: block //is the object a box?
+
+bool sensor //does the object need to detect collisions
+
+string tag: vine //is the object a vine?
+string tag: end //end collider 
