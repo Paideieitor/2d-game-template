@@ -47,7 +47,7 @@ public:
 
 	void PositionChanged() override;
 	void RotationChanged() override;
-	bool end = false;
+
 private:
 
 	void SetAnimationStateAndLog();
@@ -56,6 +56,7 @@ private:
 	void ManageAirJumpThreshold(float dt);
 	void ManageVineMovement();
 	void ManagerGrabingBlock();
+	void Rendering();
 
 	void DetachGrabJoint();
 
@@ -81,9 +82,9 @@ private:
 	float acceleration = 950;
 	float deceleration = 700;
 
-	bool jumpingAnimation = false;
 	bool crouching = false;
 	bool objectGrabbed = false;
+	bool jumpingKeyPressing = false;
 
 
 

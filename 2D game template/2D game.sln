@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30204.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2D game", "2D game\2D game.vcxproj", "{EC126080-B6C7-4098-AB8E-19F46F1FEA9B}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{2674E124-E9F0-44C4-B878-1DE7209DAF44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{EC126080-B6C7-4098-AB8E-19F46F1FEA9B}.Release|x64.Build.0 = Release|x64
 		{EC126080-B6C7-4098-AB8E-19F46F1FEA9B}.Release|x86.ActiveCfg = Release|Win32
 		{EC126080-B6C7-4098-AB8E-19F46F1FEA9B}.Release|x86.Build.0 = Release|Win32
-		{2674E124-E9F0-44C4-B878-1DE7209DAF44}.Debug|x64.ActiveCfg = Debug
-		{2674E124-E9F0-44C4-B878-1DE7209DAF44}.Debug|x86.ActiveCfg = Debug
-		{2674E124-E9F0-44C4-B878-1DE7209DAF44}.Release|x64.ActiveCfg = Release
-		{2674E124-E9F0-44C4-B878-1DE7209DAF44}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
