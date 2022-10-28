@@ -68,7 +68,7 @@ private:
 	float playerWeight = 1.5f;
 
 	float velocity = 150;
-	float crouchVel = 1.2;
+	float crouchVel = 1.1;
 	float vineVelocity = 100;
 	float jumpForce = 340;
 	float currentVelocity = 0.0f;

@@ -18,7 +18,7 @@ private:
 	pugi::xml_document map;
 
 	float objectFriction = 0.15;
-	float boxesFrition = 0.15;
+	float boxesFrition = 0.05;
 
 };
 
