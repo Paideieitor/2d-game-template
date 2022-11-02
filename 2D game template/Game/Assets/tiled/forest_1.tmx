@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="7" nextobjectid="290">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="5" height="1" tilewidth="3112" tileheight="1280" infinite="0" nextlayerid="7" nextobjectid="342">
  <tileset firstgid="1" source="forest1_map.tsx"/>
  <tileset firstgid="4" name="sam" tilewidth="32" tileheight="35" tilecount="40" columns="8">
   <image source="../images/sam_atlas.png" width="256" height="175"/>
@@ -210,82 +210,47 @@
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="84" x="6187" y="192" width="400" height="77">
+  <object id="84" x="6187" y="192" width="187.25" height="10.5">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="85" x="6800" y="699" width="128" height="57">
+  <object id="91" x="7295.46" y="1007.21" width="169.417" height="38">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="86" x="6927" y="742" width="75" height="27">
+  <object id="92" x="7465.21" y="994.879" width="183.667" height="50">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="87" x="6999" y="694" width="57" height="63">
+  <object id="93" x="7648.21" y="1008.55" width="263" height="80">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="89" x="7050" y="664" width="89" height="59">
+  <object id="94" x="7886.55" y="1060.55" width="145.333" height="26">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="90" x="7128" y="712" width="118" height="145">
+  <object id="96" x="7983.55" y="1005.88" width="669" height="77">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="91" x="7227" y="852" width="230" height="38">
+  <object id="97" x="8590.55" y="992.212" width="205.667" height="26">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="92" x="7454" y="817" width="97" height="50">
+  <object id="100" x="9051.88" y="872.545" width="211.667" height="120">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="93" x="7545" y="792" width="121" height="80">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="94" x="7664" y="856" width="172" height="26">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="96" x="7829" y="820" width="669" height="75">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="97" x="8490" y="887" width="67" height="26">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="98" x="8556" y="814" width="88" height="86">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="99" x="8639" y="790" width="432" height="44">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="100" x="9066" y="758" width="111" height="46">
-   <properties>
-    <property name="static" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="101" x="9173" y="729" width="133" height="130">
+  <object id="101" x="9256.21" y="814.212" width="133" height="130">
    <properties>
     <property name="static" type="bool" value="true"/>
    </properties>
@@ -679,7 +644,7 @@
     <property name="tag" value="end"/>
    </properties>
   </object>
-  <object id="196" x="8364.5" y="769" width="48" height="48">
+  <object id="196" x="8222.05" y="945.879" width="48" height="48">
    <properties>
     <property name="tag" value="block"/>
    </properties>
@@ -1008,6 +973,266 @@
    </properties>
    <polygon points="19.3763,26.038 111.506,25.2392 129.245,3.26582 6.18174,3.58404"/>
   </object>
+  <object id="291" x="6343.86" y="236.85">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="25.235,269.992 16.1844,-36.1709 28.5517,-39.1775 40.4843,269.464"/>
+  </object>
+  <object id="292" x="6683" y="167.36">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="12.735,119.216 12.1844,32.482 28.3017,27.4629 27.7343,120.243"/>
+  </object>
+  <object id="293" x="6713.04" y="193.417" width="213.25" height="21">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="294" x="8771.49" y="960.669">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="5.18732,15.0398 291.028,14.5578 292.676,51.1645 0.781602,32.5294"/>
+  </object>
+  <object id="295" x="6093.08" y="973.867">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="231.503,48.5669 231.656,-7.60459 357.114,11.725 356.833,46.8333"/>
+  </object>
+  <object id="296" x="6448.67" y="1126.16">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -10.3621,-141.582 137.504,-141.344 80,-25"/>
+  </object>
+  <object id="297" x="6618.5" y="983.5">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-80.0024,10.1001 33.6323,-22.414 123.114,-47.7241 179.81,-59.6461 182.333,75 -15,108"/>
+  </object>
+  <object id="298" x="6732.5" y="935.5">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="65.7961,-11.6462 142.523,-17.6136 227.229,-11.9517 349.024,9.52657 498.047,49.051 599.165,78.1282 564,145.333 62.5,88.25"/>
+  </object>
+  <object id="300" gid="4" x="6881.33" y="921.167" width="32" height="35"/>
+  <object id="301" x="7383.5" y="387.727" width="20.167" height="561.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="302" x="7733.92" y="712.125" width="20.167" height="242.387">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="303" x="7368.92" y="490.488" width="215.167" height="21.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="304" x="7731.42" y="495.988" width="20.167" height="164.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="305" x="7658.42" y="492.488" width="93.167" height="21.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="306" x="7370.42" y="753.822" width="376.167" height="25.6897">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="307" x="7891.17" y="712.239" width="20.167" height="240.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="308" x="7890.17" y="538.738" width="20.167" height="105.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="309" x="7890.56" y="537.238" width="168.228" height="13.2614">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="310" x="8122.67" y="538" width="58.7701" height="13.2614">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="311" x="8161.08" y="653.406" width="23.5003" height="283.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="312" x="8160.08" y="442.405" width="25.167" height="138.523">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="313" x="8302.58" y="662.155" width="24.167" height="276.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="314" x="8500.42" y="578.488" width="25.167" height="364.523">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="315" x="8310.06" y="801.988" width="73.728" height="17.2614">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="316" x="8454.67" y="802.25" width="60.7701" height="15.2614">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="317" x="8302.68" y="658.765" width="154.728" height="14.2614">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="318" x="8006" y="444" width="48" height="48">
+   <properties>
+    <property name="tag" value="block"/>
+   </properties>
+  </object>
+  <object id="319" x="7868" y="955" width="48" height="48">
+   <properties>
+    <property name="tag" value="block"/>
+   </properties>
+  </object>
+  <object id="320" x="7675" y="531.333" width="48" height="48">
+   <properties>
+    <property name="tag" value="block"/>
+   </properties>
+  </object>
+  <object id="321" x="7535.77" y="588.822" width="197.817" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="322" x="7392.92" y="667.822" width="121.501" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="323" x="7514.25" y="658.5">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-65.5796,9.28977 21.3874,-69.6725 27.3172,-69.6753 -60.1591,9.2443"/>
+  </object>
+  <object id="324" x="7577.5" y="714.75">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="19.6704,40.2898 -65.9293,-46.7781 -59.7106,-47.0697 25.0909,40.2443"/>
+  </object>
+  <object id="325" x="7748" y="750">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-65.5796,9.28977 -15.9421,-38.0163 -9.68422,-37.8472 -60.1591,9.2443"/>
+  </object>
+  <object id="326" x="7891.92" y="806.655" width="201.167" height="25.6897">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="327" x="8049.38" y="978.5">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-65.5796,9.28977 49.0396,-120.06 55.7085,-119.802 -60.1591,9.2443"/>
+  </object>
+  <object id="328" x="8098.67" y="858.489" width="64.9837" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="329" x="8091.59" y="808.989" width="76.567" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="330" x="8040.17" y="983.822" width="120.984" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="331" x="8057.97" y="742.947" width="59.817" height="3.023">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="332" x="7910.58" y="715.655" width="36.667" height="111.523">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="333" x="8034.25" y="784.25">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-61.2387,23.5625 -61.5657,-47.6872 -58.0742,-47.6697 -3.09092,13.3352"/>
+  </object>
+  <object id="334" x="7812.5" y="761">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-58.8751,-25.3466 -58.5222,-48.8176 -22.0117,-31.6385 -24.3636,-18.6648"/>
+  </object>
+  <object id="335" x="7844.55" y="777.818">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-53.3751,-33.7216 -59.2722,-50.1613 0.00534545,-39.8345 -21.9886,-30.1648"/>
+  </object>
+  <object id="336" x="7879.27" y="783.273">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-53.3751,-33.7216 -72.1813,-45.6158 -9.63102,-54.9254 -18.3522,-38.3466"/>
+  </object>
+  <object id="337" x="7906.18" y="773.727">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-48.0115,-34.9034 -52.7268,-38.9794 -14.9603,-61.5466 -10.6249,-48.5284"/>
+  </object>
+  <object id="338" x="8239.54" y="699.785">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-55.7243,-23.9901 -55.3902,-46.205 -12.6973,-31.7635 -23.0597,-17.6659"/>
+  </object>
+  <object id="339" x="8269.88" y="715.703">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-50.5186,-31.9169 -56.6967,-51.42 -15.904,-46.4299 -20.8118,-28.5505"/>
+  </object>
+  <object id="340" x="8310.74" y="719.116">
+   <properties>
+    <property name="static" type="bool" value="true"/>
+   </properties>
+   <polygon points="-50.5186,-31.9169 -73.3183,-48.2655 -7.98099,-60.3215 -17.37,-36.2944"/>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="Sam">
   <object id="202" gid="4" x="107" y="1023" width="32" height="35"/>
@@ -1023,13 +1248,13 @@
   <object id="212" gid="4" x="5225.75" y="494.25" width="32" height="35"/>
   <object id="213" gid="4" x="5925.25" y="244.25" width="32" height="35"/>
   <object id="214" gid="31" x="6524" y="530" width="32" height="35"/>
-  <object id="215" gid="14" x="6815.67" y="918.333" width="32" height="35"/>
-  <object id="216" gid="25" x="7534.33" y="950.333" width="32" height="35"/>
-  <object id="217" gid="5" x="7725.5" y="1006.25" width="32" height="35"/>
-  <object id="218" gid="4" x="8076" y="701.5" width="32" height="35"/>
+  <object id="215" gid="14" x="6970.22" y="1106.21" width="32" height="35"/>
+  <object id="216" gid="25" x="7688.88" y="1138.21" width="32" height="35"/>
+  <object id="217" gid="5" x="7880.05" y="1194.13" width="32" height="35"/>
+  <object id="218" gid="4" x="8230.55" y="889.379" width="32" height="35"/>
   <object id="219" gid="4" x="7556.67" y="489" width="32" height="35"/>
   <object id="220" gid="28" x="7661" y="452" width="32" height="35"/>
   <object id="221" gid="32" x="7718" y="493.5" width="32" height="35"/>
-  <object id="222" gid="20" x="8458" y="802" width="32" height="35"/>
+  <object id="222" gid="20" x="8612.55" y="989.879" width="32" height="35"/>
  </objectgroup>
 </map>
